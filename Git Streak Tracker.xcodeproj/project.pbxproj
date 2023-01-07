@@ -14,6 +14,15 @@
 		D4540B22296943E200DD02DB /* Git_Streak_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B21296943E200DD02DB /* Git_Streak_TrackerTests.swift */; };
 		D4540B2C296943E200DD02DB /* Git_Streak_TrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B2B296943E200DD02DB /* Git_Streak_TrackerUITests.swift */; };
 		D4540B2E296943E200DD02DB /* Git_Streak_TrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B2D296943E200DD02DB /* Git_Streak_TrackerUITestsLaunchTests.swift */; };
+		D4540B412969440100DD02DB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4540B402969440100DD02DB /* WidgetKit.framework */; };
+		D4540B432969440100DD02DB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4540B422969440100DD02DB /* SwiftUI.framework */; };
+		D4540B462969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B452969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift */; };
+		D4540B482969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B472969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift */; };
+		D4540B4A2969440200DD02DB /* Git_Streak_Tracker_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B492969440200DD02DB /* Git_Streak_Tracker_Widget.swift */; };
+		D4540B4D2969440300DD02DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4540B4C2969440300DD02DB /* Assets.xcassets */; };
+		D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */; };
+		D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */; };
+		D4540B532969440300DD02DB /* Git Streak Tracker WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D4540B3E2969440100DD02DB /* Git Streak Tracker WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +40,28 @@
 			remoteGlobalIDString = D4540B0C296943E000DD02DB;
 			remoteInfo = "Git Streak Tracker";
 		};
+		D4540B512969440300DD02DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4540B05296943E000DD02DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4540B3D2969440100DD02DB;
+			remoteInfo = "Git Streak Tracker WidgetExtension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D4540B572969440300DD02DB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D4540B532969440300DD02DB /* Git Streak Tracker WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D4540B0D296943E000DD02DB /* Git Streak Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Git Streak Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +74,15 @@
 		D4540B27296943E200DD02DB /* Git Streak TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Git Streak TrackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4540B2B296943E200DD02DB /* Git_Streak_TrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_TrackerUITests.swift; sourceTree = "<group>"; };
 		D4540B2D296943E200DD02DB /* Git_Streak_TrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_TrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D4540B3E2969440100DD02DB /* Git Streak Tracker WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Git Streak Tracker WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4540B402969440100DD02DB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D4540B422969440100DD02DB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D4540B452969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_Tracker_WidgetBundle.swift; sourceTree = "<group>"; };
+		D4540B472969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_Tracker_WidgetLiveActivity.swift; sourceTree = "<group>"; };
+		D4540B492969440200DD02DB /* Git_Streak_Tracker_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_Tracker_Widget.swift; sourceTree = "<group>"; };
+		D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Git_Streak_Tracker_Widget.intentdefinition; sourceTree = "<group>"; };
+		D4540B4C2969440300DD02DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D4540B4E2969440300DD02DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +107,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4540B3B2969440100DD02DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4540B432969440100DD02DB /* SwiftUI.framework in Frameworks */,
+				D4540B412969440100DD02DB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +125,8 @@
 				D4540B0F296943E000DD02DB /* Git Streak Tracker */,
 				D4540B20296943E200DD02DB /* Git Streak TrackerTests */,
 				D4540B2A296943E200DD02DB /* Git Streak TrackerUITests */,
+				D4540B442969440200DD02DB /* Git Streak Tracker Widget */,
+				D4540B3F2969440100DD02DB /* Frameworks */,
 				D4540B0E296943E000DD02DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,6 +137,7 @@
 				D4540B0D296943E000DD02DB /* Git Streak Tracker.app */,
 				D4540B1D296943E200DD02DB /* Git Streak TrackerTests.xctest */,
 				D4540B27296943E200DD02DB /* Git Streak TrackerUITests.xctest */,
+				D4540B3E2969440100DD02DB /* Git Streak Tracker WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,6 +178,28 @@
 			path = "Git Streak TrackerUITests";
 			sourceTree = "<group>";
 		};
+		D4540B3F2969440100DD02DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4540B402969440100DD02DB /* WidgetKit.framework */,
+				D4540B422969440100DD02DB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D4540B442969440200DD02DB /* Git Streak Tracker Widget */ = {
+			isa = PBXGroup;
+			children = (
+				D4540B452969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift */,
+				D4540B472969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift */,
+				D4540B492969440200DD02DB /* Git_Streak_Tracker_Widget.swift */,
+				D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */,
+				D4540B4C2969440300DD02DB /* Assets.xcassets */,
+				D4540B4E2969440300DD02DB /* Info.plist */,
+			);
+			path = "Git Streak Tracker Widget";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,10 +210,12 @@
 				D4540B09296943E000DD02DB /* Sources */,
 				D4540B0A296943E000DD02DB /* Frameworks */,
 				D4540B0B296943E000DD02DB /* Resources */,
+				D4540B572969440300DD02DB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D4540B522969440300DD02DB /* PBXTargetDependency */,
 			);
 			name = "Git Streak Tracker";
 			productName = "Git Streak Tracker";
@@ -183,6 +258,23 @@
 			productReference = D4540B27296943E200DD02DB /* Git Streak TrackerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		D4540B3D2969440100DD02DB /* Git Streak Tracker WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4540B542969440300DD02DB /* Build configuration list for PBXNativeTarget "Git Streak Tracker WidgetExtension" */;
+			buildPhases = (
+				D4540B3A2969440100DD02DB /* Sources */,
+				D4540B3B2969440100DD02DB /* Frameworks */,
+				D4540B3C2969440100DD02DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Git Streak Tracker WidgetExtension";
+			productName = "Git Streak Tracker WidgetExtension";
+			productReference = D4540B3E2969440100DD02DB /* Git Streak Tracker WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +296,9 @@
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = D4540B0C296943E000DD02DB;
 					};
+					D4540B3D2969440100DD02DB = {
+						CreatedOnToolsVersion = 14.2;
+					};
 				};
 			};
 			buildConfigurationList = D4540B08296943E000DD02DB /* Build configuration list for PBXProject "Git Streak Tracker" */;
@@ -222,6 +317,7 @@
 				D4540B0C296943E000DD02DB /* Git Streak Tracker */,
 				D4540B1C296943E200DD02DB /* Git Streak TrackerTests */,
 				D4540B26296943E200DD02DB /* Git Streak TrackerUITests */,
+				D4540B3D2969440100DD02DB /* Git Streak Tracker WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +346,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4540B3C2969440100DD02DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4540B4D2969440300DD02DB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -257,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
 				D4540B13296943E000DD02DB /* ContentView.swift in Sources */,
 				D4540B11296943E000DD02DB /* Git_Streak_TrackerApp.swift in Sources */,
 			);
@@ -279,6 +384,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4540B3A2969440100DD02DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4540B482969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift in Sources */,
+				D4540B4A2969440200DD02DB /* Git_Streak_Tracker_Widget.swift in Sources */,
+				D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
+				D4540B462969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -291,6 +407,11 @@
 			isa = PBXTargetDependency;
 			target = D4540B0C296943E000DD02DB /* Git Streak Tracker */;
 			targetProxy = D4540B28296943E200DD02DB /* PBXContainerItemProxy */;
+		};
+		D4540B522969440300DD02DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4540B3D2969440100DD02DB /* Git Streak Tracker WidgetExtension */;
+			targetProxy = D4540B512969440300DD02DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -412,6 +533,7 @@
 		D4540B32296943E200DD02DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -440,6 +562,7 @@
 		D4540B33296943E200DD02DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -537,6 +660,58 @@
 			};
 			name = Release;
 		};
+		D4540B552969440300DD02DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Git Streak Tracker Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Git Streak Tracker Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ckcollab.Git-Streak-Tracker.Git-Streak-Tracker-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D4540B562969440300DD02DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Git Streak Tracker Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Git Streak Tracker Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ckcollab.Git-Streak-Tracker.Git-Streak-Tracker-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -572,6 +747,15 @@
 			buildConfigurations = (
 				D4540B38296943E200DD02DB /* Debug */,
 				D4540B39296943E200DD02DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4540B542969440300DD02DB /* Build configuration list for PBXNativeTarget "Git Streak Tracker WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4540B552969440300DD02DB /* Debug */,
+				D4540B562969440300DD02DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
