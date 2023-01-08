@@ -10,6 +10,7 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider {
+    
     func placeholder(in context: Context) -> StreakEntry {
         StreakEntry(
             date: Date(),
@@ -28,21 +29,33 @@ struct Provider: IntentTimelineProvider {
         )
         completion(entry)
     }
+    
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = StreakEntry(
-                date: entryDate,
-                days: 1,
-                todayComplete: true,
+        
+//        let contributions = getContributions()
+        let contributionManager = ContributionManager()
+        if let contributions = contributionManager.getContributions() {
+            print(contributions)
+            print("Getting Timeline 🕦")
+            // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+            let currentDate = Date()
+            //        for hourOffset in 0 ..< 1 {
+            //            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+            //            let entry = StreakEntry(
+            //                date: entryDate,
+            //                days: hourOffset,
+            //                todayComplete: false,
+            //                configuration: configuration
+            //            )
+            //            entries.append(
+            entries.append(StreakEntry(
+                date: currentDate,
+                days: contributions.streakLength,
+                todayComplete: contributions.todayComplete,
                 configuration: configuration
-            )
-            entries.append(entry)
+            ))
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -171,7 +184,7 @@ struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
         Git_Streak_Tracker_WidgetEntryView(entry: StreakEntry(
             date: Date(),
             days: 15,
-            todayComplete: false,
+            todayComplete: true,
             configuration: ConfigurationIntent()
         ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))

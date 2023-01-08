@@ -38,71 +38,74 @@ struct ContributionDay : Decodable {
     let date: String
 }
 
-func fetchContributions() -> ResponseData? {
-    let url = URL(string: "http://localhost:5000/")!
-    var data: Data?
-    let semaphore = DispatchSemaphore(value: 0)
-    
-    let task = URLSession.shared.dataTask(with: url) { (d, _, _) in
-        data = d
-        semaphore.signal()
-    }
-    task.resume()
-    
-    semaphore.wait()
-    
-    guard let successData = data else { return nil }
-    
-    print(successData)
-    
-    do {
-        let todo = try JSONDecoder().decode(ResponseData.self, from: successData)
-        print("x")
-        return todo
-    } catch {
-        return nil
-    }
-}
-
 struct ContributionData {
     let streakLength: Int
     let todayComplete: Bool
 }
 
-func getContributions() -> Void {
-    print("Getting Contributions")
-    guard let contributionData = fetchContributions() else { return }
-//    print(contributionData)
-    var currentDateTime = Date()
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    let todaysDateString = dateFormatter.string(from: currentDateTime)
-    currentDateTime = dateFormatter.date(from: todaysDateString)!
-    print(todaysDateString)
-    var streakLength = 0
-    var streakBroken = false
-    var todayComplete = false
-    contributionData.data.user.contributionsCollection.contributionCalendar.weeks.reversed().forEach { week in
-        week.contributionDays.reversed().forEach { day in
-            let date = dateFormatter.date(from: day.date)!
-            if date == currentDateTime {
-                if day.contributionCount > 0 {
-                    todayComplete = true
-                    streakLength += 1
-                }
-            } else if date < currentDateTime {
-                if day.contributionCount > 0 {
-                    if !streakBroken {
+class ContributionManager {
+    private func fetchContributions() -> ResponseData? {
+        let url = URL(string: "http://localhost:5000/")!
+        var data: Data?
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        let task = URLSession.shared.dataTask(with: url) { (d, _, _) in
+            data = d
+            semaphore.signal()
+        }
+        task.resume()
+        
+        semaphore.wait()
+        
+        guard let successData = data else { return nil }
+        
+        print(successData)
+        
+        do {
+            let todo = try JSONDecoder().decode(ResponseData.self, from: successData)
+            print("x")
+            return todo
+        } catch {
+            return nil
+        }
+    }
+
+
+
+    func getContributions() -> ContributionData? {
+        print("Getting Contributions")
+        guard let contributionData = fetchContributions() else { return nil }
+        var currentDateTime = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let todaysDateString = dateFormatter.string(from: currentDateTime)
+        currentDateTime = dateFormatter.date(from: todaysDateString)!
+        print(todaysDateString)
+        var streakLength = 0
+        var streakBroken = false
+        var todayComplete = false
+        contributionData.data.user.contributionsCollection.contributionCalendar.weeks.reversed().forEach { week in
+            week.contributionDays.reversed().forEach { day in
+                let date = dateFormatter.date(from: day.date)!
+                if date == currentDateTime {
+                    if day.contributionCount > 0 {
+                        todayComplete = true
                         streakLength += 1
                     }
-                } else {
-                    streakBroken = true
+                } else if date < currentDateTime {
+                    if day.contributionCount > 0 {
+                        if !streakBroken {
+                            streakLength += 1
+                        }
+                    } else {
+                        streakBroken = true
+                    }
                 }
             }
         }
+        return ContributionData(
+            streakLength: streakLength,
+            todayComplete: todayComplete
+        )
     }
-    print(todayComplete)
-    print(streakLength)
-    return
 }
-

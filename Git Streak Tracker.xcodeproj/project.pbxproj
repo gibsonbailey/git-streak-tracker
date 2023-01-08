@@ -23,6 +23,7 @@
 		D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */; };
 		D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */; };
 		D4540B532969440300DD02DB /* Git Streak Tracker WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D4540B3E2969440100DD02DB /* Git Streak Tracker WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D4FDB52F296A94F8003B11D0 /* Contributions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4092693296A825F006D6C48 /* Contributions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D4092693296A825F006D6C48 /* Contributions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contributions.swift; sourceTree = "<group>"; };
 		D4540B0D296943E000DD02DB /* Git Streak Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Git Streak Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4540B10296943E000DD02DB /* Git_Streak_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_TrackerApp.swift; sourceTree = "<group>"; };
 		D4540B12296943E000DD02DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				D4540B452969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift */,
 				D4540B472969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift */,
 				D4540B492969440200DD02DB /* Git_Streak_Tracker_Widget.swift */,
+				D4092693296A825F006D6C48 /* Contributions.swift */,
 				D4540B4B2969440200DD02DB /* Git_Streak_Tracker_Widget.intentdefinition */,
 				D4540B4C2969440300DD02DB /* Assets.xcassets */,
 				D4540B4E2969440300DD02DB /* Info.plist */,
@@ -389,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4540B482969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift in Sources */,
+				D4FDB52F296A94F8003B11D0 /* Contributions.swift in Sources */,
 				D4540B4A2969440200DD02DB /* Git_Streak_Tracker_Widget.swift in Sources */,
 				D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
 				D4540B462969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift in Sources */,
