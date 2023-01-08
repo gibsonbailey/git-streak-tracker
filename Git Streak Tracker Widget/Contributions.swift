@@ -41,6 +41,7 @@ struct ContributionDay : Decodable {
 struct ContributionData {
     let streakLength: Int
     let todayComplete: Bool
+    let latestContributions: [Int]
 }
 
 class ContributionManager {
@@ -73,17 +74,17 @@ class ContributionManager {
 
 
     func getContributions() -> ContributionData? {
-        print("Getting Contributions")
         guard let contributionData = fetchContributions() else { return nil }
         var currentDateTime = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let todaysDateString = dateFormatter.string(from: currentDateTime)
         currentDateTime = dateFormatter.date(from: todaysDateString)!
-        print(todaysDateString)
         var streakLength = 0
         var streakBroken = false
         var todayComplete = false
+        var latestContributions: [Int] = []
+        var contributionCollectionCounter = 0
         contributionData.data.user.contributionsCollection.contributionCalendar.weeks.reversed().forEach { week in
             week.contributionDays.reversed().forEach { day in
                 let date = dateFormatter.date(from: day.date)!
@@ -92,6 +93,7 @@ class ContributionManager {
                         todayComplete = true
                         streakLength += 1
                     }
+                    contributionCollectionCounter = 6
                 } else if date < currentDateTime {
                     if day.contributionCount > 0 {
                         if !streakBroken {
@@ -101,11 +103,16 @@ class ContributionManager {
                         streakBroken = true
                     }
                 }
+                if contributionCollectionCounter > 0 {
+                    latestContributions.append(day.contributionCount)
+                    contributionCollectionCounter -= 1
+                }
             }
         }
         return ContributionData(
             streakLength: streakLength,
-            todayComplete: todayComplete
+            todayComplete: todayComplete,
+            latestContributions: latestContributions.reversed()
         )
     }
 }

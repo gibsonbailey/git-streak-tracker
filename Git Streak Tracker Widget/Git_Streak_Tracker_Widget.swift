@@ -16,6 +16,7 @@ struct Provider: IntentTimelineProvider {
             date: Date(),
             days: 4,
             todayComplete: true,
+            latestContributions: [1, 4, 2, 2, 4, 5, 7],
             configuration: ConfigurationIntent()
         )
     }
@@ -25,6 +26,7 @@ struct Provider: IntentTimelineProvider {
             date: Date(),
             days: 5,
             todayComplete: true,
+            latestContributions: [1, 4, 2, 2, 4, 5, 7],
             configuration: configuration
         )
         completion(entry)
@@ -53,6 +55,7 @@ struct Provider: IntentTimelineProvider {
                 date: currentDate,
                 days: contributions.streakLength,
                 todayComplete: contributions.todayComplete,
+                latestContributions: contributions.latestContributions,
                 configuration: configuration
             ))
         }
@@ -66,6 +69,7 @@ struct StreakEntry: TimelineEntry {
     let date: Date
     let days: Int
     let todayComplete: Bool
+    let latestContributions: [Int]
     let configuration: ConfigurationIntent
 }
 
@@ -187,6 +191,7 @@ struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
             date: Date(),
             days: 15,
             todayComplete: true,
+            latestContributions: [1, 4, 2, 2, 4, 5, 7],
             configuration: ConfigurationIntent()
         ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
