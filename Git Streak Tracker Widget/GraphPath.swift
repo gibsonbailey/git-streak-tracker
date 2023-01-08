@@ -20,14 +20,13 @@ struct GraphPath: View {
     
     var body: some View {
         
-        let frameHeight = 50.0
-        let frameWidth = 150.0
+        let frameHeight = 35.0
+        let frameWidth = 120.0
         let dataMax = getDataMax()
         
         let scaleX = frameWidth / Double(data.count - 1)
         let scaleY: Double = frameHeight / Double(dataMax - 1)
         
-//        scaleY = frameHeight / Double(dataMax - 1)
         let brightGreen = Color(
             red: 5.0 / 255.0,
             green: 255.0 / 255.0,

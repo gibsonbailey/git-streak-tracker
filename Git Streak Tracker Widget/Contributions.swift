@@ -71,8 +71,6 @@ class ContributionManager {
         }
     }
 
-
-
     func getContributions() -> ContributionData? {
         guard let contributionData = fetchContributions() else { return nil }
         var currentDateTime = Date()
