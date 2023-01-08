@@ -34,7 +34,6 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
         
-//        let contributions = getContributions()
         let contributionManager = ContributionManager()
         if let contributions = contributionManager.getContributions() {
             print(contributions)
@@ -147,9 +146,12 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                 Spacer()
                 
                 if (entry.todayComplete) {
-                    Text("Contributions")
-                        .foregroundColor(.white)
-                        .fontWeight(.semibold)
+                    VStack {
+                        Text("Contributions")
+                            .foregroundColor(.white)
+                            .fontWeight(.semibold)
+                        GraphPath(data: [1, 4, 2, 2, 5, 2, 1])
+                    }
                 } else {
                     Text("No contribution today")
                         .font(.subheadline)
