@@ -48,8 +48,6 @@ struct Provider: IntentTimelineProvider {
         
         let contributionManager = ContributionManager()
         if let contributions = contributionManager.getContributions(githubUsername) {
-            print(contributions)
-            print("Getting Timeline 🕦")
             // Generate a timeline consisting of five entries an hour apart, starting from the current date.
             let currentDate = Date()
             //        for hourOffset in 0 ..< 1 {

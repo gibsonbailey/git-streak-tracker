@@ -14,14 +14,19 @@ struct ContentView: View {
     let manager = FileManager.default
     
     private func storeGithubUsername() {
-        print(storeURL)
-        print("ABCDE")
-        
         manager.createFile(
             atPath: storeURL.path,
             contents: githubUsername.data(using: .utf8)
         )
         WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    private func loadGithubUsername() {
+        if manager.fileExists(atPath: storeURL.path) {
+            if let data = manager.contents(atPath: storeURL.path) {
+                githubUsername = String(decoding: data, as: UTF8.self)
+            }
+        }
     }
     
     var body: some View {
@@ -43,7 +48,9 @@ struct ContentView: View {
                 })
             }
             .navigationTitle("Github Streak Tracker")
-        }
+        }.onAppear(perform: {
+            loadGithubUsername()
+        })
     }
 }
 
