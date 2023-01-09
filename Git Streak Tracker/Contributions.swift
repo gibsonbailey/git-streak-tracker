@@ -49,7 +49,7 @@ class ContributionManager {
         if githubUsername == "" {
             return nil
         }
-        let url = URL(string: "http://localhost:5000/?githubUsername=\(githubUsername)")!
+        let url = URL(string: "https://ckc-management-staging.herokuapp.com/api/streak_tracker/?githubUsername=\(githubUsername)")!
         var data: Data?
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -62,8 +62,6 @@ class ContributionManager {
         semaphore.wait()
         
         guard let successData = data else { return nil }
-        
-        print(successData)
         
         do {
             let todo = try JSONDecoder().decode(ResponseData.self, from: successData)

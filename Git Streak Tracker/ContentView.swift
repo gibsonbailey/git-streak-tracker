@@ -10,6 +10,7 @@ import WidgetKit
 
 struct ContentView: View {
     @State private var githubUsername: String = ""
+    @State private var githubUsernameDisplayed: String = ""
     let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
     let manager = FileManager.default
     
@@ -19,12 +20,14 @@ struct ContentView: View {
             contents: githubUsername.data(using: .utf8)
         )
         WidgetCenter.shared.reloadAllTimelines()
+        githubUsernameDisplayed = githubUsername
     }
     
     private func loadGithubUsername() {
         if manager.fileExists(atPath: storeURL.path) {
             if let data = manager.contents(atPath: storeURL.path) {
                 githubUsername = String(decoding: data, as: UTF8.self)
+                githubUsernameDisplayed = githubUsername
             }
         }
     }
@@ -37,6 +40,9 @@ struct ContentView: View {
                         TextField("Github Username", text: $githubUsername)
                     }
                 }
+                if githubUsernameDisplayed != "" {
+                    Text("Username set to \(githubUsernameDisplayed). Check your widget!")
+                }
                 Button(action: {
                     storeGithubUsername()
                 }, label: {
@@ -48,6 +54,7 @@ struct ContentView: View {
                         .background(.blue)
                         .foregroundColor(.white)
                         .cornerRadius(8)
+                        .disabled(githubUsername == "")
                 })
             }
             .navigationTitle("Github Streak Tracker")
