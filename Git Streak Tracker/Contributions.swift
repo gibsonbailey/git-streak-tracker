@@ -45,8 +45,11 @@ struct ContributionData {
 }
 
 class ContributionManager {
-    private func fetchContributions() -> ResponseData? {
-        let url = URL(string: "http://localhost:5000/")!
+    private func fetchContributions(_ githubUsername: String) -> ResponseData? {
+        if githubUsername == "" {
+            return nil
+        }
+        let url = URL(string: "http://localhost:5000/?githubUsername=\(githubUsername)")!
         var data: Data?
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -71,8 +74,8 @@ class ContributionManager {
         }
     }
 
-    func getContributions() -> ContributionData? {
-        guard let contributionData = fetchContributions() else { return nil }
+    func getContributions(_ githubUsername: String) -> ContributionData? {
+        guard let contributionData = fetchContributions(githubUsername) else { return nil }
         var currentDateTime = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

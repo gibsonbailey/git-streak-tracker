@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct ContentView: View {
     @State private var githubUsername: String = ""
+    let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
+    let manager = FileManager.default
     
     private func storeGithubUsername() {
+        print(storeURL)
+        print("ABCDE")
         
+        manager.createFile(
+            atPath: storeURL.path,
+            contents: githubUsername.data(using: .utf8)
+        )
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     var body: some View {

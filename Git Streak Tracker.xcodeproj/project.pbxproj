@@ -25,6 +25,8 @@
 		D4737290296B8DF300E4A867 /* Contributions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4092693296A825F006D6C48 /* Contributions.swift */; };
 		D4737292296BBE0400E4A867 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4737291296BBE0400E4A867 /* ContentView.swift */; };
 		D4737293296BC27600E4A867 /* Contributions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4092693296A825F006D6C48 /* Contributions.swift */; };
+		D4737298296BC5A600E4A867 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4737297296BC5A600E4A867 /* AppGroup.swift */; };
+		D4737299296BC5A600E4A867 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4737297296BC5A600E4A867 /* AppGroup.swift */; };
 		D4FDB532296A99FC003B11D0 /* GraphPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDB530296A991E003B11D0 /* GraphPath.swift */; };
 		D4FDB533296A9E12003B11D0 /* GraphPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDB530296A991E003B11D0 /* GraphPath.swift */; };
 /* End PBXBuildFile section */
@@ -88,6 +90,7 @@
 		D4540B4C2969440300DD02DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4540B4E2969440300DD02DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4737291296BBE0400E4A867 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = "Git Streak Tracker/ContentView.swift"; sourceTree = SOURCE_ROOT; };
+		D4737297296BC5A600E4A867 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		D4FDB530296A991E003B11D0 /* GraphPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPath.swift; sourceTree = "<group>"; };
 		D4FDB534296B7F20003B11D0 /* Git Streak Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Git Streak Tracker.entitlements"; sourceTree = "<group>"; };
 		D4FDB535296B8340003B11D0 /* Git Streak Tracker WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Git Streak Tracker WidgetExtension.entitlements"; sourceTree = "<group>"; };
@@ -208,6 +211,7 @@
 				D4540B4C2969440300DD02DB /* Assets.xcassets */,
 				D4540B4E2969440300DD02DB /* Info.plist */,
 				D4FDB530296A991E003B11D0 /* GraphPath.swift */,
+				D4737297296BC5A600E4A867 /* AppGroup.swift */,
 			);
 			path = "Git Streak Tracker Widget";
 			sourceTree = "<group>";
@@ -374,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
+				D4737298296BC5A600E4A867 /* AppGroup.swift in Sources */,
 				D4737292296BBE0400E4A867 /* ContentView.swift in Sources */,
 				D4737290296B8DF300E4A867 /* Contributions.swift in Sources */,
 				D4FDB532296A99FC003B11D0 /* GraphPath.swift in Sources */,
@@ -405,6 +410,7 @@
 				D4540B482969440200DD02DB /* Git_Streak_Tracker_WidgetLiveActivity.swift in Sources */,
 				D4540B4A2969440200DD02DB /* Git_Streak_Tracker_Widget.swift in Sources */,
 				D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
+				D4737299296BC5A600E4A867 /* AppGroup.swift in Sources */,
 				D4737293296BC27600E4A867 /* Contributions.swift in Sources */,
 				D4540B462969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift in Sources */,
 				D4FDB533296A9E12003B11D0 /* GraphPath.swift in Sources */,
@@ -571,9 +577,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ckcollab.Git-Streak-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -602,9 +611,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ckcollab.Git-Streak-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

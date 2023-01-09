@@ -36,8 +36,18 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
         
+        let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
+        let manager = FileManager.default
+        
+        var githubUsername = ""
+        if manager.fileExists(atPath: storeURL.path) {
+            if let data = manager.contents(atPath: storeURL.path) {
+                githubUsername = String(decoding: data, as: UTF8.self)
+            }
+        }
+        
         let contributionManager = ContributionManager()
-        if let contributions = contributionManager.getContributions() {
+        if let contributions = contributionManager.getContributions(githubUsername) {
             print(contributions)
             print("Getting Timeline 🕦")
             // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -193,6 +203,7 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                 }
             }
             .padding(50)
+
         }.frame(alignment: .topLeading)
         
     }

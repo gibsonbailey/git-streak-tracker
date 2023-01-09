@@ -3,4 +3,54 @@
    uuid = "17D71D35-5F13-401F-AB13-A211ED0199D2"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30076161-EC7D-4845-9711-07DA014B8B29"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Git Streak Tracker/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "storeGithubUsername()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "30076161-EC7D-4845-9711-07DA014B8B29 - a70d3a3617e6efe1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Git_Streak_Tracker.ContentView.storeGithubUsername() -&gt; ()"
+                  moduleName = "Git Streak Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bailey/src/Git%20Streak%20Tracker/Git%20Streak%20Tracker/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "304">
+               </Location>
+               <Location
+                  uuid = "30076161-EC7D-4845-9711-07DA014B8B29 - b776837c118c553b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Git_Streak_Tracker.ContentView.__preview__storeGithubUsername() -&gt; ()"
+                  moduleName = "ContentView.1.preview-thunk.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bailey/src/Git%20Streak%20Tracker/Git%20Streak%20Tracker/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "228">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
