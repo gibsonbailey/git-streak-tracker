@@ -150,12 +150,38 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                 Spacer()
                 
                 if (entry.todayComplete) {
-                    VStack {
-                        Text("Contributions")
-                            .foregroundColor(.white)
-                            .fontWeight(.semibold)
-                        GraphPath(data: [1, 4, 2, 2, 5, 2, 1])
+                    GeometryReader { metrics in
+                        HStack {
+                            Spacer()
+                            VStack(spacing: 8){
+                                Text("Contributions")
+                                    .foregroundColor(.white)
+                                    .fontWeight(.semibold)
+                                    
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                GraphPath(data: [1, 4, 2, 2, 5, 2, 1])
+                                    .padding(.top, 0.0)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                HStack {
+                                    Text("Mon")
+                                    Spacer()
+                                    Text("Wed")
+                                    Spacer()
+                                    Text("Sat")
+                                }
+                                .foregroundColor(.white)
+                                .font(.system(size: 10))
+                                .frame(maxWidth: .infinity)
+                            }
+                            .frame(width: metrics.size.width * 0.75)
+                        }
+                        .padding(.top, 13)
+                        
                     }
+                    .frame(alignment: .trailing)
+                    
+                    
                 } else {
                     Text("No contribution today")
                         .font(.subheadline)
@@ -166,7 +192,7 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                         ))
                 }
             }
-            .padding(70)
+            .padding(50)
         }.frame(alignment: .topLeading)
         
     }

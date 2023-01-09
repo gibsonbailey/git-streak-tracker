@@ -91,7 +91,7 @@ class ContributionManager {
                         todayComplete = true
                         streakLength += 1
                     }
-                    contributionCollectionCounter = 6
+                    contributionCollectionCounter = 7
                 } else if date < currentDateTime {
                     if day.contributionCount > 0 {
                         if !streakBroken {

@@ -19,43 +19,50 @@ struct GraphPath: View {
     }
     
     var body: some View {
-        
-        let frameHeight = 35.0
-        let frameWidth = 120.0
-        let dataMax = getDataMax()
-        
-        let scaleX = frameWidth / Double(data.count - 1)
-        let scaleY: Double = frameHeight / Double(dataMax - 1)
-        
-        let brightGreen = Color(
-            red: 5.0 / 255.0,
-            green: 255.0 / 255.0,
-            blue: 0.0 / 255.0
-        )
-        let fadedBrightGreen = Color(
-            red: 5.0 / 255.0,
-            green: 255.0 / 255.0,
-            blue: 0.0 / 255.0,
-            opacity: 0.5
-        )
-        
-        let baseX = 0
-        let baseY = Int(frameHeight)
-        
-        Path { path in
-            path.move(to: CGPoint(
-                x: baseX,
-                y: baseY - Int(scaleY * Double(data[0]) * 0.5)
-            ))
-            data.enumerated().forEach { (index, point) in
-                path.addLine(to: CGPoint(
-                    x: baseX + Int(scaleX * Double(index)),
-                    y: baseY - Int(scaleY * Double(point) * 0.5)
-                ))
+        GeometryReader { metrics in
+            let frameHeight = 20.0
+            let frameWidth = metrics.size.width
+            let dataMax = getDataMax()
+            
+            let scaleX = frameWidth / Double(data.count - 1)
+            let scaleY: Double = frameHeight / Double(dataMax - 1)
+            
+            let brightGreen = Color(
+                red: 5.0 / 255.0,
+                green: 255.0 / 255.0,
+                blue: 0.0 / 255.0
+            )
+            let fadedBrightGreen = Color(
+                red: 5.0 / 255.0,
+                green: 255.0 / 255.0,
+                blue: 0.0 / 255.0,
+                opacity: 0.5
+            )
+            
+            let baseX = 0
+            let baseY = Int(frameHeight) + 8
+            
+            VStack {
+                Path { path in
+                    path.move(to: CGPoint(
+                        x: baseX,
+                        y: baseY - Int(scaleY * Double(data[0]))
+                    ))
+                    data.enumerated().forEach { (index, point) in
+                        path.addLine(to: CGPoint(
+                            x: baseX + Int(scaleX * Double(index)),
+                            y: baseY - Int(scaleY * Double(point))
+                        ))
+                    }
+                }
+                .stroke(brightGreen, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
+                .shadow(color: fadedBrightGreen, radius: 4, y: 8)
             }
+            .frame(width: frameWidth, height: frameHeight)
         }
-        .stroke(brightGreen, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-        .shadow(color: fadedBrightGreen, radius: 4, y: 8)
+        
+        
+        
     }
 }
 
