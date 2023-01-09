@@ -110,6 +110,7 @@ class ContributionManager {
                 }
             }
         }
+        
         return ContributionData(
             streakLength: streakLength,
             todayComplete: todayComplete,

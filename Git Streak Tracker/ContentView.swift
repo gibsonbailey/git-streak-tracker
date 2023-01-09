@@ -41,6 +41,9 @@ struct ContentView: View {
                     storeGithubUsername()
                 }, label: {
                     Text("Save")
+                        .textInputAutocapitalization(.never)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         .frame(width: 200, height: 50, alignment: .center)
                         .background(.blue)
                         .foregroundColor(.white)

@@ -165,10 +165,9 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                                 Text("Contributions")
                                     .foregroundColor(.white)
                                     .fontWeight(.semibold)
-                                    
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     
-                                GraphPath(data: [1, 4, 2, 2, 5, 2, 1])
+                                GraphPath(data: entry.latestContributions)
                                     .padding(.top, 0.0)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 HStack {
@@ -226,7 +225,7 @@ struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
             date: Date(),
             days: 15,
             todayComplete: true,
-            latestContributions: [1, 4, 2, 2, 4, 5, 7],
+            latestContributions: [1, 1, 2, 2, 4, 5, 7],
             configuration: ConfigurationIntent()
         ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))

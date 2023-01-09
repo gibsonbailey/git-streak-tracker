@@ -68,6 +68,6 @@ struct GraphPath: View {
 
 struct GraphPath_Previews: PreviewProvider {
     static var previews: some View {
-        GraphPath(data: [1, 4, 2, 2, 5, 2, 1])
+        GraphPath(data: [1, 1, 2, 2, 5, 2, 1])
     }
 }
