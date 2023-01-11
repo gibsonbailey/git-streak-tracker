@@ -81,30 +81,89 @@ struct StreakEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-struct Git_Streak_Tracker_WidgetEntryView : View {
-    var entry: Provider.Entry
-    
-    let darkGreen = Color(
+struct ColorPallete {
+    static let darkGreen = Color(
         red: 10.0 / 255.0,
         green: 22.0 / 255.0,
         blue: 0.0 / 255.0
     )
-    let midGreen = Color(
+    static let midGreen = Color(
         red: 20.0 / 255.0,
         green: 40.0 / 255.0,
         blue: 0.0 / 255.0
     )
-    
-    let darkGray = Color(
+
+    static let darkGray = Color(
         red: 15.0 / 255.0,
         green: 15.0 / 255.0,
         blue: 15.0 / 255.0
     )
-    let midGray = Color(
+    static let midGray = Color(
         red: 25.0 / 255.0,
         green: 25.0 / 255.0,
         blue: 25.0 / 255.0
     )
+}
+
+struct Git_Streak_Tracker_Small_WidgetEntryView : View {
+    var entry: Provider.Entry
+    
+    let flameScale = 2.0
+
+    var body: some View {
+        ZStack(alignment: .center) {
+            ContainerRelativeShape()
+                .fill(Gradient(colors: entry.todayComplete ? [
+                    ColorPallete.darkGreen,
+                    ColorPallete.midGreen
+                ] : [
+                    ColorPallete.darkGray,
+                    ColorPallete.midGray
+                ]))
+            
+            Image(entry.todayComplete ? "CopperFlame" : "GrayFlame")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding([.leading], 100)
+                .position(x: -34, y: 45)
+                .opacity(0.75)
+                .scaleEffect(
+                    x: flameScale,
+                    y: flameScale,
+                    anchor: .topLeading
+                )
+
+            VStack(alignment: .center) {
+                Text(entry.days, format: .number)
+                    .font(.system(
+                        size: entry.days < 100 ? 85.0 : 60,
+                        weight: Font.Weight.semibold
+                    ))
+                    .padding(.bottom, entry.days < 100 ? -22 : -16)
+                    .foregroundColor(
+                        entry.todayComplete ? .white : .gray
+                    )
+                Text(entry.days == 1 ? "DAY" : "DAYS")
+                    .font(.system(
+                        size: 18.0,
+                        weight: Font.Weight.semibold
+                    ))
+                    .foregroundColor(entry.todayComplete ? Color(
+                            red: 218.0 / 255.0,
+                            green: 218.0 / 255.0,
+                            blue: 218.0 / 255.0
+                        ) : .gray
+                    )
+            }
+            .shadow(color: .black, radius: 5, x: -2, y: 2)
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+        }.frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+        
+    }
+}
+
+struct Git_Streak_Tracker_Medium_WidgetEntryView : View {
+    var entry: Provider.Entry
     
     let flameScale = 0.85
 
@@ -112,11 +171,11 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
         ZStack(alignment: .topLeading) {
             ContainerRelativeShape()
                 .fill(Gradient(colors: entry.todayComplete ? [
-                    darkGreen,
-                    midGreen
+                    ColorPallete.darkGreen,
+                    ColorPallete.midGreen
                 ] : [
-                    darkGray,
-                    midGray
+                    ColorPallete.darkGray,
+                    ColorPallete.midGray
                 ]))
             
             Image(entry.todayComplete ? "CopperFlame" : "GrayFlame")
@@ -141,7 +200,7 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
                         .foregroundColor(
                             entry.todayComplete ? .white : .gray
                         )
-                    Text("DAYS")
+                    Text(entry.days == 1 ? "DAY" : "DAYS")
                         .font(.system(
                             size: 12.0,
                             weight: Font.Weight.semibold
@@ -206,28 +265,60 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
     }
 }
 
+struct Git_Streak_Tracker_WidgetEntryView : View {
+    var entry: Provider.Entry
+    @Environment(\.widgetFamily) var family
+
+    @ViewBuilder
+    var body: some View {
+        
+        switch family {
+        case .systemSmall:
+            Git_Streak_Tracker_Small_WidgetEntryView(entry: entry)
+        default:
+            Git_Streak_Tracker_Medium_WidgetEntryView(entry: entry)
+        }
+
+    }
+}
+
 struct Git_Streak_Tracker_Widget: Widget {
     let kind: String = "Git_Streak_Tracker_Widget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
-            Git_Streak_Tracker_WidgetEntryView(entry: entry)
+        IntentConfiguration(
+            kind: kind,
+            intent: ConfigurationIntent.self,
+            provider: Provider()
+        ) {
+            entry in Git_Streak_Tracker_WidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
+        .configurationDisplayName("Git Streak Widget")
         .description("This is an example widget.")
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemMedium, .systemSmall])
     }
 }
 
 struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
     static var previews: some View {
-        Git_Streak_Tracker_WidgetEntryView(entry: StreakEntry(
-            date: Date(),
-            days: 15,
-            todayComplete: true,
-            latestContributions: [1, 1, 2, 2, 4, 5, 7],
-            configuration: ConfigurationIntent()
-        ))
+        Group {
+            Git_Streak_Tracker_Medium_WidgetEntryView(entry: StreakEntry(
+                date: Date(),
+                days: 15,
+                todayComplete: true,
+                latestContributions: [1, 1, 2, 2, 4, 5, 7],
+                configuration: ConfigurationIntent()
+            ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
+            
+            Git_Streak_Tracker_Small_WidgetEntryView(entry: StreakEntry(
+                date: Date(),
+                days: 350,
+                todayComplete: true,
+                latestContributions: [1, 1, 2, 2, 4, 5, 7],
+                configuration: ConfigurationIntent()
+            ))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        }
     }
 }
