@@ -29,6 +29,10 @@
 		D4737299296BC5A600E4A867 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4737297296BC5A600E4A867 /* AppGroup.swift */; };
 		D4FDB532296A99FC003B11D0 /* GraphPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDB530296A991E003B11D0 /* GraphPath.swift */; };
 		D4FDB533296A9E12003B11D0 /* GraphPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDB530296A991E003B11D0 /* GraphPath.swift */; };
+		E58D519B2971185D0078ABD5 /* ThemeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58D519A2971185D0078ABD5 /* ThemeConfig.swift */; };
+		E58D519C2971185D0078ABD5 /* ThemeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58D519A2971185D0078ABD5 /* ThemeConfig.swift */; };
+		E58D519E297118A30078ABD5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E58D519D297118A30078ABD5 /* .gitignore */; };
+		E58D519F297118A30078ABD5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E58D519D297118A30078ABD5 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +98,8 @@
 		D4FDB530296A991E003B11D0 /* GraphPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPath.swift; sourceTree = "<group>"; };
 		D4FDB534296B7F20003B11D0 /* Git Streak Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Git Streak Tracker.entitlements"; sourceTree = "<group>"; };
 		D4FDB535296B8340003B11D0 /* Git Streak Tracker WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Git Streak Tracker WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		E58D519A2971185D0078ABD5 /* ThemeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeConfig.swift; sourceTree = "<group>"; };
+		E58D519D297118A30078ABD5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,8 @@
 		D4540B04296943E000DD02DB = {
 			isa = PBXGroup;
 			children = (
+				E58D519D297118A30078ABD5 /* .gitignore */,
+				E58D519A2971185D0078ABD5 /* ThemeConfig.swift */,
 				D4FDB535296B8340003B11D0 /* Git Streak Tracker WidgetExtension.entitlements */,
 				D4540B0F296943E000DD02DB /* Git Streak Tracker */,
 				D4540B20296943E200DD02DB /* Git Streak TrackerTests */,
@@ -344,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4540B18296943E200DD02DB /* Preview Assets.xcassets in Resources */,
+				E58D519E297118A30078ABD5 /* .gitignore in Resources */,
 				D4540B15296943E200DD02DB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E58D519F297118A30078ABD5 /* .gitignore in Resources */,
 				D4540B4D2969440300DD02DB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,6 +388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
+				E58D519B2971185D0078ABD5 /* ThemeConfig.swift in Sources */,
 				D4737298296BC5A600E4A867 /* AppGroup.swift in Sources */,
 				D4737292296BBE0400E4A867 /* ContentView.swift in Sources */,
 				D4737290296B8DF300E4A867 /* Contributions.swift in Sources */,
@@ -412,6 +423,7 @@
 				D4540B4F2969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
 				D4737299296BC5A600E4A867 /* AppGroup.swift in Sources */,
 				D4737293296BC27600E4A867 /* Contributions.swift in Sources */,
+				E58D519C2971185D0078ABD5 /* ThemeConfig.swift in Sources */,
 				D4540B462969440200DD02DB /* Git_Streak_Tracker_WidgetBundle.swift in Sources */,
 				D4FDB533296A9E12003B11D0 /* GraphPath.swift in Sources */,
 			);
