@@ -27,18 +27,9 @@ struct GraphPath: View {
             let scaleX = frameWidth / Double(data.count - 1)
             let scaleY: Double = frameHeight / Double(dataMax - 1)
             
-            let brightGreen = Color(
-                red: 5.0 / 255.0,
-                green: 255.0 / 255.0,
-                blue: 0.0 / 255.0
-            )
-            let fadedBrightGreen = Color(
-                red: 5.0 / 255.0,
-                green: 255.0 / 255.0,
-                blue: 0.0 / 255.0,
-                opacity: 0.5
-            )
-            
+            let brightGreen = ColorPallete.highlightGreen
+            let fadedBrightGreen = ColorPallete.highlightGreen.opacity(0.5)
+ 
             let baseX = 0
             let baseY = Int(frameHeight) + 8
             

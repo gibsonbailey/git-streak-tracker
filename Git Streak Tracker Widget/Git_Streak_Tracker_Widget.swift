@@ -81,138 +81,118 @@ struct StreakEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-struct ColorPallete {
-    static let darkGreen = Color(
-        red: 10.0 / 255.0,
-        green: 22.0 / 255.0,
-        blue: 0.0 / 255.0
-    )
-    static let midGreen = Color(
-        red: 20.0 / 255.0,
-        green: 40.0 / 255.0,
-        blue: 0.0 / 255.0
-    )
-
-    static let darkGray = Color(
-        red: 15.0 / 255.0,
-        green: 15.0 / 255.0,
-        blue: 15.0 / 255.0
-    )
-    static let midGray = Color(
-        red: 25.0 / 255.0,
-        green: 25.0 / 255.0,
-        blue: 25.0 / 255.0
-    )
-}
-
-struct Git_Streak_Tracker_Small_WidgetEntryView : View {
+struct Background : View {
     var entry: Provider.Entry
     
-    let flameScale = 2.0
+    var body: some View {
+        ContainerRelativeShape()
+            .fill(Gradient(colors: entry.todayComplete ? [
+                ColorPallete.darkGreen,
+                ColorPallete.midGreen
+            ] : [
+                ColorPallete.darkGray,
+                ColorPallete.midGray
+            ]))
+    }
+}
+
+struct FlameImage : View {
+    var entry: Provider.Entry
+    
+    var flameScale: Double = 0.85
+    
+    var opacity: Double = 1.0
+    
+    var x: Double = -15
+    var y: Double = 135
+
+    var body: some View {
+        Image(entry.todayComplete ? "CopperFlame" : "GrayFlame")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding([.leading], 100)
+            .position(x: x, y: y)
+            .opacity(opacity)
+            .scaleEffect(
+                x: flameScale,
+                y: flameScale,
+                anchor: .topLeading
+            )
+    }
+}
+
+struct MainStreakText : View {
+    var entry: Provider.Entry
+    
+    var mainFontSize: Double = 70.0
+    var subTextFontSize: Double = 12.0
+    var paddingBottom: Double = -14.0
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            Text(entry.days, format: .number)
+                .font(.system(
+                    size: mainFontSize,
+                    weight: Font.Weight.semibold
+                ))
+                .padding(.bottom, paddingBottom)
+                .foregroundColor(
+                    entry.todayComplete ? .white : .gray
+                )
+            Text(entry.days == 1 ? "DAY" : "DAYS")
+                .font(.system(
+                    size: subTextFontSize,
+                    weight: Font.Weight.semibold
+                ))
+                .foregroundColor(entry.todayComplete ? ColorPallete.midWhite : .gray
+                )
+        }
+        .shadow(color: .black, radius: 5, x: -2, y: 2)
+    }
+}
+
+struct Git_Streak_Tracker_Small_Widget_View : View {
+    var entry: Provider.Entry
 
     var body: some View {
         ZStack(alignment: .center) {
-            ContainerRelativeShape()
-                .fill(Gradient(colors: entry.todayComplete ? [
-                    ColorPallete.darkGreen,
-                    ColorPallete.midGreen
-                ] : [
-                    ColorPallete.darkGray,
-                    ColorPallete.midGray
-                ]))
+            Background(entry: entry)
             
-            Image(entry.todayComplete ? "CopperFlame" : "GrayFlame")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding([.leading], 100)
-                .position(x: -34, y: 45)
-                .opacity(0.75)
-                .scaleEffect(
-                    x: flameScale,
-                    y: flameScale,
-                    anchor: .topLeading
-                )
+            FlameImage(
+                entry: entry,
+                flameScale: 2.0,
+                opacity: 0.75,
+                x: -34,
+                y: 45
+            )
 
-            VStack(alignment: .center) {
-                Text(entry.days, format: .number)
-                    .font(.system(
-                        size: entry.days < 100 ? 85.0 : 60,
-                        weight: Font.Weight.semibold
-                    ))
-                    .padding(.bottom, entry.days < 100 ? -22 : -16)
-                    .foregroundColor(
-                        entry.todayComplete ? .white : .gray
-                    )
-                Text(entry.days == 1 ? "DAY" : "DAYS")
-                    .font(.system(
-                        size: 18.0,
-                        weight: Font.Weight.semibold
-                    ))
-                    .foregroundColor(entry.todayComplete ? Color(
-                            red: 218.0 / 255.0,
-                            green: 218.0 / 255.0,
-                            blue: 218.0 / 255.0
-                        ) : .gray
-                    )
-            }
-            .shadow(color: .black, radius: 5, x: -2, y: 2)
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+
+            MainStreakText(
+                entry: entry,
+                mainFontSize: entry.days < 100 ? 85.0 : 60,
+                subTextFontSize: 18.0,
+                paddingBottom: entry.days < 100 ? -22 : -16
+            )
+            
         }.frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
         
     }
 }
 
-struct Git_Streak_Tracker_Medium_WidgetEntryView : View {
+struct Git_Streak_Tracker_Medium_Widget_View : View {
     var entry: Provider.Entry
     
     let flameScale = 0.85
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ContainerRelativeShape()
-                .fill(Gradient(colors: entry.todayComplete ? [
-                    ColorPallete.darkGreen,
-                    ColorPallete.midGreen
-                ] : [
-                    ColorPallete.darkGray,
-                    ColorPallete.midGray
-                ]))
+            Background(entry: entry)
             
-            Image(entry.todayComplete ? "CopperFlame" : "GrayFlame")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding([.leading], 100)
-                .position(x: -15, y: 135)
-                .scaleEffect(
-                    x: flameScale,
-                    y: flameScale,
-                    anchor: .topLeading
-                )
-            
+            FlameImage(entry: entry)
+           
             HStack {
-                VStack {
-                    Text(entry.days, format: .number)
-                        .font(.system(
-                            size: 70.0,
-                            weight: Font.Weight.semibold
-                        ))
-                        .padding(.bottom, -14.0)
-                        .foregroundColor(
-                            entry.todayComplete ? .white : .gray
-                        )
-                    Text(entry.days == 1 ? "DAY" : "DAYS")
-                        .font(.system(
-                            size: 12.0,
-                            weight: Font.Weight.semibold
-                        ))
-                        .foregroundColor(entry.todayComplete ? Color(
-                                red: 218.0 / 255.0,
-                                green: 218.0 / 255.0,
-                                blue: 218.0 / 255.0
-                            ) : .gray
-                        )
-                }
-                .shadow(color: .black, radius: 5, x: -2, y: 2)
+                
+                MainStreakText(entry: entry)
                 
                 Spacer()
                 
@@ -251,11 +231,7 @@ struct Git_Streak_Tracker_Medium_WidgetEntryView : View {
                 } else {
                     Text("No contribution today")
                         .font(.subheadline)
-                        .foregroundColor(Color(
-                            red: 218.0 / 255.0,
-                            green: 218.0 / 255.0,
-                            blue: 218.0 / 255.0
-                        ))
+                        .foregroundColor(ColorPallete.midWhite)
                 }
             }
             .padding(50)
@@ -274,9 +250,9 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
         
         switch family {
         case .systemSmall:
-            Git_Streak_Tracker_Small_WidgetEntryView(entry: entry)
+            Git_Streak_Tracker_Small_Widget_View(entry: entry)
         default:
-            Git_Streak_Tracker_Medium_WidgetEntryView(entry: entry)
+            Git_Streak_Tracker_Medium_Widget_View(entry: entry)
         }
 
     }
@@ -302,7 +278,7 @@ struct Git_Streak_Tracker_Widget: Widget {
 struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            Git_Streak_Tracker_Medium_WidgetEntryView(entry: StreakEntry(
+            Git_Streak_Tracker_Medium_Widget_View(entry: StreakEntry(
                 date: Date(),
                 days: 15,
                 todayComplete: true,
@@ -311,7 +287,7 @@ struct Git_Streak_Tracker_Widget_Previews: PreviewProvider {
             ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             
-            Git_Streak_Tracker_Small_WidgetEntryView(entry: StreakEntry(
+            Git_Streak_Tracker_Small_Widget_View(entry: StreakEntry(
                 date: Date(),
                 days: 350,
                 todayComplete: true,
