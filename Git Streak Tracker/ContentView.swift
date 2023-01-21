@@ -7,60 +7,51 @@
 
 import SwiftUI
 import WidgetKit
+import SwiftUIFontIcon
 
 struct ContentView: View {
-    @State private var githubUsername: String = ""
-    @State private var githubUsernameDisplayed: String = ""
-    let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
-    let manager = FileManager.default
     
-    private func storeGithubUsername() {
-        manager.createFile(
-            atPath: storeURL.path,
-            contents: githubUsername.data(using: .utf8)
-        )
-        WidgetCenter.shared.reloadAllTimelines()
-        githubUsernameDisplayed = githubUsername
+    private func go_to() {
+        // Go to screen
     }
-    
-    private func loadGithubUsername() {
-        if manager.fileExists(atPath: storeURL.path) {
-            if let data = manager.contents(atPath: storeURL.path) {
-                githubUsername = String(decoding: data, as: UTF8.self)
-                githubUsernameDisplayed = githubUsername
-            }
-        }
-    }
+
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Form {
-                    Section {
-                        TextField("Github Username", text: $githubUsername)
-                    }
+        ZStack {
+            TabView {
+                ZStack {
+                    ProfileOverviewView()
                 }
-                if githubUsernameDisplayed != "" {
-                    Text("Username set to \(githubUsernameDisplayed). Check your widget!")
+                ZStack {
+                    SettingsView()
                 }
-                Button(action: {
-                    storeGithubUsername()
-                }, label: {
-                    Text("Save")
-                        .textInputAutocapitalization(.never)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                        .frame(width: 200, height: 50, alignment: .center)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .disabled(githubUsername == "")
-                })
             }
-            .navigationTitle("Github Streak Tracker")
-        }.onAppear(perform: {
-            loadGithubUsername()
-        })
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+            
+            HStack {
+                Spacer()
+                FontIcon.button(.materialIcon(code: .person), action: {
+                    go_to()
+                }, padding: 0, fontsize: 45, color: ColorPallete.midWhite)
+//                .shadow(color: ColorPallete.highlightGreen, radius: 4, x: 0, y: 0)
+                Spacer()
+                Spacer()
+                FontIcon.button(.ionicon(code: .ios_settings), action: {
+                    go_to()
+                }, padding: 0, fontsize: 45, color: ColorPallete.midWhite)
+//                .shadow(color: ColorPallete.highlightGreen, radius: 4, x: 0, y: 0)
+                Spacer()
+                // When we wanna animate this all pretty like watch this: https://www.youtube.com/watch?v=lzmKrJCuxwM&t=221s&ab_channel=Kavsoft
+                
+            }
+            .ignoresSafeArea()
+            .frame(width: 135)
+            .padding(20)
+            .background(ColorPallete.darkGreen)
+            .cornerRadius(20)
+            .position(x:200, y: 700)
+        }.ignoresSafeArea()
     }
 }
 
