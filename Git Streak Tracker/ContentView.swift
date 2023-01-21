@@ -10,7 +10,8 @@ import WidgetKit
 import SwiftUIFontIcon
 
 struct ContentView: View {
-    
+    @State private var selectedTab = 0
+
     private func go_to() {
         // Go to screen
     }
@@ -18,13 +19,15 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            TabView {
+            TabView(selection: $selectedTab) {
                 ZStack {
                     ProfileOverviewView()
                 }
+                .tag(0)
                 ZStack {
                     SettingsView()
                 }
+                .tag(1)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
@@ -33,14 +36,14 @@ struct ContentView: View {
                 Spacer()
                 FontIcon.button(.materialIcon(code: .person), action: {
                     go_to()
-                }, padding: 0, fontsize: 45, color: ColorPallete.midWhite)
-//                .shadow(color: ColorPallete.highlightGreen, radius: 4, x: 0, y: 0)
+                }, padding: 0, fontsize: 45, color: selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite)
+                .shadow(color: selectedTab == 0 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
                 Spacer()
                 Spacer()
                 FontIcon.button(.ionicon(code: .ios_settings), action: {
                     go_to()
-                }, padding: 0, fontsize: 45, color: ColorPallete.midWhite)
-//                .shadow(color: ColorPallete.highlightGreen, radius: 4, x: 0, y: 0)
+                }, padding: 0, fontsize: 45, color: selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite)
+                .shadow(color: selectedTab == 1 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
                 Spacer()
                 // When we wanna animate this all pretty like watch this: https://www.youtube.com/watch?v=lzmKrJCuxwM&t=221s&ab_channel=Kavsoft
                 
