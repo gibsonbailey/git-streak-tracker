@@ -1,0 +1,17 @@
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.title {
+    color: white;
+    font-size: 40px;
+    z-index: 2
+}
+
+.backgroundImage {
+    opacity: 0.1;
+}

@@ -1,0 +1,9 @@
+html,
+body,
+main,
+#__next {
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient(black, #000800);
+    z-index: -10;
+}
