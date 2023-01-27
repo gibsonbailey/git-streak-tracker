@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.png" width="150">
+  <img src="assets/logo.svg" width="120">
   <h3 align="center">
     Git Streak Tracker
   </h3>
