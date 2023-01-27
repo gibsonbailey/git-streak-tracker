@@ -12,7 +12,7 @@
 
 </br>
 
-## Custom README
+## Custom Profile README
 Copy and paste our special README image into your personal profile README, so visitors to your Github profile can see your highlighted statistics.
 Follow [these instructions]() to access this feature.
 
