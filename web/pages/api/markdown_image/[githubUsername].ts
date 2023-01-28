@@ -1,4 +1,5 @@
 import * as TextSVG from 'text-svg'
+import { getGithubContributions } from '../../../utils/githubContributions'
 
 export default async function handler(req, res) {
     const { githubUsername } = req.query
@@ -15,56 +16,9 @@ export default async function handler(req, res) {
         }
     }
 
-    const contributionData = await getGithubContributions(githubUsername)
+    const contributionData = processContributionData(await getGithubContributions(githubUsername))
     const svgData = TextSVG(`${contributionData.streakLength} DAYS`, { color: 'white', backgroundColor: 'black', padding: 30 })
     res.end(svgData)
-}
-
-const getGithubContributions = async (username: string) => {
-    const graphQueryData = {
-        query: `query {
-                    user(login: "${username}") {
-                        name
-                        contributionsCollection {
-                            contributionCalendar {
-                                colors
-                                totalContributions
-                                    weeks {
-                                        contributionDays {
-                                            color
-                                            contributionCount
-                                            date
-                                            weekday
-                                    }
-                                    firstDay
-                                }
-                            }
-                        }
-                    }
-                }`
-    }
-    const token = process.env.GITHUB_STREAK_TRACKER_PRIVATE_TOKEN
-    if (token === undefined) {
-        console.error('GITHUB_STREAK_TRACKER_PRIVATE_TOKEN environment variable not set!!!')
-        throw Error()
-    }
-    const resp = await fetch(
-        'https://api.github.com/graphql',
-        {
-            method: 'POST',
-            headers: {
-                Authorization: `bearer ${token}`,
-            },
-            body: JSON.stringify(graphQueryData),
-        }
-    )
-    /* TODO: Handle errors:
-        * Github is down
-        * Username does not exist
-        * Query malformed
-    */
-    const data = await resp.json()
-    return processContributionData(data)
 }
 
 const processContributionData = (contributionData) => {
