@@ -12,12 +12,13 @@ export default async function handler(req, res) {
         if (!/^[a-zA-Z0-9-]*$/.test(githubUsername)) {
             // TODO: This serves 400 page. Probably not what we want. We want to serve the simple error message below.
             res.status(400)
-            res.end('githubUsername must be a valid GitHub username.', )
+            res.end('githubUsername must be a valid GitHub username.',)
         }
     }
 
     const contributionData = processContributionData(await getGithubContributions(githubUsername))
     const svgData = TextSVG(`${contributionData.streakLength} DAYS`, { color: 'white', backgroundColor: 'black', padding: 30 })
+    res.setHeader('Content-Type', 'image/svg+xml')
     res.end(svgData)
 }
 
