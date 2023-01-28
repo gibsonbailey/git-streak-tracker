@@ -15,7 +15,8 @@
     "eslint-config-next": "^13.1.5",
     "next": "^13.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "text-svg": "^1.0.4"
   },
   "devDependencies": {
     "@types/node": "18.11.18",
