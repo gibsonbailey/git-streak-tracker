@@ -1,70 +1,19 @@
 import * as TextSVG from 'text-svg'
+import { getGithubContributions } from '../../../utils/githubContributions'
+import { validateGitHubUsername } from '../../../utils/validation'
 
 export default async function handler(req, res) {
     const { githubUsername } = req.query
 
-    if (!githubUsername) {
-        // TODO: Not sure how this would ever happen. Empty url parameter?
-        throw Error('githubUsername query parameter required.')
-    } else {
-        // Reject if username contains anything but alphanumeric and dash characters
-        if (!/^[a-zA-Z0-9-]*$/.test(githubUsername)) {
-            // TODO: This serves 400 page. Probably not what we want. We want to serve the simple error message below.
-            res.status(400)
-            res.end('githubUsername must be a valid GitHub username.', )
-        }
+    if (!validateGitHubUsername(githubUsername)) {
+        res.status(400)
+        res.end('url parameter githubUsername must be a valid GitHub username.',)
     }
 
-    const contributionData = await getGithubContributions(githubUsername)
+    const contributionData = processContributionData(await getGithubContributions(githubUsername))
     const svgData = TextSVG(`${contributionData.streakLength} DAYS`, { color: 'white', backgroundColor: 'black', padding: 30 })
+    res.setHeader('Content-Type', 'image/svg+xml')
     res.end(svgData)
-}
-
-const getGithubContributions = async (username: string) => {
-    const graphQueryData = {
-        query: `query {
-                    user(login: "${username}") {
-                        name
-                        contributionsCollection {
-                            contributionCalendar {
-                                colors
-                                totalContributions
-                                    weeks {
-                                        contributionDays {
-                                            color
-                                            contributionCount
-                                            date
-                                            weekday
-                                    }
-                                    firstDay
-                                }
-                            }
-                        }
-                    }
-                }`
-    }
-    const token = process.env.GITHUB_STREAK_TRACKER_PRIVATE_TOKEN
-    if (token === undefined) {
-        console.error('GITHUB_STREAK_TRACKER_PRIVATE_TOKEN environment variable not set!!!')
-        throw Error()
-    }
-    const resp = await fetch(
-        'https://api.github.com/graphql',
-        {
-            method: 'POST',
-            headers: {
-                Authorization: `bearer ${token}`,
-            },
-            body: JSON.stringify(graphQueryData),
-        }
-    )
-    /* TODO: Handle errors:
-        * Github is down
-        * Username does not exist
-        * Query malformed
-    */
-    const data = await resp.json()
-    return processContributionData(data)
 }
 
 const processContributionData = (contributionData) => {
