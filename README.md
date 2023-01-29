@@ -13,8 +13,10 @@
 </br>
 
 ## Custom Profile README
-Copy and paste our special README image into your personal profile README, so visitors to your Github profile can see your highlighted statistics.
+Copy and paste our special README image into your personal profile README to prominently display your streak on your profile.
 Follow [these instructions]() to access this feature.
+
+![SVG](https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey)
 
 ## Widgets
 Download our [iOS App]() to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
@@ -22,3 +24,5 @@ Download our [iOS App]() to place these widgets on your homescreen, so you can b
 <img src="assets/widget.png" width="200">
 
 <img src="assets/widget_small.png" width="95">
+
+
