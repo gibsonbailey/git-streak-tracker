@@ -1,5 +1,5 @@
 <svg width="988" height="329" viewBox="0 0 988 329" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <%- await include('streakStyles.ejs', {hundredsPlace, tensPlace, onesPlace}, {async: true}) %>
+    <%- await include('streakStyles.css', {hundredsPlace, tensPlace, onesPlace}, {async: true}) %>
         <g id="Digits">
             <rect width="987.057" height="329.019" rx="50" fill="black" />
             <g id="Group 1198">
