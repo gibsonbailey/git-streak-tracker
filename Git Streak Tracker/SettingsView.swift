@@ -15,7 +15,8 @@ struct SettingsView: View {
     @EnvironmentObject private var userStore: UserStore
 
     func storeUsername() {
-        userStore.username = inputValue // everytime username changes, the contributions are requested,
+        userStore.username = inputValue // everytime username changes, the contributions are requested
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     var body: some View {
