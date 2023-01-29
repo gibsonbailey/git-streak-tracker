@@ -16,14 +16,15 @@ class UserStore: ObservableObject {
     @Published var contributionData: ContributionData
     @Published var username: String {
         didSet {
+            // This fires every time username changes
             storeGithubUsername(githubUsername: username)
             self.contributionData = contributionManager.getContributions(username)
-//            contributionManager.getContributions(username)
+
         }
     }
     
     init(username: String, contributionData: ContributionData) {
-        self.username = loadGithubUsername()
+        self.username = loadGithubUsername() // not using sefl.loadUsername because it was yelling at me for calling it before initialization or something
         self.contributionData = contributionData
     }
 }

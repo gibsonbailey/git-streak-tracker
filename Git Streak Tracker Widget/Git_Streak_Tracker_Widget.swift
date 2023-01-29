@@ -36,15 +36,7 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
         
-        let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
-        let manager = FileManager.default
-        
-        var githubUsername = ""
-        if manager.fileExists(atPath: storeURL.path) {
-            if let data = manager.contents(atPath: storeURL.path) {
-                githubUsername = String(decoding: data, as: UTF8.self)
-            }
-        }
+        var githubUsername = loadGithubUsername() // gets username from GithubStore
         
         let contributionManager = ContributionManager()
         let contributions = contributionManager.getContributions(githubUsername)
@@ -172,6 +164,7 @@ struct Git_Streak_Tracker_Small_Widget_View : View {
 }
 
 struct Git_Streak_Tracker_Medium_Widget_View : View {
+    
     var entry: Provider.Entry
     
     let flameScale = 0.85
@@ -193,7 +186,7 @@ struct Git_Streak_Tracker_Medium_Widget_View : View {
                         HStack {
                             Spacer()
                             VStack(spacing: 8){
-                                Text("Contributions")
+                                Text("Contrubtions")
                                     .foregroundColor(.white)
                                     .fontWeight(.semibold)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -243,8 +236,10 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
         switch family {
         case .systemSmall:
             Git_Streak_Tracker_Small_Widget_View(entry: entry)
+                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         default:
             Git_Streak_Tracker_Medium_Widget_View(entry: entry)
+                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         }
 
     }

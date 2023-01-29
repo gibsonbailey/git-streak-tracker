@@ -34,20 +34,22 @@ struct GraphPath: View {
             let baseY = Int(frameHeight) + 8
             
             VStack {
-                Path { path in
-                    path.move(to: CGPoint(
-                        x: baseX,
-                        y: baseY - Int(scaleY * Double(data[0]))
-                    ))
-                    data.enumerated().forEach { (index, point) in
-                        path.addLine(to: CGPoint(
-                            x: baseX + Int(scaleX * Double(index)),
-                            y: baseY - Int(scaleY * Double(point))
+                if data.count != 0 {
+                    Path { path in
+                        path.move(to: CGPoint(
+                            x: baseX,
+                            y: baseY - Int(scaleY * Double(data[0]))
                         ))
+                        data.enumerated().forEach { (index, point) in
+                            path.addLine(to: CGPoint(
+                                x: baseX + Int(scaleX * Double(index)),
+                                y: baseY - Int(scaleY * Double(point))
+                            ))
+                        }
                     }
+                    .stroke(brightGreen, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
+                    .shadow(color: fadedBrightGreen, radius: 4, y: 8)
                 }
-                .stroke(brightGreen, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
-                .shadow(color: fadedBrightGreen, radius: 4, y: 8)
             }
             .frame(width: frameWidth, height: frameHeight)
         }

@@ -23,14 +23,16 @@ func getSquareColor(contributionData: ContributionData, column: Int, row: Int) -
         count = contributionData.allContributions[index].contributionCount // set contributions for square
     }
     
-    if contributionData.allContributions.count == 0 {
-        // If not contributions exist atm
+    if contributionData.allContributions.count == 0 || (index + 1 == contributionData.allContributions.count && !contributionData.todayComplete) {
+        // If not contributions exist atm OR if they haven't committed yet today
         return (ColorPallete.midGray, ColorPallete.lightGray)
     }
+   
     else if index >= contributionData.allContributions.count - contributionData.streakLength{
         // streak zone
         return (ColorPallete.lightRed, ColorPallete.midRed)
-    } else {
+    }
+    else {
         // normal zone
        return (
         count > 0 ? ColorPallete.lighterGreen : ColorPallete.midGray,
@@ -64,22 +66,31 @@ struct ContributionSquare: View {
     }
 }
 
+func createBlackAndWhiteImage(inputImage: UIImage) -> UIImage? {
+    let ciImage = CIImage(image: inputImage)
+    let filter = CIFilter(name: "CIPhotoEffectMono")
+    filter?.setValue(ciImage, forKey: kCIInputImageKey)
+    if let outputImage = filter?.outputImage {
+        return UIImage(ciImage: outputImage)
+    }
+    return nil
+}
+
 struct ProfileOverviewView: View {
     @EnvironmentObject private var userStore: UserStore
     
     var body: some View {
+        let todayComplete: Bool = userStore.contributionData.todayComplete
         GeometryReader { bounds in
             ZStack {
                 HStack {
-                    Image("OpaqueFlame")
+                    Image(todayComplete ? "OpaqueFlame" : "OpaqueFlameB&W")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        
                 }
                 .frame(width: bounds.size.width, height: bounds.size.height, alignment: .bottom)
-
                 
-            
+
                 VStack {
                     Text("Github Streak Tracker")
                         .font(.system(size: 26))
@@ -97,7 +108,13 @@ struct ProfileOverviewView: View {
                             )
                             .background(ColorPallete.darkGreen)
                             .cornerRadius(200)
-                            .shadow(color: ColorPallete.highlightGreen, radius: 4, x: 0, y: 0)
+                            .shadow(
+                                color: todayComplete ? ColorPallete.highlightGreen : .clear,
+                                radius: 4,
+                                x: 0,
+                                y: 0
+                            )
+
                         Spacer()
                         VStack {
                             Text(String(userStore.contributionData.streakLength))
@@ -110,8 +127,10 @@ struct ProfileOverviewView: View {
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
                         }
+                        .opacity(todayComplete ? 1 : 0.2)
                         Spacer()
                     }
+                    
 
                     Spacer()
 
@@ -133,9 +152,15 @@ struct ProfileOverviewView: View {
                     Spacer()
 
                     Group {
-                        Text("Contributions" + String(userStore.contributionData.allContributions.count))
-                            .font(.system(size: 25))
-                            .foregroundColor(.white)
+                        if todayComplete {
+                            Text("Contributions")
+                                .font(.system(size: 25))
+                                .foregroundColor(.white)
+                        } else {
+                            Text("No contributions today")
+                                .font(.system(size: 23))
+                                .foregroundColor(.white)
+                        }
                         HStack(spacing: 0) {
                             ForEach(0..<18, id: \.self) { column in
                                 VStack(spacing: 0) {
@@ -146,6 +171,7 @@ struct ProfileOverviewView: View {
                             }
                             .padding(0.8)
                         }
+                        
 
                     }
                     .frame(width: bounds.size.width, alignment: .leading)
@@ -166,6 +192,7 @@ struct ProfileOverviewView_Previews: PreviewProvider {
         return ProfileOverviewView()
             .environmentObject(UserStore(username: "", contributionData: ContributionData(
                 streakLength: 10,
+                todayComplete: false,
                 allContributions: generateContributionDays(),
                 name: "Sam Wood",
                 avatarUrl: "https://avatars.githubusercontent.com/u/27198821?v=4"
@@ -183,5 +210,6 @@ func generateContributionDays() -> [ContributionDay] {
         let contributionDay = ContributionDay(contributionCount: contributionCount, weekday: weekday, date: date)
         contributionDays.append(contributionDay)
     }
+    // clipping contributions down to how many squares there are (currently 126)
     return contributionDays.suffix(126)
 }
