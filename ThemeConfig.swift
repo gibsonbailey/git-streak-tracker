@@ -29,6 +29,16 @@ struct ColorPallete {
         green: 40.0 / 255.0,
         blue: 0.0 / 255.0
     )
+    static let lightGreen = Color(
+        red: 104.0 / 255.0,
+        green: 155.0 / 255.0,
+        blue: 112.0 / 255.0
+    )
+    static let lighterGreen = Color(
+        red: 163.0 / 255.0,
+        green: 244.0 / 255.0,
+        blue: 176.0 / 255.0
+    )
 
     static let darkGray = Color(
         red: 15.0 / 255.0,
@@ -40,9 +50,27 @@ struct ColorPallete {
         green: 25.0 / 255.0,
         blue: 25.0 / 255.0
     )
+    static let lightGray = Color(
+        red: 75.0 / 255.0,
+        green: 75.0 / 255.0,
+        blue: 75.0 / 255.0
+    )
     static let midWhite = Color(
         red: 218.0 / 255.0,
         green: 218.0 / 255.0,
         blue: 218.0 / 255.0
     )
+    
+    static let lightRed = Color(
+        red: 250.0 / 255.0,
+        green: 212.0 / 255.0,
+        blue: 155.0 / 255.0
+    )
+    
+    static let midRed = Color(
+        red: 255.0 / 255.0,
+        green: 77.0 / 255.0,
+        blue: 0.0 / 255.0
+    )
+    
 }

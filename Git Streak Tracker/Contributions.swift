@@ -18,6 +18,8 @@ struct BaseData : Decodable {
 
 struct UserData : Decodable {
     let contributionsCollection: ContributionsCollection
+    let name: String
+    let avatarUrl : String
 }
 
 struct ContributionsCollection : Decodable {
@@ -33,15 +35,18 @@ struct Week : Decodable {
 }
 
 struct ContributionDay : Decodable {
-    let contributionCount: Int
-    let weekday: Int
-    let date: String
+    var contributionCount: Int = 1
+    var weekday: Int = 0
+    var date: String = "2023-01-10"
 }
 
 struct ContributionData {
-    let streakLength: Int
-    let todayComplete: Bool
-    let latestContributions: [Int]
+    var streakLength: Int = 0
+    var todayComplete: Bool = true
+    var latestContributions: [Int] = []
+    var allContributions: [ContributionDay] = []
+    var name: String = ""
+    var avatarUrl: String = ""
 }
 
 class ContributionManager {
@@ -49,7 +54,7 @@ class ContributionManager {
         if githubUsername == "" {
             return nil
         }
-        let url = URL(string: "https://ckc-management-staging.herokuapp.com/api/streak_tracker/?githubUsername=\(githubUsername)")!
+        let url = URL(string: "https://git-streak-tracker.herokuapp.com/api/contributions/\(githubUsername)")!
         var data: Data?
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -65,15 +70,22 @@ class ContributionManager {
         
         do {
             let todo = try JSONDecoder().decode(ResponseData.self, from: successData)
-            print("x")
             return todo
         } catch {
             return nil
         }
     }
 
-    func getContributions(_ githubUsername: String) -> ContributionData? {
-        guard let contributionData = fetchContributions(githubUsername) else { return nil }
+    func getContributions(_ githubUsername: String) -> ContributionData {
+        guard let contributionData = fetchContributions(githubUsername) else {
+            return ContributionData(
+                streakLength: 0,
+                todayComplete: false,
+                latestContributions: [],
+                allContributions: [],
+                name: ""
+            )
+        }
         var currentDateTime = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -83,6 +95,7 @@ class ContributionManager {
         var streakBroken = false
         var todayComplete = false
         var latestContributions: [Int] = []
+        var allContributions: [ContributionDay] = []
         var contributionCollectionCounter = 0
         contributionData.data.user.contributionsCollection.contributionCalendar.weeks.reversed().forEach { week in
             week.contributionDays.reversed().forEach { day in
@@ -106,13 +119,21 @@ class ContributionManager {
                     latestContributions.append(day.contributionCount)
                     contributionCollectionCounter -= 1
                 }
+                allContributions.append(ContributionDay(
+                    contributionCount: day.contributionCount,
+                    weekday: day.weekday,
+                    date: day.date
+                ))
             }
         }
         
         return ContributionData(
             streakLength: streakLength,
             todayComplete: todayComplete,
-            latestContributions: latestContributions.reversed()
+            latestContributions: latestContributions.reversed(),
+            allContributions: allContributions.reversed().suffix(126),
+            name: contributionData.data.user.name,
+            avatarUrl: contributionData.data.user.avatarUrl
         )
     }
 }

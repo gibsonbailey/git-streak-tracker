@@ -10,27 +10,20 @@ import SwiftUI
 import WidgetKit
 
 struct SettingsView: View {
-    @State private var githubUsername: String = ""
+    @State private var inputValue: String = ""
     @State private var githubUsernameDisplayed: String = ""
-    let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
-    let manager = FileManager.default
-    
-    private func storeGithubUsername() {
-        manager.createFile(
-            atPath: storeURL.path,
-            contents: githubUsername.data(using: .utf8)
-        )
-        WidgetCenter.shared.reloadAllTimelines()
-        githubUsernameDisplayed = githubUsername
+    @EnvironmentObject private var userStore: UserStore
+//    @EnvironmentObject private var userInfo: UserInfo
+
+    func storeUsername() {
+        userStore.username = inputValue
+//        userInfo.username = userInfo.storeGithubUsername(githubUsername: inputValue)
+//        WidgetCenter.shared.reloadAllTimelines()
+//        githubUsernameDisplayed = userInfo.username
     }
     
-    private func loadGithubUsername() {
-        if manager.fileExists(atPath: storeURL.path) {
-            if let data = manager.contents(atPath: storeURL.path) {
-                githubUsername = String(decoding: data, as: UTF8.self)
-                githubUsernameDisplayed = githubUsername
-            }
-        }
+    func loadUsername() {
+//        githubUsernameDisplayed = userInfo.username
     }
     
     
@@ -39,31 +32,31 @@ struct SettingsView: View {
             VStack {
                 Form {
                     Section {
-                        TextField("Github Username", text: $githubUsername)
+                        TextField("Github Username", text: $inputValue)
+                    }
+                    if userStore.username != "" {
+                        Text("Username set to: " + userStore.username)
                     }
                 }
-                if githubUsernameDisplayed != "" {
-                    Text("Username set to \(githubUsernameDisplayed). Check your widget!")
-                }
+                
                 Button(action: {
-                    storeGithubUsername()
+                    storeUsername()
                 }, label: {
                     Text("Save")
                         .textInputAutocapitalization(.never)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                        .frame(width: 200, height: 20, alignment: .center)
-                        .padding(.top, 24)
+                        .frame(width: 200, height: 60, alignment: .center)
                         .fontWeight(.bold)
                         .background(.blue)
                         .foregroundColor(.white)
                         .cornerRadius(8)
-                        .disabled(githubUsername == "")
+                        .disabled(inputValue == "")
                 })
             }
             .frame(width: bounds.size.width, height: bounds.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//            .background(.green)
         }
-        .background(Color.blue)
 //        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
 }
@@ -72,5 +65,6 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(UserStore(username: "", contributionData: ContributionData()))
     }
 }
