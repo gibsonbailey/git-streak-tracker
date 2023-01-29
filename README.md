@@ -20,10 +20,10 @@ Follow [these instructions]() to access this feature.
   <img src="https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey#1">
 </p>
 
-## Widgets
+## iOS Widgets
 Download our [iOS App]() to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
 
-<p float="left">
+<p align="center">
   <img src="assets/widget.png" width="200">
   <img src="assets/widget_small.png" width="95">
 </p>
