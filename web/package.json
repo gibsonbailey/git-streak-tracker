@@ -9,17 +9,19 @@
     "start": "next start -p $PORT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "cacheDirectories": [".nuxt"],
+  "cacheDirectories": [
+    ".nuxt"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@next/font": "^13.1.5",
+    "ejs": "^3.1.8",
     "eslint-config-next": "^13.1.5",
     "next": "^13.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "text-svg": "^1.0.4"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "18.11.18",
