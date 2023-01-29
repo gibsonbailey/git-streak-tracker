@@ -12,6 +12,7 @@ struct Git_Streak_TrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(UserStore(username: "", contributionData: ContributionData()))
         }
     }
 }

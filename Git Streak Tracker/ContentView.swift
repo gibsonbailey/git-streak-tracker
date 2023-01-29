@@ -7,65 +7,93 @@
 
 import SwiftUI
 import WidgetKit
+import SwiftUIFontIcon
 
 struct ContentView: View {
-    @State private var githubUsername: String = ""
-    @State private var githubUsernameDisplayed: String = ""
-    let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
-    let manager = FileManager.default
+    @EnvironmentObject private var userStore: UserStore
+    @State private var selectedTab = 0
+    @State private var slide = true // for the slide effect when swapping tabs by clicking buttons
     
-    private func storeGithubUsername() {
-        manager.createFile(
-            atPath: storeURL.path,
-            contents: githubUsername.data(using: .utf8)
-        )
-        WidgetCenter.shared.reloadAllTimelines()
-        githubUsernameDisplayed = githubUsername
+    func switchTab(tab: Int) {
+        // Go to screen
+        selectedTab = tab
+        slide = !slide
     }
     
-    private func loadGithubUsername() {
-        if manager.fileExists(atPath: storeURL.path) {
-            if let data = manager.contents(atPath: storeURL.path) {
-                githubUsername = String(decoding: data, as: UTF8.self)
-                githubUsernameDisplayed = githubUsername
-            }
+    func onAppear(){
+        if !userStore.username.isEmpty {
+            userStore.username = userStore.username // triggers an update
+        } else {
+            selectedTab = 1 // if no username exists in storage, send them to settings page
         }
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Form {
-                    Section {
-                        TextField("Github Username", text: $githubUsername)
-                    }
+        ZStack {
+            TabView(selection: $selectedTab) {
+                VStack {
+                    ProfileOverviewView()
                 }
-                if githubUsernameDisplayed != "" {
-                    Text("Username set to \(githubUsernameDisplayed). Check your widget!")
+                .tag(0)
+                VStack {
+                    SettingsView()
                 }
-                Button(action: {
-                    storeGithubUsername()
-                }, label: {
-                    Text("Save")
-                        .textInputAutocapitalization(.never)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                        .frame(width: 200, height: 50, alignment: .center)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .disabled(githubUsername == "")
-                })
+                .tag(1)
             }
-            .navigationTitle("Github Streak Tracker")
-        }.onAppear(perform: {
-            loadGithubUsername()
-        })
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+            .animation(.easeInOut, value: slide) // 2
+            
+            if !userStore.username.isEmpty {
+                HStack {
+                    
+                    Spacer()
+                    
+                    FontIcon.button(
+                        .materialIcon(code: .person),
+                        action: {
+                            switchTab(tab:0)
+                        },
+                        padding: 0,
+                        fontsize: 45,
+                        color: selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                    )
+                    .shadow(color: selectedTab == 0 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    
+                    Spacer()
+                    Spacer()
+                    
+                    FontIcon.button(
+                        .ionicon(code: .ios_settings),
+                        action: {
+                            switchTab(tab:1)
+                        },
+                        padding: 0,
+                        fontsize: 45,
+                        color: selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                    )
+                    .shadow(color: selectedTab == 1 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    
+                    Spacer()
+                    // When we wanna animate this all pretty like the designs, watch this: https://www.youtube.com/watch?v=lzmKrJCuxwM&t=221s&ab_channel=Kavsoft
+                    
+                }
+                .ignoresSafeArea()
+                .frame(width: 135)
+                .padding(20)
+                .background(ColorPallete.darkGreen)
+                .cornerRadius(20)
+                .position(x:200, y: 700)
+            }
+        }
+        .ignoresSafeArea()
+        .onAppear(perform: onAppear)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(UserStore(username: "", contributionData: ContributionData()))
     }
 }

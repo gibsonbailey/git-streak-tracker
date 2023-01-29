@@ -36,29 +36,13 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
         
-        let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsername.txt")
-        let manager = FileManager.default
-        
-        var githubUsername = ""
-        if manager.fileExists(atPath: storeURL.path) {
-            if let data = manager.contents(atPath: storeURL.path) {
-                githubUsername = String(decoding: data, as: UTF8.self)
-            }
-        }
+        var githubUsername = loadGithubUsername() // gets username from GithubStore
         
         let contributionManager = ContributionManager()
-        if let contributions = contributionManager.getContributions(githubUsername) {
+        let contributions = contributionManager.getContributions(githubUsername)
+        if  contributions.allContributions.count != 0 {
             // Generate a timeline consisting of five entries an hour apart, starting from the current date.
             let currentDate = Date()
-            //        for hourOffset in 0 ..< 1 {
-            //            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            //            let entry = StreakEntry(
-            //                date: entryDate,
-            //                days: hourOffset,
-            //                todayComplete: false,
-            //                configuration: configuration
-            //            )
-            //            entries.append(
             entries.append(StreakEntry(
                 date: currentDate,
                 days: contributions.streakLength,
@@ -180,6 +164,7 @@ struct Git_Streak_Tracker_Small_Widget_View : View {
 }
 
 struct Git_Streak_Tracker_Medium_Widget_View : View {
+    
     var entry: Provider.Entry
     
     let flameScale = 0.85
@@ -251,8 +236,10 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
         switch family {
         case .systemSmall:
             Git_Streak_Tracker_Small_Widget_View(entry: entry)
+                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         default:
             Git_Streak_Tracker_Medium_Widget_View(entry: entry)
+                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         }
 
     }
