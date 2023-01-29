@@ -1,0 +1,101 @@
+<style>
+    :root {
+        --text-color: white;
+        --background-color: black;
+        --ones-digit: <%=onesPlace %>;
+        --tens-digit: <%=tensPlace %>;
+        --hundreds-digit: <%=hundredsPlace %>;
+    }
+
+    #Digits {
+        /* Use a gradient */
+        fill: var(--background-color);
+    }
+
+    #digit1,
+    #digit10,
+    #digit100 {
+        fill: var(--text-color);
+        animation-fill-mode: forwards;
+        animation-duration: 2s;
+    }
+
+    #DAYS {
+        animation-fill-mode: forwards;
+        animation-duration: 2.5s;
+        animation-name: slideIn;
+    }
+
+    #Flame {
+        transform-origin: 720px 190px;
+        animation-duration: 1.5s;
+        animation-name: pulseShadow;
+        animation-direction: alternate;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    #digit1 {
+        animation-name: slideIn1;
+    }
+
+    #digit10 {
+        animation-name: slideIn10;
+    }
+
+    #digit100 {
+        animation-name: slideIn100;
+    }
+
+    @keyframes pulseShadow {
+        0% {
+            filter: drop-shadow(0 0 10px rgb(0, 255, 0));
+            transform: scale(1);
+        }
+
+        100% {
+            filter: drop-shadow(0 0 25px rgb(0, 255, 0));
+            transform: scale(1.03);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn1 {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(calc(-3000% + var(--ones-digit) * -100% + 10px));
+        }
+    }
+
+    @keyframes slideIn10 {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(calc(-1000% + var(--tens-digit) * -100% + 3px));
+        }
+    }
+
+    @keyframes slideIn100 {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(calc(var(--hundreds-digit) * -100%));
+        }
+    }
+</style>
