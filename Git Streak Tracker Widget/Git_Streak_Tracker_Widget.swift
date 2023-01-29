@@ -186,7 +186,7 @@ struct Git_Streak_Tracker_Medium_Widget_View : View {
                         HStack {
                             Spacer()
                             VStack(spacing: 8){
-                                Text("Contrubtions")
+                                Text("Contributions")
                                     .foregroundColor(.white)
                                     .fontWeight(.semibold)
                                     .frame(maxWidth: .infinity, alignment: .leading)
