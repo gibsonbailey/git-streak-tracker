@@ -16,7 +16,7 @@
 Copy and paste our special README image into your personal profile README to prominently display your streak on your profile.
 Follow [these instructions]() to access this feature.
 
-![SVG](https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey)
+![SVG](https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey#1)
 
 ## Widgets
 Download our [iOS App]() to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
