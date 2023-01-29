@@ -13,19 +13,10 @@ struct SettingsView: View {
     @State private var inputValue: String = ""
     @State private var githubUsernameDisplayed: String = ""
     @EnvironmentObject private var userStore: UserStore
-//    @EnvironmentObject private var userInfo: UserInfo
 
     func storeUsername() {
-        userStore.username = inputValue
-//        userInfo.username = userInfo.storeGithubUsername(githubUsername: inputValue)
-//        WidgetCenter.shared.reloadAllTimelines()
-//        githubUsernameDisplayed = userInfo.username
+        userStore.username = inputValue // everytime username changes, the contributions are requested,
     }
-    
-    func loadUsername() {
-//        githubUsernameDisplayed = userInfo.username
-    }
-    
     
     var body: some View {
         GeometryReader { bounds in
@@ -55,9 +46,7 @@ struct SettingsView: View {
                 })
             }
             .frame(width: bounds.size.width, height: bounds.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//            .background(.green)
         }
-//        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
 }
 

@@ -46,18 +46,34 @@ struct ContentView: View {
             
             if !userStore.username.isEmpty {
                 HStack {
+                    
                     Spacer()
-                    FontIcon.button(.materialIcon(code: .person), action: {
-                        switchTab(tab:0)
-                    }, padding: 0, fontsize: 45, color: selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite)
+                    
+                    FontIcon.button(
+                        .materialIcon(code: .person),
+                        action: {
+                            switchTab(tab:0)
+                        },
+                        padding: 0,
+                        fontsize: 45,
+                        color: selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                    )
                     .shadow(color: selectedTab == 0 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    
                     Spacer()
                     Spacer()
-                    FontIcon.button(.ionicon(code: .ios_settings), action: {
-                        switchTab(tab:1)
-                        
-                    }, padding: 0, fontsize: 45, color: selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite)
+                    
+                    FontIcon.button(
+                        .ionicon(code: .ios_settings),
+                        action: {
+                            switchTab(tab:1)
+                        },
+                        padding: 0,
+                        fontsize: 45,
+                        color: selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                    )
                     .shadow(color: selectedTab == 1 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    
                     Spacer()
                     // When we wanna animate this all pretty like the designs, watch this: https://www.youtube.com/watch?v=lzmKrJCuxwM&t=221s&ab_channel=Kavsoft
                     

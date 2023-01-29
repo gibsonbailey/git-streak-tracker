@@ -10,6 +10,7 @@ import SwiftUI
 import UIKit
 
 func getMatrixValue(column: Int, row: Int) -> Int {
+    // this tells us what index of the contibutions array cooresponds to the square located at <column>,<row>
     let number_of_rows = 7
     return (column * number_of_rows) + row
 }
@@ -23,11 +24,14 @@ func getSquareColor(contributionData: ContributionData, column: Int, row: Int) -
     }
     
     if contributionData.allContributions.count == 0 {
+        // If not contributions exist atm
         return (ColorPallete.midGray, ColorPallete.lightGray)
     }
     else if index >= contributionData.allContributions.count - contributionData.streakLength{
+        // streak zone
         return (ColorPallete.lightRed, ColorPallete.midRed)
     } else {
+        // normal zone
        return (
         count > 0 ? ColorPallete.lighterGreen : ColorPallete.midGray,
         count > 0 ? ColorPallete.lightGreen : ColorPallete.lightGray
