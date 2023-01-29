@@ -17,7 +17,7 @@ Copy and paste our special README image into your personal profile README to pro
 Follow [these instructions]() to access this feature.
 
 <p align="center">
-  <img src="https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey#1">
+  <img src="https://git-streak-tracker.herokuapp.com/api/markdown_image/gibsonbailey#1" width="800">
 </p>
 
 ## iOS Widgets
