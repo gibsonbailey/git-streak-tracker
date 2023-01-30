@@ -14,8 +14,13 @@ struct SettingsView: View {
     @EnvironmentObject private var userStore: UserStore
     @State private var inputValue: String = ""
     @State private var githubUsernameDisplayed: String = ""
-
+    @State private var isEditing = false
+    
     let debouncer = Debouncer(delay: 0.5)
+    
+    func loadInputField() {
+        inputValue = userStore.username
+    }
     
     func storeUsername() {
         userStore.username = inputValue // everytime username changes, the contributions are requested
@@ -32,7 +37,7 @@ struct SettingsView: View {
                     Text("username")
                         .font(.system(size: 25))
                         .foregroundColor(.white)
-                    Text("In return, we’ll help you maintain your GitHub contributions streak and take your profile to the next level.")
+                    Text("In return, we’ll help you maintain your GitHub contribution streak and take your profile to the next level.")
                         .opacity(0.6)
                         .font(.system(size: 12))
                         .foregroundColor(.white)
@@ -41,26 +46,35 @@ struct SettingsView: View {
                 .frame(width: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 Section {
                     ZStack {
-                        TextField("", text: $inputValue)
-                            .foregroundColor(.white)
-                            .frame(height: 75)
-                            .padding([.bottom], -20)
-                            .padding([.horizontal], 8)
-                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(
-                                inputValue.isEmpty ? .clear : ColorPallete.highlightGreen
-                            ))
-                            .background(ColorPallete.midGreen)
-                            .cornerRadius(6)
-                            .padding([.horizontal], 24)
-                            .shadow(color: !inputValue.isEmpty ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
-                            .autocorrectionDisabled()
-                            .autocapitalization(.none)
-                            .onChange(of: inputValue) { value in
-                                self.debouncer.renewInterval {
-                                    storeUsername()
-                                }
+                        TextField("", text: $inputValue, onEditingChanged: { editing in
+                            DispatchQueue.main.async {
+                                isEditing = editing
                             }
-                        
+                        })
+                        .foregroundColor(.white)
+                        .frame(height: 75)
+                        .padding([.bottom], -20)
+                        .padding([.horizontal], 8)
+                        .overlay(RoundedRectangle(cornerRadius: 6).stroke(
+                            isEditing ? ColorPallete.highlightGreen : .clear
+                        ))
+                        .background(ColorPallete.midGreen)
+                        .cornerRadius(6)
+                        .padding([.horizontal], 24)
+                        .shadow(color: isEditing ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                        .autocorrectionDisabled()
+                        .autocapitalization(.none)
+                        .onChange(of: inputValue) { value in
+                            self.debouncer.renewInterval {
+                                storeUsername()
+                            }
+                        }
+                        .onAppear {
+                            loadInputField()
+                        }
+                 
+                            
+                            
                         HStack {
                             Text("GitHub Username")
                                 .foregroundColor(ColorPallete.lightestGreen)
@@ -82,12 +96,13 @@ struct SettingsView: View {
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.top, 10)
-                
+
                 if userStore.username != "" {
                     Text("Username set to: " + userStore.username)
                 }
             }
             .padding(20)
+            .padding(.bottom, 200)
             .frame(width: bounds.size.width, height: bounds.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .background(Gradient(colors: [ColorPallete.darkerGreen, ColorPallete.darkGreen]))
         }
