@@ -54,7 +54,9 @@ class ContributionManager {
         if githubUsername == "" {
             return nil
         }
-        let url = URL(string: "https://git-streak-tracker.herokuapp.com/api/contributions/\(githubUsername)")!
+        guard let url = URL(string: "https://git-streak-tracker.herokuapp.com/api/contributions/\(githubUsername)") else {
+            return nil
+        }
         var data: Data?
         let semaphore = DispatchSemaphore(value: 0)
         
