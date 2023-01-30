@@ -13,7 +13,6 @@ import SwiftUIFontIcon
 struct SettingsView: View {
     @EnvironmentObject private var userStore: UserStore
     @State private var inputValue: String = ""
-    @State private var githubUsernameDisplayed: String = ""
     @State private var isEditing = false
     
     let debouncer = Debouncer(delay: 0.5)
@@ -97,9 +96,9 @@ struct SettingsView: View {
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.top, 10)
 
-                if userStore.username != "" {
-                    Text("Username set to: " + userStore.username)
-                }
+//                if userStore.username != "" {
+//                    Text("Username set to: " + userStore.username)
+//                }
             }
             .padding(20)
             .padding(.bottom, 200)
