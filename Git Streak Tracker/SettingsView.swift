@@ -26,6 +26,13 @@ struct SettingsView: View {
         WidgetCenter.shared.reloadAllTimelines()
     }
     
+    func getShadeColor() -> Color{
+        if userStore.contributionData.error {
+            return ColorPallete.midRed
+        }
+        return isEditing ? ColorPallete.highlightGreen : .clear
+    }
+    
     var body: some View {
         GeometryReader { bounds in
             VStack {
@@ -55,12 +62,12 @@ struct SettingsView: View {
                         .padding([.bottom], -20)
                         .padding([.horizontal], 8)
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(
-                            isEditing ? ColorPallete.highlightGreen : .clear
+                            getShadeColor()
                         ))
-                        .background(ColorPallete.midGreen)
+                        .background(userStore.contributionData.error ? ColorPallete.darkRed : ColorPallete.midGreen)
                         .cornerRadius(6)
                         .padding([.horizontal], 24)
-                        .shadow(color: isEditing ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                        .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
                         .onChange(of: inputValue) { value in
@@ -79,13 +86,15 @@ struct SettingsView: View {
                                 .foregroundColor(ColorPallete.lightestGreen)
                                 .font(.system(size: 14))
                             if userStore.fetching {
-                                SpinnerCircle()
-                                    .offset(x: -2, y: 1)
-                            } else {
+                                SpinnerCircle(
+                                    color: userStore.contributionData.error ? ColorPallete.midRed : ColorPallete.highlightGreen
+                                )
+                                .offset(x: -2, y: 1)
+                            }else  {
                                 FontIcon.text(
-                                    .ionicon(code: .md_checkmark_circle),
+                                    .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
-                                    color: ColorPallete.highlightGreen
+                                    color: userStore.username.isEmpty ? .clear : userStore.contributionData.error  ? ColorPallete.midRed : ColorPallete.highlightGreen
                                 )
                                 .offset(x: -4, y: 1)
                             }
@@ -95,10 +104,6 @@ struct SettingsView: View {
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.top, 10)
-
-//                if userStore.username != "" {
-//                    Text("Username set to: " + userStore.username)
-//                }
             }
             .padding(20)
             .padding(.bottom, 200)
@@ -120,7 +125,7 @@ struct SettingsView_Previews: PreviewProvider {
 struct SpinnerCircle: View {
     @State var spinnerStart: CGFloat = 0.0
     @State var spinnerEnd: CGFloat = 0.0
-    var color: Color = .green
+    var color: Color = ColorPallete.highlightGreen
     var lineWidth: CGFloat = 1
     var width: CGFloat = 10
     var height: CGFloat = 10

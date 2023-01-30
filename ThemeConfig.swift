@@ -78,4 +78,9 @@ struct ColorPallete {
         blue: 0.0 / 255.0
     )
     
+    static let darkRed = Color(
+        red: 21.0 / 255.0,
+        green: 2.0 / 255.0,
+        blue: 9.0 / 255.0
+    )
 }

@@ -47,6 +47,7 @@ struct ContributionData {
     var allContributions: [ContributionDay] = []
     var name: String = ""
     var avatarUrl: String = ""
+    var error: Bool = false
 }
 
 class ContributionManager {
@@ -85,7 +86,8 @@ class ContributionManager {
                 todayComplete: false,
                 latestContributions: [],
                 allContributions: [],
-                name: ""
+                name: "",
+                error: true
             )
         }
         var currentDateTime = Date()
