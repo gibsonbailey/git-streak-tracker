@@ -76,6 +76,12 @@ func createBlackAndWhiteImage(inputImage: UIImage) -> UIImage? {
     return nil
 }
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 struct ProfileOverviewView: View {
     @EnvironmentObject private var userStore: UserStore
     
@@ -184,6 +190,7 @@ struct ProfileOverviewView: View {
             .frame(width: bounds.size.width, height: bounds.size.height, alignment: .top)
             .background(Gradient(colors: [ColorPallete.darkerGreen, ColorPallete.darkGreen]))
         }
+        .onAppear(perform: hideKeyboard)
     }
 }
 

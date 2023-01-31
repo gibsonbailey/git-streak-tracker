@@ -90,7 +90,8 @@ struct SettingsView: View {
                                     color: userStore.contributionData.error ? ColorPallete.midRed : ColorPallete.highlightGreen
                                 )
                                 .offset(x: -2, y: 1)
-                            }else  {
+                            }
+                            else  {
                                 FontIcon.text(
                                     .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
@@ -100,6 +101,7 @@ struct SettingsView: View {
                             }
 
                         }.offset(x: -55, y: -16)
+
                     }
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
