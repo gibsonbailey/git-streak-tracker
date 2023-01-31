@@ -14,12 +14,18 @@ let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsernam
 
 class UserStore: ObservableObject {
     @Published var contributionData: ContributionData
+    @Published var fetching: Bool = false
     @Published var username: String {
         didSet {
             // This fires every time username changes
             storeGithubUsername(githubUsername: username)
-            self.contributionData = contributionManager.getContributions(username)
-
+            self.fetching = true
+            DispatchQueue.global().async {
+                self.contributionData = contributionManager.getContributions(self.username)
+                DispatchQueue.main.async {
+                    self.fetching = false
+                }
+            }
         }
     }
     

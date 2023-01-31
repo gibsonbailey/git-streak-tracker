@@ -47,6 +47,7 @@ struct ContributionData {
     var allContributions: [ContributionDay] = []
     var name: String = ""
     var avatarUrl: String = ""
+    var error: Bool = false
 }
 
 class ContributionManager {
@@ -54,7 +55,9 @@ class ContributionManager {
         if githubUsername == "" {
             return nil
         }
-        let url = URL(string: "https://git-streak-tracker.herokuapp.com/api/contributions/\(githubUsername)")!
+        guard let url = URL(string: "https://git-streak-tracker.herokuapp.com/api/contributions/\(githubUsername)") else {
+            return nil
+        }
         var data: Data?
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -83,7 +86,8 @@ class ContributionManager {
                 todayComplete: false,
                 latestContributions: [],
                 allContributions: [],
-                name: ""
+                name: "",
+                error: true
             )
         }
         var currentDateTime = Date()
