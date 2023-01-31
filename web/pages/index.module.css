@@ -15,3 +15,21 @@
 .backgroundImage {
     opacity: 0.1;
 }
+
+.iphoneContainer {
+    position: relative;
+    width: 240px;
+    height: 384px;
+    /* background-color: white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileScreen {
+    position: relative;
+    z-index: 2;
+    width: 170px !important;
+    height: 367px !important;
+    border-radius: 23px;
+}
