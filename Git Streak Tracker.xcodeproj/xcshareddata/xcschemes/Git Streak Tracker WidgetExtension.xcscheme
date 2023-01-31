@@ -57,8 +57,18 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D4540B3D2969440100DD02DB"
+            BuildableName = "Git Streak Tracker WidgetExtension.appex"
+            BlueprintName = "Git Streak Tracker WidgetExtension"
+            ReferencedContainer = "container:Git Streak Tracker.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4540B0C296943E000DD02DB"
@@ -66,7 +76,7 @@
             BlueprintName = "Git Streak Tracker"
             ReferencedContainer = "container:Git Streak Tracker.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCWidgetKind"
