@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var inputValue: String = ""
     @State private var isEditing = false
     
-    let debouncer = Debouncer(delay: 0.5)
+    let debouncer = Debouncer(delay: 0.7)
     
     func loadInputField() {
         inputValue = userStore.username
@@ -90,7 +90,8 @@ struct SettingsView: View {
                                     color: userStore.contributionData.error ? ColorPallete.midRed : ColorPallete.highlightGreen
                                 )
                                 .offset(x: -2, y: 1)
-                            }else  {
+                            }
+                            else  {
                                 FontIcon.text(
                                     .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
@@ -100,6 +101,16 @@ struct SettingsView: View {
                             }
 
                         }.offset(x: -55, y: -16)
+                        
+//                        Button(action: storeUsername, label: {
+//                            Text("DONE")
+//                                .foregroundColor(.white)
+//                                .font(.system(size: 12))
+//                        })
+//                        .padding(8)
+//                        .border(.black, width: 1)
+//                        .cornerRadius(2)
+//                        .offset(x: 85, y: 0)
                     }
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
