@@ -13,8 +13,7 @@ export const HomePage = () => (
     <Image
       alt='fire'
       src='/copper.svg'
-      layout='fill'
-      objectFit='contain'
+      fill
       className={styles.backgroundImage}
     />
   </>
