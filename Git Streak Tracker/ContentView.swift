@@ -9,8 +9,6 @@ import SwiftUI
 import WidgetKit
 import SwiftUIFontIcon
 
-
-
 struct ContentView: View {
     @EnvironmentObject private var userStore: UserStore
     @State private var selectedTab = 0

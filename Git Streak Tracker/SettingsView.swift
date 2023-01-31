@@ -101,16 +101,7 @@ struct SettingsView: View {
                             }
 
                         }.offset(x: -55, y: -16)
-                        
-//                        Button(action: storeUsername, label: {
-//                            Text("DONE")
-//                                .foregroundColor(.white)
-//                                .font(.system(size: 12))
-//                        })
-//                        .padding(8)
-//                        .border(.black, width: 1)
-//                        .cornerRadius(2)
-//                        .offset(x: 85, y: 0)
+
                     }
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
