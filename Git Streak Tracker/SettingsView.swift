@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var inputValue: String = ""
     @State private var isEditing = false
     
-    let debouncer = Debouncer(delay: 0.7)
+    let debouncer = Debouncer(delay: 0.5)
     
     func loadInputField() {
         inputValue = userStore.username
