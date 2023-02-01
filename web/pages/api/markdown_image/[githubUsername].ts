@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     })
 
     res.setHeader('Content-Type', 'image/svg+xml')
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.setHeader('cache-control', 'no-cache, no-store, must-revalidate')
     res.end(svgData)
 }
 
