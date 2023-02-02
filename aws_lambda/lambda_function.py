@@ -1,9 +1,12 @@
+import os
 import boto3
 import tempfile
 import gzip
 import shutil
 import csv
+from collections import Counter
 
+import psycopg2
 
 HEADER_PREFIX = '#Fields: '
 
@@ -40,20 +43,48 @@ def lambda_handler(event, context):
             f.writelines(data)
             f.seek(0)
             reader = csv.DictReader(f, delimiter='\t')
-            for row in reader:
-                print(row['date'], row['cs-uri-stem'])
+            username_counts = Counter([
+                row['cs-uri-stem'][1:]
+                for row in reader if row['cs-uri-stem'][1:].isalnum()
+            ])
+            print(username_counts)
 
-        # Bulk upsert example that works:
-        #
-        # INSERT INTO users (username, view_count) VALUES
-        #     ('gibsonbailey', 1),
-        #     ('sw00d', 3)
-        # ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;
+            query = 'INSERT INTO users(username, view_count) VALUES\n'
+
+            # Only make query if there is data
+            if len(username_counts):
+                for username, view_count in username_counts.items():
+                    query += f"    ('{username}', {view_count}),\n"
+
+                # Remove trailing comma from last values entry
+                query = query[:-2] + '\n'
+
+            query += 'ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;'
+            print('Query:')
+            print(query)
+            conn = psycopg2.connect(
+                dbname=os.getenv('DB_NAME'),
+                host=os.getenv('DB_HOST'),
+                user=os.getenv('DB_USERNAME'),
+                password=os.getenv('DB_PASSWORD'),
+                port=os.getenv('DB_PORT'),
+            )
+            cursor = conn.cursor()
+            cursor.execute(query)
+            conn.commit()
+
+            # Bulk upsert example that works:
+            #
+            # INSERT INTO users (username, view_count) VALUES
+            #     ('gibsonbailey', 1),
+            #     ('sw00d', 3)
+            # ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;
 
     except Exception as e:
         print('Bad news! Failure!')
         print(e)
 
+    # TODO: Find out if the return value of this function matters at all.
     return {
         'statusCode': 200,
         'body': "Hello!"
