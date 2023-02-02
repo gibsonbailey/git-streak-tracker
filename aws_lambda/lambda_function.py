@@ -23,16 +23,19 @@ def lambda_handler(event, context):
         s3 = boto3.client('s3')
         s3.download_file(bucket, object_key, filename_gz)
 
+        # Unzip file
         with gzip.open(filename_gz, 'rb') as f_in:
             with open(filename, 'wb+') as f_out:
                 shutil.copyfileobj(f_in, f_out)
 
+        # Prepare file for csv.DictReader
         with open(filename, 'r') as f:
             data = f.readlines()
             data = data[1:]  # Remove first line. Does not contain data.
             # Remove prefix to the list of fields on the header line.
             data[0] = data[0].replace(HEADER_PREFIX, '').replace(' ', '\t')
 
+        # Extract GitHub usernames and their counts from file
         with open(filename, 'w+') as f:
             f.writelines(data)
             f.seek(0)
