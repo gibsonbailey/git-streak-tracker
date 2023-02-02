@@ -9,6 +9,9 @@ The web server is configured to read view counts (per GitHub username) from the 
 ### Building
 When we update the lambda function code on AWS, we need to do it by sending a zip file. This is because we have python dependencies, e.g. psycopg.
 
+#### Prerequisites:
+* Install and configure the aws cli.
+
 In order to build, follow this process:
 1. Make sure you've created a python virtual environment in the `aws_lambda/venv` directory.
 2. Activate the environment `source venv/bin/activate` and install the dependencies `pip install -r requirements.txt`.
