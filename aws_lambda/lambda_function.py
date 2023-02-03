@@ -47,51 +47,58 @@ def lambda_handler(event, context):
             # Remove prefix to the list of fields on the header line.
             data[0] = data[0].replace(HEADER_PREFIX, '').replace(' ', '\t')
 
+        # This is the beginning portion of our query. It is fixed.
+        query = 'INSERT INTO users(username, view_count) VALUES\n'
+
         # Extract GitHub usernames and their counts from file
         with open(filename, 'w+') as f:
             f.writelines(data)
             f.seek(0)
             reader = csv.DictReader(f, delimiter='\t')
+
+            # Get the counts of each GitHub username.
+            # Filter out paths that are not alphanumeric (GH usernames are).
             username_counts = Counter([
                 row['cs-uri-stem'][1:]
                 for row in reader if row['cs-uri-stem'][1:].isalnum()
             ])
             print(username_counts)
 
-            query = 'INSERT INTO users(username, view_count) VALUES\n'
-
             # Only make query if there is data
-            if len(username_counts):
-                for username, view_count in username_counts.items():
-                    query += f"    ('{username}', {view_count}),\n"
+            if len(username_counts) == 0:
+                return
 
-                # Remove trailing comma from last values entry
-                query = query[:-2] + '\n'
+            # Add data to query as a list of tuples.
+            for username, view_count in username_counts.items():
+                query += f"    ('{username}', {view_count}),\n"
 
-            query += 'ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;'
-            print('Query:')
-            print(query)
+        # Remove trailing comma from last values entry
+        query = query[:-2] + '\n'
 
-            # Send new view counts to postgres using query that creates rows if they don't exist and increments rows
-            # that already exist by the view count aggregated earlier.
-            conn = psycopg2.connect(
-                dbname=os.getenv('DB_NAME'),
-                host=os.getenv('DB_HOST'),
-                user=os.getenv('DB_USERNAME'),
-                password=os.getenv('DB_PASSWORD'),
-                port=os.getenv('DB_PORT'),
-            )
-            cursor = conn.cursor()
-            cursor.execute(query)
-            cursor.close()
-            conn.commit()
+        query += 'ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;'
+        print('Query:')
+        print(query)
 
-            # Bulk upsert query example that works:
-            #
-            # INSERT INTO users (username, view_count) VALUES
-            #     ('gibsonbailey', 1),
-            #     ('sw00d', 3)
-            # ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;
+        # Send new view counts to postgres using a query that creates rows if they don't exist and increments rows
+        # that do exist.
+        conn = psycopg2.connect(
+            dbname=os.getenv('DB_NAME'),
+            host=os.getenv('DB_HOST'),
+            user=os.getenv('DB_USERNAME'),
+            password=os.getenv('DB_PASSWORD'),
+            port=os.getenv('DB_PORT'),
+        )
+        cursor = conn.cursor()
+        cursor.execute(query)
+        cursor.close()
+        conn.commit()
+
+        # Bulk upsert query example that works:
+        #
+        # INSERT INTO users (username, view_count) VALUES
+        #     ('gibsonbailey', 1),
+        #     ('sw00d', 3)
+        # ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;
 
     except Exception as e:
         print('Bad news! Failure!')
