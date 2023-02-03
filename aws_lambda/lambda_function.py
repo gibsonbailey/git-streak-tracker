@@ -8,10 +8,14 @@ from collections import Counter
 
 import psycopg2
 
+
 HEADER_PREFIX = '#Fields: '
 
 
 def lambda_handler(event, context):
+    """
+    This is triggered when an object gets created in the git-streak-tracker-logs bucket.
+    """
     bucket = event['Records'][0]['s3']['bucket']['name']
     object_key = event['Records'][0]['s3']['object']['key']
 
@@ -23,10 +27,15 @@ def lambda_handler(event, context):
         filename = f'{temp_dir.name}/logs.txt'
         filename_gz = f'{filename}.gz'
 
+        # This log file contains a tab-separated table of requests that happened on our cloudfront distribution.
+        # There is a column that shows the path, which we can extract a GitHub username from. This is how we count
+        # the views of each username.
+
+        # Download the file from s3 to this local filesystem
         s3 = boto3.client('s3')
         s3.download_file(bucket, object_key, filename_gz)
 
-        # Unzip file
+        # Unzip log file
         with gzip.open(filename_gz, 'rb') as f_in:
             with open(filename, 'wb+') as f_out:
                 shutil.copyfileobj(f_in, f_out)
@@ -62,6 +71,9 @@ def lambda_handler(event, context):
             query += 'ON CONFLICT (username) DO UPDATE SET view_count = users.view_count + EXCLUDED.view_count;'
             print('Query:')
             print(query)
+
+            # Send new view counts to postgres using query that creates rows if they don't exist and increments rows
+            # that already exist by the view count aggregated earlier.
             conn = psycopg2.connect(
                 dbname=os.getenv('DB_NAME'),
                 host=os.getenv('DB_HOST'),
@@ -74,7 +86,7 @@ def lambda_handler(event, context):
             cursor.close()
             conn.commit()
 
-            # Bulk upsert example that works:
+            # Bulk upsert query example that works:
             #
             # INSERT INTO users (username, view_count) VALUES
             #     ('gibsonbailey', 1),
@@ -84,9 +96,3 @@ def lambda_handler(event, context):
     except Exception as e:
         print('Bad news! Failure!')
         print(e)
-
-    # TODO: Find out if the return value of this function matters at all.
-    return {
-        'statusCode': 200,
-        'body': "Hello!"
-    }
