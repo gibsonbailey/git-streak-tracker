@@ -2,9 +2,9 @@
 We use AWS Lambda to count views of our cloudfront distribution.
 
 
-Cloudfront is configured to periodically gzip a log file that contains many requests and push it to a dedicated S3 bucket. This function will be triggered whenever an object is created in our logging bucket. The function will then aggregate the data and make one query to our postgres database to UPSERT the new data.
+Cloudfront is configured to periodically gzip a log file that contains many requests and push it to a dedicated S3 bucket. This function defined in `lambda_function.py` will be triggered whenever an object is created in our cloudfront logging bucket. The function will then aggregate the data and make one query to our postgres database to bulk UPSERT the new data.
 
-The web server is configured to read view counts (per GitHub username) from the same database.
+The web server (not on aws lambda) is configured to read view counts (per GitHub username) from the same database.
 
 
 ## Deploying changes to AWS Lambda
