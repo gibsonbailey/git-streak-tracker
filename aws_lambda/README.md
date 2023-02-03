@@ -10,7 +10,8 @@ The web server is configured to read view counts (per GitHub username) from the 
 ## Building
 When we update the lambda function code on AWS, we need to do it by sending a zip file. This is because we have python dependencies.
 
-The `psycopg2` directory comes from [this repo](https://github.com/jkehler/awslambda-psycopg2). It gets zipped up as a dependency.
+The `psycopg2` was custom built for the lambda environment that we deploy to (Python3.9). It was compiled to have ssl support. This directory gets zipped up
+as a dependency.
 
 #### Prerequisites:
 * Install and configure the aws cli.

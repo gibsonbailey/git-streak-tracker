@@ -71,6 +71,7 @@ def lambda_handler(event, context):
             )
             cursor = conn.cursor()
             cursor.execute(query)
+            cursor.close()
             conn.commit()
 
             # Bulk upsert example that works:
