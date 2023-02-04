@@ -24,7 +24,7 @@ Follow [these instructions]() to access this feature.
 Download our [iOS App]() to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
 
 <p align="center">
-  <img src="assets/widget.png" width="400">
+  <img src="assets/screenshot-large.jpeg" width="400">
   <img src="assets/widget_small.png" width="190">
 </p>
 
