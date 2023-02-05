@@ -11,21 +11,27 @@ import WidgetKit
 import SwiftUIFontIcon
 
 struct SettingsView: View {
+    var onContributionDataFetched: ((ContributionData) -> Void)? = nil
+    
     @EnvironmentObject private var userStore: UserStore
     @State private var inputValue: String = ""
     @State private var isEditing = false
     
-    let debouncer = Debouncer(delay: 0.5)
+    let debouncer = Debouncer(delay: 1.0)
     
     func loadInputField() {
         inputValue = userStore.username
     }
     
     func storeUsername() {
-        userStore.username = inputValue // everytime username changes, the contributions are requested
+        // everytime username changes, the contributions are requested
+        userStore.setUsername(
+            username: inputValue,
+            onComplete: onContributionDataFetched
+        )
         WidgetCenter.shared.reloadAllTimelines()
     }
-    
+    4
     func getShadeColor() -> Color{
         if userStore.contributionData.error {
             return ColorPallete.midRed

@@ -28,6 +28,13 @@ struct ContentView: View {
         }
     }
     
+    // Redirect to preview when the username is stored
+    func handleContributionDataFetched(contributionData: ContributionData) {
+        if (!contributionData.error) {
+            switchTab(tab: 0)
+        }
+    }
+    
     var body: some View {
         ZStack {
             TabView(selection: $selectedTab) {
@@ -36,7 +43,9 @@ struct ContentView: View {
                 }
                 .tag(0)
                 VStack {
-                    SettingsView()
+                    SettingsView(
+                        onContributionDataFetched: handleContributionDataFetched
+                    )
                 }
                 .tag(1)
             }
