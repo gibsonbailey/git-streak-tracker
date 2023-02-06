@@ -21,7 +21,7 @@ Follow [these instructions]() to access this feature.
 </p>
 
 ## iOS Widgets
-Download our [iOS App]() to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
+Download our [iOS App](https://apps.apple.com/us/app/git-streak-tracker/id1663708723) to place these widgets on your homescreen, so you can build impressive profile stats that employers seek out.
 
 <p align="center">
   <img src="assets/screenshot-large.jpeg" width="400">
