@@ -154,11 +154,11 @@ struct SettingsView: View {
                     Button(action: handleSaveUsernamePress) {
                         Text("Save Username")
                             .fontWeight(Font.Weight.bold)
+                            .frame(width: 272, height: 48)
+                            .foregroundColor(getSaveUsernameTextColor())
+                            .background(getSaveUsernameBg())
                     }
                     .disabled(!isUsernameInputValid())
-                    .frame(width: 272, height: 48)
-                    .foregroundColor(getSaveUsernameTextColor())
-                    .background(getSaveUsernameBg())
                     .cornerRadius(6)
                 }
                 .padding([.top], 40)
