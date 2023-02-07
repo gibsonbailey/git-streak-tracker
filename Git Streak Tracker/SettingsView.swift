@@ -22,7 +22,7 @@ struct SettingsView: View {
     func loadInputField() {
         inputValue = userStore.username
     }
-    
+        
     func storeUsername() {
         // everytime username changes, the contributions are requested
         userStore.setUsername(
@@ -31,7 +31,7 @@ struct SettingsView: View {
         )
         WidgetCenter.shared.reloadAllTimelines()
     }
-    4
+    
     func getShadeColor() -> Color{
         if userStore.contributionData.error {
             return ColorPallete.midRed
@@ -55,7 +55,7 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .padding([.top, .bottom], 10)
                 }
-                .frame(width: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 216, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 Section {
                     ZStack {
                         TextField("", text: $inputValue, onEditingChanged: { editing in
@@ -66,13 +66,13 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .frame(height: 75)
                         .padding([.bottom], -20)
-                        .padding([.horizontal], 8)
+                        .padding([.horizontal], 10)
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(
                             getShadeColor()
                         ))
                         .background(userStore.contributionData.error ? ColorPallete.darkRed : ColorPallete.midGreen)
                         .cornerRadius(6)
-                        .padding([.horizontal], 24)
+                        .padding([.horizontal], 14)
                         .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
@@ -106,12 +106,24 @@ struct SettingsView: View {
                                 .offset(x: -4, y: 1)
                             }
 
-                        }.offset(x: -55, y: -16)
+                        }.offset(x: -60, y: -16)
 
                     }
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.top, 10)
+                
+                HStack {
+                    Button(action: storeUsername) {
+                        Text("Save Username")
+                            .fontWeight(Font.Weight.bold)
+                    }
+                    .frame(width: 272, height: 48)
+                    .foregroundColor(ColorPallete.navLow)
+                    .background(ColorPallete.midGreen)
+                    .cornerRadius(6)
+                }
+                .padding([.top], 40)
             }
             .padding(20)
             .padding(.bottom, 200)

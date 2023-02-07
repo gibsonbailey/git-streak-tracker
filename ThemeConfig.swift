@@ -83,4 +83,10 @@ struct ColorPallete {
         green: 2.0 / 255.0,
         blue: 9.0 / 255.0
     )
+    
+    static let navLow = Color(
+        red: 199.0 / 255.0,
+        green: 199.0 / 255.0,
+        blue: 199.0 / 255.0
+    );
 }
