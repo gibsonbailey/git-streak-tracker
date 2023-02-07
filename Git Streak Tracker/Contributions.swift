@@ -48,7 +48,6 @@ struct ContributionData {
     var name: String = ""
     var avatarUrl: String = ""
     var error: Bool = false
-    var isEmpty: Bool = true
 }
 
 class ContributionManager {
@@ -138,8 +137,7 @@ class ContributionManager {
             latestContributions: latestContributions.reversed(),
             allContributions: allContributions.reversed().suffix(126),
             name: contributionData.data.user.name,
-            avatarUrl: contributionData.data.user.avatarUrl,
-            isEmpty: false
+            avatarUrl: contributionData.data.user.avatarUrl
         )
     }
 }
