@@ -10,21 +10,22 @@ import SwiftUI
 import WidgetKit
 import SwiftUIFontIcon
 
+
 struct SettingsView: View {
     var onContributionDataFetched: ((ContributionData) -> Void)? = nil
     
     @EnvironmentObject private var userStore: UserStore
     @State private var inputValue: String = ""
     @State private var isEditing = false
-    
-    let debouncer = Debouncer(delay: 1.0)
-    
+        
+    // Actions
     func loadInputField() {
         inputValue = userStore.username
     }
         
-    func storeUsername() {
+    func handleSaveUsernamePress() {
         // everytime username changes, the contributions are requested
+        inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
         userStore.setUsername(
             username: inputValue,
             onComplete: onContributionDataFetched
@@ -32,6 +33,7 @@ struct SettingsView: View {
         WidgetCenter.shared.reloadAllTimelines()
     }
     
+    // Computed
     func getShadeColor() -> Color{
         if userStore.contributionData.error {
             return ColorPallete.midRed
@@ -39,10 +41,35 @@ struct SettingsView: View {
         return isEditing ? ColorPallete.highlightGreen : .clear
     }
     
-    func isSaveDisabled() -> Bool {
-        return isEditing || inputValue == ""
+    func isUsernameInputValid() -> Bool {
+        return inputValue.trimmingCharacters(in: .whitespacesAndNewlines) != ""
     }
+    
+    func getSaveUsernameBg() -> LinearGradient {
+        if (!isUsernameInputValid()) {
+            return LinearGradient(
+                gradient: Gradient(colors: [ColorPallete.midGreen, ColorPallete.midGreen]),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        }
+        
+        return LinearGradient(
+            gradient: Gradient(colors: [ColorPallete.greenGradientStart, ColorPallete.greenGradientEnd]),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
 
+    }
+    
+    func getSaveUsernameTextColor() -> Color {
+        if (!isUsernameInputValid()) {
+            return ColorPallete.navLow;
+        }
+        
+        return .white
+    }
+    
     var body: some View {
         GeometryReader { bounds in
             VStack {
@@ -80,11 +107,6 @@ struct SettingsView: View {
                         .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
-                        .onChange(of: inputValue) { value in
-                            self.debouncer.renewInterval {
-                                storeUsername()
-                            }
-                        }
                         .onAppear {
                             loadInputField()
                         }
@@ -101,7 +123,7 @@ struct SettingsView: View {
                                 )
                                 .offset(x: -2, y: 1)
                             }
-                            else  {
+                            else {
                                 FontIcon.text(
                                     .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
@@ -118,14 +140,14 @@ struct SettingsView: View {
                 .padding(.top, 10)
                 
                 HStack {
-                    Button(action: storeUsername) {
+                    Button(action: handleSaveUsernamePress) {
                         Text("Save Username")
                             .fontWeight(Font.Weight.bold)
                     }
-                    .disabled(isSaveDisabled())
+                    .disabled(!isUsernameInputValid())
                     .frame(width: 272, height: 48)
-                    .foregroundColor(ColorPallete.navLow)
-                    .background(ColorPallete.midGreen)
+                    .foregroundColor(getSaveUsernameTextColor())
+                    .background(getSaveUsernameBg())
                     .cornerRadius(6)
                 }
                 .padding([.top], 40)
