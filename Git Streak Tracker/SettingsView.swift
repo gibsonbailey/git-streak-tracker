@@ -46,13 +46,8 @@ struct SettingsView: View {
     }
     
     func getSaveUsernameBg() -> LinearGradient {
-        let activeGradientColors = [
-            Color(red: 158 / 255, green: 232 / 255, blue: 0), // #9EE800
-            Color(red: 4 / 255, green: 233 / 255, blue: 0) // #04DF00
-        ];
-        
         let gradientColors = isUsernameInputValid()
-            ? activeGradientColors
+            ? [ColorPallete.greenGradientStart, ColorPallete.greenGradientEnd]
             : [ColorPallete.midGreen]
         
         return LinearGradient(
