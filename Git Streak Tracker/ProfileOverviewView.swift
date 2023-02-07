@@ -28,7 +28,7 @@ func getSquareColor(contributionData: ContributionData, column: Int, row: Int) -
         return (ColorPallete.midGray, ColorPallete.lightGray)
     }
    
-    else if index >= contributionData.allContributions.count - contributionData.streakLength{
+    else if index >= contributionData.allContributions.count - contributionData.streakLength - (contributionData.todayComplete ? 0 : 1) {
         // streak zone
         return (ColorPallete.lightRed, ColorPallete.midRed)
     }
