@@ -39,6 +39,10 @@ struct SettingsView: View {
         return isEditing ? ColorPallete.highlightGreen : .clear
     }
     
+    func isSaveDisabled() -> Bool {
+        return isEditing || inputValue == ""
+    }
+
     var body: some View {
         GeometryReader { bounds in
             VStack {
@@ -118,6 +122,7 @@ struct SettingsView: View {
                         Text("Save Username")
                             .fontWeight(Font.Weight.bold)
                     }
+                    .disabled(isSaveDisabled())
                     .frame(width: 272, height: 48)
                     .foregroundColor(ColorPallete.navLow)
                     .background(ColorPallete.midGreen)
