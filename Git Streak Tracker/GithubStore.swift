@@ -27,6 +27,7 @@ class UserStore: ObservableObject {
                     storeGithubUsername(githubUsername: username)
                 } else {
                     self.username = ""
+                    storeGithubUsername(githubUsername: "")
                 }
                 self.fetching = false
                 onComplete!(self.contributionData)
