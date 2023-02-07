@@ -59,7 +59,6 @@ struct SettingsView: View {
             startPoint: .leading,
             endPoint: .trailing
         )
-
     }
     
     func getSaveUsernameTextColor() -> Color {
@@ -68,6 +67,18 @@ struct SettingsView: View {
         }
         
         return .white
+    }
+    
+    func getSpinnerColor() -> Color {
+        if (userStore.contributionData.error) {
+            return ColorPallete.midRed
+        }
+        
+        if (userStore.username.isEmpty || isEditing) {
+            return .clear
+        }
+        
+        return ColorPallete.highlightGreen
     }
     
     var body: some View {
@@ -127,7 +138,7 @@ struct SettingsView: View {
                                 FontIcon.text(
                                     .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
-                                    color: userStore.username.isEmpty ? .clear : userStore.contributionData.error  ? ColorPallete.midRed : ColorPallete.highlightGreen
+                                    color: getSpinnerColor()
                                 )
                                 .offset(x: -4, y: 1)
                             }
