@@ -90,7 +90,5 @@ struct ColorPallete {
         blue: 199.0 / 255.0
     );
     
-    static let greenGradientStart = Color(red: 158 / 255, green: 232 / 255, blue: 0) // #9EE800
-    
-    static let greenGradientEnd = Color(red: 4 / 255, green: 233 / 255, blue: 0) // #04DF00
+    static let yellowGreen = Color(red: 158 / 255, green: 232 / 255, blue: 0) // #9EE800
 }

@@ -47,7 +47,7 @@ struct SettingsView: View {
     
     func getSaveUsernameBg() -> LinearGradient {
         let gradientColors = isUsernameInputValid()
-            ? [ColorPallete.greenGradientStart, ColorPallete.greenGradientEnd]
+            ? [ColorPallete.yellowGreen, ColorPallete.highlightGreen]
             : [ColorPallete.midGreen]
         
         return LinearGradient(
