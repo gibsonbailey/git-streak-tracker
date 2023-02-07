@@ -65,7 +65,7 @@ struct SettingsView: View {
         return .white
     }
     
-    func getSpinnerColor() -> Color {
+    func getIconColor() -> Color {
         if (userStore.contributionData.error) {
             return ColorPallete.midRed
         }
@@ -134,7 +134,7 @@ struct SettingsView: View {
                                 FontIcon.text(
                                     .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
-                                    color: getSpinnerColor()
+                                    color: getIconColor()
                                 )
                                 .offset(x: -4, y: 1)
                             }
