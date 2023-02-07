@@ -74,7 +74,7 @@ struct SettingsView: View {
             return ColorPallete.midRed
         }
         
-        if (userStore.username.isEmpty || isEditing) {
+        if (userStore.username.isEmpty || inputValue.isEmpty || userStore.username != inputValue) {
             return .clear
         }
         
