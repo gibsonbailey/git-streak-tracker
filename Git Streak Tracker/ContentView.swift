@@ -15,7 +15,7 @@ struct ContentView: View {
     
     func onAppear(){
         if !userStore.username.isEmpty {
-            userStore.username = userStore.username // triggers an update
+            userStore.setUsername(username: userStore.username) // triggers an update
         } else {
             viewStore.switchTab(tab: 1) // if no username exists in storage, send them to settings page
         }

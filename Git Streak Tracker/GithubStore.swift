@@ -24,8 +24,6 @@ class UserStore: ObservableObject {
             DispatchQueue.main.async {
                 if (!self.contributionData.error) {
                     self.username = username
-                } else {
-                    self.username = ""
                 }
                 self.fetching = false
             }

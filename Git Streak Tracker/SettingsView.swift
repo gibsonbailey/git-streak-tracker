@@ -63,7 +63,7 @@ struct SettingsView: View {
             return false
         }
         
-        return userStore.contributionData.error || userStore.fetching || inputValue != userStore.username
+        return userStore.contributionData.error || userStore.fetching || inputValue != userStore.username || inputValue == ""
     }
     
     func getSaveUsernameBg() -> LinearGradient {
