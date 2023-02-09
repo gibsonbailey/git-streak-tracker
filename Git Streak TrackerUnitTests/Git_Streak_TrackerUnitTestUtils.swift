@@ -37,7 +37,7 @@ final class Git_Streak_TrackerUnitTestUtils: XCTestCase {
 }
 
 final class Test_isGHUsername: XCTestCase {
-    func itChecksForValidLength() throws {
+    func testItChecksForValidLength() throws {
         let min = "1"
         let max = "123456789012345678901234567890123456789"
         let toLong = "1234567890123456789012345678901234567890"
@@ -49,7 +49,7 @@ final class Test_isGHUsername: XCTestCase {
         XCTAssertFalse(isValidGHUsername(uname: toShort))
     }
     
-    func itCannotStartWithADash() throws {
+    func testItCannotStartWithADash() throws {
         let ok = "name"
         let fail = "-"
         let fail2 = "-name"
@@ -59,7 +59,7 @@ final class Test_isGHUsername: XCTestCase {
         XCTAssertFalse(isValidGHUsername(uname: fail2))
     }
     
-    func itAcceptsAlphaNumericAndDash() {
+    func testItAcceptsAlphaNumericAndDash() throws {
         let alpha = "abc"
         let numeric = "123"
         let withDash = "def-123456789"

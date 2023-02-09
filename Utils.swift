@@ -40,10 +40,9 @@ func isValidGHUsername(uname: String) -> Bool {
     }
     
     for chr in uname {
-        if (chr.isNumber || chr.isLetter || chr == "=") {
-            return true
+        if (!(chr.isNumber || chr.isLetter || chr == "-")) {
+            return false
         }
-        return false
     }
-    return false
+    return true
 }
