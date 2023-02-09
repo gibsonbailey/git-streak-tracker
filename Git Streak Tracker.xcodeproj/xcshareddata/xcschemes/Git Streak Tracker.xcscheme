@@ -50,6 +50,17 @@
                ReferencedContainer = "container:Git Streak Tracker.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1A18E10129954D74001FCB49"
+               BuildableName = "Git Streak TrackerUnitTests.xctest"
+               BlueprintName = "Git Streak TrackerUnitTests"
+               ReferencedContainer = "container:Git Streak Tracker.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

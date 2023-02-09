@@ -28,6 +28,22 @@ class Debouncer {
     }
 }
 
+// based on https://gist.github.com/tonybruess/9405134
 func isValidGHUsername(uname: String) -> Bool {
-    return true
+    let len = uname.count
+    if (len < 1 || len > 39) {
+        return false
+    }
+    
+    if uname.first == "-" {
+        return false
+    }
+    
+    for chr in uname {
+        if (chr.isNumber || chr.isLetter || chr == "=") {
+            return true
+        }
+        return false
+    }
+    return false
 }

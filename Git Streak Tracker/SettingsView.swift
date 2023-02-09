@@ -25,6 +25,7 @@ struct SettingsView: View {
     }
     
     func handleInputChanged() {
+        inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
         if !isValidGHUsername(uname: inputValue) {
             return
         }
