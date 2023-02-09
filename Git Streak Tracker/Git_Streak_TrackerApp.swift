@@ -13,6 +13,7 @@ struct Git_Streak_TrackerApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+                .environmentObject(ViewStore())
         }
     }
 }

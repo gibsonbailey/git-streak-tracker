@@ -204,6 +204,7 @@ struct ProfileOverviewView_Previews: PreviewProvider {
                 name: "Sam Wood",
                 avatarUrl: "https://avatars.githubusercontent.com/u/27198821?v=4"
             )))
+            .environmentObject(ViewStore())
     }
 }
 

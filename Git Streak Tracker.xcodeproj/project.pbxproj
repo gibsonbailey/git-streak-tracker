@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A18E0FD2994756B001FCB49 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A18E0FC2994756B001FCB49 /* ViewStore.swift */; };
 		D4540B11296943E000DD02DB /* Git_Streak_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4540B10296943E000DD02DB /* Git_Streak_TrackerApp.swift */; };
 		D4540B15296943E200DD02DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4540B14296943E200DD02DB /* Assets.xcassets */; };
 		D4540B18296943E200DD02DB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4540B17296943E200DD02DB /* Preview Assets.xcassets */; };
@@ -80,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A18E0FC2994756B001FCB49 /* ViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStore.swift; sourceTree = "<group>"; };
 		D4092693296A825F006D6C48 /* Contributions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contributions.swift; sourceTree = "<group>"; };
 		D4540B0D296943E000DD02DB /* Git Streak Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Git Streak Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4540B10296943E000DD02DB /* Git_Streak_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git_Streak_TrackerApp.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				E512B5C82974A2D1007446EC /* ProfileOverviewView.swift */,
 				E512B5CF298244B2007446EC /* GithubStore.swift */,
 				E512B5CA2974A490007446EC /* SettingsView.swift */,
+				1A18E0FC2994756B001FCB49 /* ViewStore.swift */,
 			);
 			path = "Git Streak Tracker";
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 			files = (
 				D4540B502969440300DD02DB /* Git_Streak_Tracker_Widget.intentdefinition in Sources */,
 				E58D519B2971185D0078ABD5 /* ThemeConfig.swift in Sources */,
+				1A18E0FD2994756B001FCB49 /* ViewStore.swift in Sources */,
 				E512B5D0298244B2007446EC /* GithubStore.swift in Sources */,
 				D4737298296BC5A600E4A867 /* AppGroup.swift in Sources */,
 				E512B5CB2974A490007446EC /* SettingsView.swift in Sources */,
