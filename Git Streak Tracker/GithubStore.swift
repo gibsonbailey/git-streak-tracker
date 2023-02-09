@@ -16,14 +16,19 @@ class UserStore: ObservableObject {
     @Published var contributionData: ContributionData
     @Published var fetching: Bool = false
     @Published var username: String
+    @Published var error: Bool = false
     
     func setUsername(username: String) -> Void {
         self.fetching = true
         DispatchQueue.global().async {
-            self.contributionData = contributionManager.getContributions(username)
+            let contributionData = contributionManager.getContributions(username)
             DispatchQueue.main.async {
-                if (!self.contributionData.error) {
+                if (!contributionData.error) {
+                    self.error = false
+                    self.contributionData = contributionData
                     self.username = username
+                } else {
+                    self.error = true
                 }
                 self.fetching = false
             }

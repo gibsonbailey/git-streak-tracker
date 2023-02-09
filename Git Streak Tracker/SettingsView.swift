@@ -48,7 +48,7 @@ struct SettingsView: View {
     
     // Computed
     func getShadeColor() -> Color{
-        if userStore.contributionData.error {
+        if userStore.error {
             return ColorPallete.midRed
         }
         return isEditing ? ColorPallete.highlightGreen : .clear
@@ -56,14 +56,14 @@ struct SettingsView: View {
     
     func isSaveUsernameDisabled() -> Bool {
         if (
-            !userStore.contributionData.error &&
+            !userStore.error &&
             userStore.username.count > 1 &&
             inputValue == userStore.username
         ) {
             return false
         }
         
-        return userStore.contributionData.error || userStore.fetching || inputValue != userStore.username || inputValue == ""
+        return userStore.error || userStore.fetching || inputValue != userStore.username || inputValue == ""
     }
     
     func getSaveUsernameBg() -> LinearGradient {
@@ -87,7 +87,7 @@ struct SettingsView: View {
     }
     
     func getIconColor() -> Color {
-        if (userStore.contributionData.error) {
+        if (userStore.error) {
             return ColorPallete.midRed
         }
         
@@ -129,7 +129,7 @@ struct SettingsView: View {
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(
                             getShadeColor()
                         ))
-                        .background(userStore.contributionData.error ? ColorPallete.darkRed : ColorPallete.midGreen)
+                        .background(userStore.error ? ColorPallete.darkRed : ColorPallete.midGreen)
                         .cornerRadius(6)
                         .padding([.horizontal], 14)
                         .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
@@ -150,13 +150,13 @@ struct SettingsView: View {
                                 .font(.system(size: 14))
                             if userStore.fetching {
                                 SpinnerCircle(
-                                    color: userStore.contributionData.error ? ColorPallete.midRed : ColorPallete.highlightGreen
+                                    color: userStore.error ? ColorPallete.midRed : ColorPallete.highlightGreen
                                 )
                                 .offset(x: -2, y: 1)
                             }
                             else {
                                 FontIcon.text(
-                                    .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
+                                    .ionicon(code: userStore.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
                                     color: getIconColor()
                                 )
