@@ -26,6 +26,12 @@ struct SettingsView: View {
     
     func handleInputChanged() {
         inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.debouncer.renewInterval {
+            handleInputChangeDebounced()
+        }
+    }
+    
+    func handleInputChangeDebounced() {
         if !isValidGHUsername(uname: inputValue) {
             return
         }
@@ -37,6 +43,7 @@ struct SettingsView: View {
     func handleSaveUsernamePress() {
         // everytime username changes, the contributions are requested
         userStore.storeUsername()
+        viewStore.switchTab(tab: 0)
     }
     
     // Computed
@@ -48,11 +55,19 @@ struct SettingsView: View {
     }
     
     func isSaveUsernameDisabled() -> Bool {
-        return userStore.contributionData.error || userStore.fetching || userStore.username == ""
+        if (
+            !userStore.contributionData.error &&
+            userStore.username.count > 1 &&
+            inputValue == userStore.username
+        ) {
+            return false
+        }
+        
+        return userStore.contributionData.error || userStore.fetching || inputValue != userStore.username
     }
     
     func getSaveUsernameBg() -> LinearGradient {
-        let gradientColors = isSaveUsernameDisabled()
+        let gradientColors = !isSaveUsernameDisabled()
             ? [ColorPallete.yellowGreen, ColorPallete.highlightGreen]
             : [ColorPallete.midGreen]
         
@@ -121,9 +136,7 @@ struct SettingsView: View {
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
                         .onChange(of: inputValue) { value in
-                            self.debouncer.renewInterval {
-                                handleInputChanged()
-                            }
+                            handleInputChanged()
                         }
                         .onAppear {
                             loadInputField()
