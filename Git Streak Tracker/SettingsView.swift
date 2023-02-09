@@ -12,25 +12,30 @@ import SwiftUIFontIcon
 
 
 struct SettingsView: View {
-    var onContributionDataFetched: ((ContributionData) -> Void)? = nil
-    
     @EnvironmentObject private var userStore: UserStore
+    @EnvironmentObject private var viewStore: ViewStore
     @State private var inputValue: String = ""
     @State private var isEditing = false
-        
+    
+    let debouncer = Debouncer(delay: 0.5)
+    
     // Actions
     func loadInputField() {
         inputValue = userStore.username
     }
+    
+    func handleInputChanged() {
+        if !isValidGHUsername(uname: inputValue) {
+            return
+        }
         
+        userStore.setUsername(username: inputValue)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
     func handleSaveUsernamePress() {
         // everytime username changes, the contributions are requested
-        inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        userStore.setUsername(
-            username: inputValue,
-            onComplete: onContributionDataFetched
-        )
-        WidgetCenter.shared.reloadAllTimelines()
+        userStore.storeUsername()
     }
     
     // Computed
@@ -41,12 +46,12 @@ struct SettingsView: View {
         return isEditing ? ColorPallete.highlightGreen : .clear
     }
     
-    func isUsernameInputValid() -> Bool {
-        return inputValue.trimmingCharacters(in: .whitespacesAndNewlines) != ""
+    func isSaveUsernameDisabled() -> Bool {
+        return userStore.contributionData.error || userStore.fetching || userStore.username == ""
     }
     
     func getSaveUsernameBg() -> LinearGradient {
-        let gradientColors = isUsernameInputValid()
+        let gradientColors = isSaveUsernameDisabled()
             ? [ColorPallete.yellowGreen, ColorPallete.highlightGreen]
             : [ColorPallete.midGreen]
         
@@ -58,7 +63,7 @@ struct SettingsView: View {
     }
     
     func getSaveUsernameTextColor() -> Color {
-        if (!isUsernameInputValid()) {
+        if (isSaveUsernameDisabled()) {
             return ColorPallete.navLow;
         }
         
@@ -114,6 +119,11 @@ struct SettingsView: View {
                         .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
+                        .onChange(of: inputValue) { value in
+                            self.debouncer.renewInterval {
+                                handleInputChanged()
+                            }
+                        }
                         .onAppear {
                             loadInputField()
                         }
@@ -154,7 +164,7 @@ struct SettingsView: View {
                             .foregroundColor(getSaveUsernameTextColor())
                             .background(getSaveUsernameBg())
                     }
-                    .disabled(!isUsernameInputValid())
+                    .disabled(isSaveUsernameDisabled())
                     .cornerRadius(6)
                 }
                 .padding([.top], 40)
@@ -172,6 +182,7 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+            .environmentObject(ViewStore())
     }
 }
 

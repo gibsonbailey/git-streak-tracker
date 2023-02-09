@@ -17,22 +17,23 @@ class UserStore: ObservableObject {
     @Published var fetching: Bool = false
     @Published var username: String
     
-    func setUsername(username: String, onComplete: ((ContributionData) -> Void)? = nil) -> Void {
+    func setUsername(username: String) -> Void {
         self.fetching = true
         DispatchQueue.global().async {
             self.contributionData = contributionManager.getContributions(username)
             DispatchQueue.main.async {
                 if (!self.contributionData.error) {
                     self.username = username
-                    storeGithubUsername(githubUsername: username)
                 } else {
                     self.username = ""
-                    storeGithubUsername(githubUsername: "")
                 }
                 self.fetching = false
-                onComplete!(self.contributionData)
             }
         }
+    }
+    
+    func storeUsername() -> Void {
+        storeGithubUsername(githubUsername: self.username)
     }
     
     init(username: String, contributionData: ContributionData) {

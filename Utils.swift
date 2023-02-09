@@ -27,3 +27,7 @@ class Debouncer {
         timer?.invalidate()
     }
 }
+
+func isValidGHUsername(uname: String) -> Bool {
+    return true
+}
