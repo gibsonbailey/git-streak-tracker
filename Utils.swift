@@ -27,3 +27,22 @@ class Debouncer {
         timer?.invalidate()
     }
 }
+
+// based on https://gist.github.com/tonybruess/9405134
+func isValidGHUsername(uname: String) -> Bool {
+    let len = uname.count
+    if (len < 1 || len > 39) {
+        return false
+    }
+    
+    if uname.first == "-" {
+        return false
+    }
+    
+    for chr in uname {
+        if (!(chr.isNumber || chr.isLetter || chr == "-")) {
+            return false
+        }
+    }
+    return true
+}

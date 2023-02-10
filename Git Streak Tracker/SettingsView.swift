@@ -10,27 +10,92 @@ import SwiftUI
 import WidgetKit
 import SwiftUIFontIcon
 
+let debouncer = Debouncer(delay: 0.5)
+
 struct SettingsView: View {
     @EnvironmentObject private var userStore: UserStore
+    @EnvironmentObject private var viewStore: ViewStore
     @State private var inputValue: String = ""
     @State private var isEditing = false
     
-    let debouncer = Debouncer(delay: 0.5)
-    
+    // Actions
     func loadInputField() {
         inputValue = userStore.username
     }
     
-    func storeUsername() {
-        userStore.username = inputValue // everytime username changes, the contributions are requested
+    func handleInputChanged() {
+        inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        userStore.error = !isValidGHUsername(uname: inputValue) && inputValue != ""
+        debouncer.renewInterval {
+            handleInputChangeDebounced()
+        }
+    }
+    
+    func handleInputChangeDebounced() {
+        if !isValidGHUsername(uname: inputValue) || inputValue == "" {
+            return
+        }
+                
+        userStore.setUsername(username: inputValue)
         WidgetCenter.shared.reloadAllTimelines()
     }
     
+    func handleSaveUsernamePress() {
+        // everytime username changes, the contributions are requested
+        userStore.storeUsername()
+        viewStore.switchTab(tab: 0)
+    }
+    
+    // Computed
     func getShadeColor() -> Color{
-        if userStore.contributionData.error {
+        if userStore.error {
             return ColorPallete.midRed
         }
         return isEditing ? ColorPallete.highlightGreen : .clear
+    }
+    
+    func isSaveUsernameDisabled() -> Bool {
+        if (
+            !userStore.error &&
+            userStore.username.count > 1 &&
+            inputValue == userStore.username
+        ) {
+            return false
+        }
+        
+        return userStore.error || userStore.fetching || inputValue != userStore.username || inputValue == ""
+    }
+    
+    func getSaveUsernameBg() -> LinearGradient {
+        let gradientColors = !isSaveUsernameDisabled()
+            ? [ColorPallete.yellowGreen, ColorPallete.highlightGreen]
+            : [ColorPallete.midGreen]
+        
+        return LinearGradient(
+            gradient: Gradient(colors: gradientColors),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+    
+    func getSaveUsernameTextColor() -> Color {
+        if (isSaveUsernameDisabled()) {
+            return ColorPallete.navLow;
+        }
+        
+        return .white
+    }
+    
+    func getIconColor() -> Color {
+        if userStore.error {
+            return ColorPallete.midRed
+        }
+        
+        if userStore.username.isEmpty || inputValue.isEmpty || userStore.username != inputValue {
+            return .clear
+        }
+        
+        return ColorPallete.highlightGreen
     }
     
     var body: some View {
@@ -49,7 +114,7 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .padding([.top, .bottom], 10)
                 }
-                .frame(width: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 216, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 Section {
                     ZStack {
                         TextField("", text: $inputValue, onEditingChanged: { editing in
@@ -60,20 +125,18 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .frame(height: 75)
                         .padding([.bottom], -20)
-                        .padding([.horizontal], 8)
+                        .padding([.horizontal], 10)
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(
                             getShadeColor()
                         ))
-                        .background(userStore.contributionData.error ? ColorPallete.darkRed : ColorPallete.midGreen)
+                        .background(userStore.error ? ColorPallete.darkRed : ColorPallete.midGreen)
                         .cornerRadius(6)
-                        .padding([.horizontal], 24)
+                        .padding([.horizontal], 14)
                         .shadow(color: getShadeColor(), radius: 4, x: 0, y: 0)
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
                         .onChange(of: inputValue) { value in
-                            self.debouncer.renewInterval {
-                                storeUsername()
-                            }
+                            handleInputChanged()
                         }
                         .onAppear {
                             loadInputField()
@@ -87,25 +150,38 @@ struct SettingsView: View {
                                 .font(.system(size: 14))
                             if userStore.fetching {
                                 SpinnerCircle(
-                                    color: userStore.contributionData.error ? ColorPallete.midRed : ColorPallete.highlightGreen
+                                    color: userStore.error ? ColorPallete.midRed : ColorPallete.highlightGreen
                                 )
                                 .offset(x: -2, y: 1)
                             }
-                            else  {
+                            else {
                                 FontIcon.text(
-                                    .ionicon(code: userStore.contributionData.error ? .md_close_circle : .md_checkmark_circle),
+                                    .ionicon(code: userStore.error ? .md_close_circle : .md_checkmark_circle),
                                     fontsize: 12,
-                                    color: userStore.username.isEmpty ? .clear : userStore.contributionData.error  ? ColorPallete.midRed : ColorPallete.highlightGreen
+                                    color: getIconColor()
                                 )
                                 .offset(x: -4, y: 1)
                             }
 
-                        }.offset(x: -55, y: -16)
+                        }.offset(x: -60, y: -16)
 
                     }
                 }
                 .frame(width: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.top, 10)
+                
+                HStack {
+                    Button(action: handleSaveUsernamePress) {
+                        Text("Save Username")
+                            .fontWeight(Font.Weight.bold)
+                            .frame(width: 272, height: 48)
+                            .foregroundColor(getSaveUsernameTextColor())
+                            .background(getSaveUsernameBg())
+                    }
+                    .disabled(isSaveUsernameDisabled())
+                    .cornerRadius(6)
+                }
+                .padding([.top], 40)
             }
             .padding(20)
             .padding(.bottom, 200)
@@ -120,6 +196,7 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+            .environmentObject(ViewStore())
     }
 }
 

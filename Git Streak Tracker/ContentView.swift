@@ -11,26 +11,19 @@ import SwiftUIFontIcon
 
 struct ContentView: View {
     @EnvironmentObject private var userStore: UserStore
-    @State private var selectedTab = 0
-    @State private var slide = true // for the slide effect when swapping tabs by clicking buttons
-    
-    func switchTab(tab: Int) {
-        // Go to screen
-        selectedTab = tab
-        slide = !slide
-    }
+    @EnvironmentObject private var viewStore: ViewStore
     
     func onAppear(){
         if !userStore.username.isEmpty {
-            userStore.username = userStore.username // triggers an update
+            userStore.setUsername(username: userStore.username) // triggers an update
         } else {
-            selectedTab = 1 // if no username exists in storage, send them to settings page
+            viewStore.switchTab(tab: 1) // if no username exists in storage, send them to settings page
         }
     }
-    
+        
     var body: some View {
         ZStack {
-            TabView(selection: $selectedTab) {
+            TabView(selection: $viewStore.selectedTab) {
                 VStack {
                     ProfileOverviewView()
                 }
@@ -42,7 +35,7 @@ struct ContentView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            .animation(.easeInOut, value: slide) // 2
+            .animation(.easeInOut, value: viewStore.selectedTab) // 2
             
             if !userStore.username.isEmpty {
                 HStack {
@@ -52,13 +45,13 @@ struct ContentView: View {
                     FontIcon.button(
                         .materialIcon(code: .person),
                         action: {
-                            switchTab(tab:0)
+                            viewStore.switchTab(tab:0)
                         },
                         padding: 0,
                         fontsize: 45,
-                        color: selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                        color: viewStore.selectedTab == 0 ? ColorPallete.highlightGreen : ColorPallete.midWhite
                     )
-                    .shadow(color: selectedTab == 0 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    .shadow(color: viewStore.selectedTab == 0 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
                     
                     Spacer()
                     Spacer()
@@ -66,13 +59,13 @@ struct ContentView: View {
                     FontIcon.button(
                         .ionicon(code: .ios_settings),
                         action: {
-                            switchTab(tab:1)
+                            viewStore.switchTab(tab:1)
                         },
                         padding: 0,
                         fontsize: 45,
-                        color: selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite
+                        color: viewStore.selectedTab == 1 ? ColorPallete.highlightGreen : ColorPallete.midWhite
                     )
-                    .shadow(color: selectedTab == 1 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
+                    .shadow(color: viewStore.selectedTab == 1 ? ColorPallete.highlightGreen : .clear, radius: 4, x: 0, y: 0)
                     
                     Spacer()
                     // When we wanna animate this all pretty like the designs, watch this: https://www.youtube.com/watch?v=lzmKrJCuxwM&t=221s&ab_channel=Kavsoft
@@ -95,5 +88,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+            .environmentObject(ViewStore())
     }
 }
