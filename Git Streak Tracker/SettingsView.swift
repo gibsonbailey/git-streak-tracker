@@ -33,6 +33,7 @@ struct SettingsView: View {
     
     func handleInputChangeDebounced() {
         if !isValidGHUsername(uname: inputValue) {
+            userStore.error = true
             return
         }
         
