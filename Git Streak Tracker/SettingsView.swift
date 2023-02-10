@@ -10,14 +10,13 @@ import SwiftUI
 import WidgetKit
 import SwiftUIFontIcon
 
+let debouncer = Debouncer(delay: 0.5)
 
 struct SettingsView: View {
     @EnvironmentObject private var userStore: UserStore
     @EnvironmentObject private var viewStore: ViewStore
     @State private var inputValue: String = ""
     @State private var isEditing = false
-    
-    let debouncer = Debouncer(delay: 0.5)
     
     // Actions
     func loadInputField() {
@@ -26,17 +25,17 @@ struct SettingsView: View {
     
     func handleInputChanged() {
         inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        self.debouncer.renewInterval {
+        userStore.error = !isValidGHUsername(uname: inputValue) && inputValue != ""
+        debouncer.renewInterval {
             handleInputChangeDebounced()
         }
     }
     
     func handleInputChangeDebounced() {
         if !isValidGHUsername(uname: inputValue) {
-            userStore.error = true
             return
         }
-        
+                
         userStore.setUsername(username: inputValue)
         WidgetCenter.shared.reloadAllTimelines()
     }
@@ -88,11 +87,11 @@ struct SettingsView: View {
     }
     
     func getIconColor() -> Color {
-        if (userStore.error) {
+        if userStore.error {
             return ColorPallete.midRed
         }
         
-        if (userStore.username.isEmpty || inputValue.isEmpty || userStore.username != inputValue) {
+        if userStore.username.isEmpty || inputValue.isEmpty || userStore.username != inputValue {
             return .clear
         }
         
