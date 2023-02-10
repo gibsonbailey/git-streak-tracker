@@ -32,7 +32,7 @@ struct SettingsView: View {
     }
     
     func handleInputChangeDebounced() {
-        if !isValidGHUsername(uname: inputValue) {
+        if !isValidGHUsername(uname: inputValue) || inputValue == "" {
             return
         }
                 
