@@ -236,10 +236,10 @@ struct Git_Streak_Tracker_WidgetEntryView : View {
         switch family {
         case .systemSmall:
             Git_Streak_Tracker_Small_Widget_View(entry: entry)
-                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
+                .environmentObject(UserStore(contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         default:
             Git_Streak_Tracker_Medium_Widget_View(entry: entry)
-                .environmentObject(UserStore(username: "", contributionData: ContributionData())) // I do this to make sure it updates with the app's state
+                .environmentObject(UserStore(contributionData: ContributionData())) // I do this to make sure it updates with the app's state
         }
 
     }

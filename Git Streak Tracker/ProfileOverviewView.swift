@@ -142,7 +142,7 @@ struct ProfileOverviewView: View {
 
                     Group {
                         Text(userStore.contributionData.name)
-                            .font(.system(size: 40))
+                            .font(.system(size: 35))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.bottom, -8)
@@ -197,7 +197,7 @@ struct ProfileOverviewView: View {
 struct ProfileOverviewView_Previews: PreviewProvider {
     static var previews: some View {
         return ProfileOverviewView()
-            .environmentObject(UserStore(username: "", contributionData: ContributionData(
+            .environmentObject(UserStore(contributionData: ContributionData(
                 streakLength: 10,
                 todayComplete: false,
                 allContributions: generateContributionDays(),
