@@ -14,7 +14,11 @@
 
 ## Custom Profile README
 Copy and paste our special README image into your personal profile README to prominently display your streak on your profile.
-Follow [these instructions]() to access this feature.
+Post the following code on your profile readme in order to take advantage of the animaged SVG below.
+
+```html
+<img src="https://d3frb2mbny706b.cloudfront.net/<your-username-here>" width="600">
+```
 
 <p align="center">
   <img src="https://d3frb2mbny706b.cloudfront.net/gibsonbailey" width="600">
