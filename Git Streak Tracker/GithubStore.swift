@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WidgetKit
 
 let contributionManager = ContributionManager()
 
@@ -14,19 +15,34 @@ let storeURL = AppGroup.facts.containerURL.appendingPathComponent("githubUsernam
 
 class UserStore: ObservableObject {
     @Published var contributionData: ContributionData
+    private var stagedContributionData: ContributionData
     @Published var fetching: Bool = false
-    @Published var username: String
+    @Published var username: String = ""
+    @Published var stagedUsername: String = ""
     @Published var error: Bool = false
     
-    func setUsername(username: String) -> Void {
+    func stageUsername(username: String) -> Void {
+        managedFetchContrubutions(username) { (username, contributionData) in
+            self.stagedContributionData = contributionData
+            self.stagedUsername = username
+        }
+    }
+    
+    func reloadContributionData() -> Void {
+        managedFetchContrubutions(self.username) { (username, contributionData) in
+            self.contributionData = contributionData
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }
+    
+    func managedFetchContrubutions(_ username: String, _ onSuccess: @escaping (_ username: String, _ contributionData: ContributionData) -> Void) {
         self.fetching = true
         DispatchQueue.global().async {
-            let contributionData = contributionManager.getContributions(username)
+            let contributionData = contributionManager.getContributions(self.username)
             DispatchQueue.main.async {
                 if (!contributionData.error) {
                     self.error = false
-                    self.contributionData = contributionData
-                    self.username = username
+                    onSuccess(username, contributionData)
                 } else {
                     self.error = true
                 }
@@ -36,12 +52,19 @@ class UserStore: ObservableObject {
     }
     
     func storeUsername() -> Void {
+        self.username = self.stagedUsername
+        self.contributionData = self.stagedContributionData
         storeGithubUsername(githubUsername: self.username)
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
-    init(username: String, contributionData: ContributionData) {
-        self.username = loadGithubUsername() // not using sefl.loadUsername because it was yelling at me for calling it before initialization or something
+    init(contributionData: ContributionData) {
+        let username = loadGithubUsername()
+        self.username = username
+        self.stagedUsername = username
         self.contributionData = contributionData
+        self.stagedContributionData = contributionData
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
 
