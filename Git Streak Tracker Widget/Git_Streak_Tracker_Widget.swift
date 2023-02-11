@@ -36,7 +36,7 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [StreakEntry] = []
         
-        var githubUsername = loadGithubUsername() // gets username from GithubStore
+        let githubUsername = loadGithubUsername() // gets username from GithubStore
         
         let contributionManager = ContributionManager()
         let contributions = contributionManager.getContributions(githubUsername)

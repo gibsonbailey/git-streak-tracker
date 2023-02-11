@@ -12,6 +12,6 @@ import SwiftUI
 struct Git_Streak_Tracker_WidgetBundle: WidgetBundle {
     var body: some Widget {
         Git_Streak_Tracker_Widget()
-        Git_Streak_Tracker_WidgetLiveActivity()
+//        Git_Streak_Tracker_WidgetLiveActivity()
     }
 }
