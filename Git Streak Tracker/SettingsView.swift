@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import WidgetKit
+
 import SwiftUIFontIcon
 
 let debouncer = Debouncer(delay: 0.5)
@@ -20,10 +20,11 @@ struct SettingsView: View {
     
     // Actions
     func loadInputField() {
-        inputValue = userStore.username
+        inputValue = userStore.stagedUsername
     }
     
     func handleInputChanged() {
+        userStore.stagedUsername = ""
         inputValue = inputValue.trimmingCharacters(in: .whitespacesAndNewlines)
         userStore.error = !isValidGHUsername(uname: inputValue) && inputValue != ""
         debouncer.renewInterval {
@@ -36,8 +37,7 @@ struct SettingsView: View {
             return
         }
                 
-        userStore.setUsername(username: inputValue)
-        WidgetCenter.shared.reloadAllTimelines()
+        userStore.stageUsername(username: inputValue)
     }
     
     func handleSaveUsernamePress() {
@@ -63,7 +63,7 @@ struct SettingsView: View {
             return false
         }
         
-        return userStore.error || userStore.fetching || inputValue != userStore.username || inputValue == ""
+        return userStore.error || userStore.fetching || inputValue != userStore.stagedUsername || inputValue == ""
     }
     
     func getSaveUsernameBg() -> LinearGradient {
@@ -91,7 +91,7 @@ struct SettingsView: View {
             return ColorPallete.midRed
         }
         
-        if userStore.username.isEmpty || inputValue.isEmpty || userStore.username != inputValue {
+        if userStore.stagedUsername.isEmpty || inputValue.isEmpty || userStore.stagedUsername != inputValue {
             return .clear
         }
         
@@ -142,8 +142,6 @@ struct SettingsView: View {
                             loadInputField()
                         }
                  
-                            
-                            
                         HStack {
                             Text("GitHub Username")
                                 .foregroundColor(ColorPallete.lightestGreen)
@@ -162,7 +160,6 @@ struct SettingsView: View {
                                 )
                                 .offset(x: -4, y: 1)
                             }
-
                         }.offset(x: -60, y: -16)
 
                     }
@@ -195,7 +192,7 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+            .environmentObject(UserStore(contributionData: ContributionData()))
             .environmentObject(ViewStore())
     }
 }
