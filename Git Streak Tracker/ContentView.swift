@@ -15,7 +15,7 @@ struct ContentView: View {
     
     func onAppear(){
         if !userStore.username.isEmpty {
-            userStore.setUsername(username: userStore.username) // triggers an update
+            userStore.reloadContributionData()
         } else {
             viewStore.switchTab(tab: 1) // if no username exists in storage, send them to settings page
         }
@@ -89,7 +89,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(UserStore(username: "", contributionData: ContributionData()))
+            .environmentObject(UserStore(contributionData: ContributionData()))
             .environmentObject(ViewStore())
     }
 }
