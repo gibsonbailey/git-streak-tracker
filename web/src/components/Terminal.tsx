@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import { setHttpClientAndAgentOptions } from "next/dist/server/config"
 import { useEffect, useState } from "react"
 
 const TutorialOverlay = () => {
@@ -8,7 +7,7 @@ const TutorialOverlay = () => {
     )
 }
 
-const Terminal = () => {
+export default () => {
     return (
         <div className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative'>
             <Header />
@@ -347,8 +346,3 @@ const CodeToken = ({ tokenType, children }: React.PropsWithChildren<{ tokenType:
 const Space = () => (
     <span>  </span>
 )
-
-export {
-    Terminal,
-    TutorialOverlay,
-}
