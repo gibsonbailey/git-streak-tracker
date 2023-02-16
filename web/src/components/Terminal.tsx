@@ -86,28 +86,30 @@ To https://github.com/gibsonbailey/git-streak-tracker.git
 const Content = () => {
     const [ mode, setMode ] = useState<'shell' | 'vim'>('shell')
     const [ linesChanged, setLinesChanged ] = useState('')
-    const [ currentCommand, setCurrentCommand ] = useState('ls -la')
+    const [ currentCommand, setCurrentCommand ] = useState('')
     const [ commandOutputs, setCommandOutputs ] = useState<string[]>([])
     const [ currentCommandCursorIndex, setCurrentCommandIndex ] = useState(0)
-    const [ pauseAnimation, setPauseAnimation ] = useState(true)
+    const [ commandSpeed, setCommandSpeed ] = useState<'low' | 'high'>('low')
+    
 
     useEffect(() => {
         setTimeout(() => {
-            setPauseAnimation(false)
+            setCurrentCommand('ls -la')
         }, 1500)
     }, [])
 
     useEffect(() => {
-        if (pauseAnimation) {
+        if (currentCommand == '') {
             return
         }
         if (currentCommandCursorIndex < currentCommand.length) {
             setTimeout(() => {
                 setCurrentCommandIndex(currentCommandCursorIndex + 1)
-            }, Math.floor(50 + (Math.random() * 30)))
+            }, Math.floor((commandSpeed === 'low' ? 50 : 20) + (Math.random() * 30)))
         } else {
             if (currentCommand === 'ls -la') {
                 setTimeout(() => {
+                    setCurrentCommand('')
                     setCommandOutputs([ lsOutput ])
                 }, 200)
                 setTimeout(() => {
@@ -115,7 +117,10 @@ const Content = () => {
                     setCurrentCommandIndex(0)
                 }, 1200)
             } else if (currentCommand === 'vim code.ts') {
-                setMode('vim')
+                setTimeout(() => {
+                    setMode('vim')
+                    setCurrentCommand('')
+                }, 200)
                 setTimeout(() => {
                     setMode('shell')
                     setTimeout(() => {
@@ -126,13 +131,17 @@ const Content = () => {
             } else if (currentCommand === 'git status') {
                 setTimeout(() => {
                     setCommandOutputs([ lsOutput, gitStatusOutput ])
+                    setCurrentCommand('')
                 }, 200)
                 setTimeout(() => {
+                    setCommandSpeed('high')
                     setCurrentCommand('git commit -m "Minor change to language."')
                     setCurrentCommandIndex(0)
                 }, 1000)
             } else if (currentCommand === 'git commit -m "Minor change to language."') {
                 setTimeout(() => {
+                    setCommandSpeed('low')
+                    setCurrentCommand('')
                     setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput ])
                 }, 200)
                 setTimeout(() => {
@@ -141,15 +150,12 @@ const Content = () => {
                 }, 1000)
             } else if (currentCommand === 'git push') {
                 setTimeout(() => {
+                    setCurrentCommand('')
                     setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput, gitPushOutput ])
                 }, 200)
-                setTimeout(() => {
-                    setCurrentCommand('ls -la')
-                    setCurrentCommandIndex(0)
-                }, 1000)
             }
         }
-    }, [ currentCommandCursorIndex, pauseAnimation ])
+    }, [ currentCommand, currentCommandCursorIndex ])
 
     return (
         mode === 'vim' ? (
