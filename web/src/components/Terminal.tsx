@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 export default () => {
     return (
-        <div className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden'>
+        <div className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative'>
             <Header />
             <Content />
         </div>
@@ -18,7 +18,7 @@ const Header = () => {
         'bg-red-500',
     ]
     return (
-        <div className='flex w-full border-b border-b-slate-800'>
+        <div className='flex w-full border-b border-b-slate-800 absolute z-20 bg-gray-900 '>
             {colors.map(color => (
                 <div
                     className={clsx(
@@ -51,6 +51,37 @@ const vimText = `export default () => {
 }
 `
 const vimStatusBar = `--NORMAL--`
+
+const gitStatusOutput = `On branch homepage-terminal-animation
+Your branch is ahead of 'origin/homepage-terminal-animation' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   Git Streak Tracker.xcodeproj/project.pbxproj
+	modified:   web/src/components/Terminal.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	aws_lambda/logs.gz
+	aws_lambda/logs2
+	code.js
+
+no changes added to commit (use "git add" and/or "git commit -a")`
+
+const gitCommitOutput = `[main 3e6f0d6] Minor change to language.
+ 1 file changed, 1 insertions(+), 0 deletions(-)`
+
+const gitPushOutput = `Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 481 bytes | 481.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To https://github.com/gibsonbailey/git-streak-tracker.git
+   3e6f0d6..89abcdef  main -> main`
 
 const Content = () => {
     const [ mode, setMode ] = useState<'shell' | 'vim'>('shell')
@@ -85,6 +116,37 @@ const Content = () => {
                 }, 1200)
             } else if (currentCommand === 'vim code.ts') {
                 setMode('vim')
+                setTimeout(() => {
+                    setMode('shell')
+                    setTimeout(() => {
+                        setCurrentCommand('git status')
+                        setCurrentCommandIndex(0)
+                    }, 1000)
+                }, 1500)
+            } else if (currentCommand === 'git status') {
+                setTimeout(() => {
+                    setCommandOutputs([ lsOutput, gitStatusOutput ])
+                }, 200)
+                setTimeout(() => {
+                    setCurrentCommand('git commit -m "Minor change to language."')
+                    setCurrentCommandIndex(0)
+                }, 1000)
+            } else if (currentCommand === 'git commit -m "Minor change to language."') {
+                setTimeout(() => {
+                    setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput ])
+                }, 200)
+                setTimeout(() => {
+                    setCurrentCommand('git push')
+                    setCurrentCommandIndex(0)
+                }, 1000)
+            } else if (currentCommand === 'git push') {
+                setTimeout(() => {
+                    setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput, gitPushOutput ])
+                }, 200)
+                setTimeout(() => {
+                    setCurrentCommand('ls -la')
+                    setCurrentCommandIndex(0)
+                }, 1000)
             }
         }
     }, [ currentCommandCursorIndex, pauseAnimation ])
