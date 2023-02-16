@@ -13,9 +13,9 @@ export default () => {
 
 const Header = () => {
     const colors = [
-        'bg-green-500',
-        'bg-yellow-500',
         'bg-red-500',
+        'bg-yellow-500',
+        'bg-green-500',
     ]
     return (
         <div className='flex w-full border-b border-b-slate-800 absolute z-20 bg-gray-900 '>
@@ -52,24 +52,6 @@ const vimText = `export default () => {
 `
 const vimStatusBar = `--NORMAL--`
 
-const gitStatusOutput = `On branch homepage-terminal-animation
-Your branch is ahead of 'origin/homepage-terminal-animation' by 1 commit.
-  (use "git push" to publish your local commits)
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   Git Streak Tracker.xcodeproj/project.pbxproj
-	modified:   web/src/components/Terminal.tsx
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	aws_lambda/logs.gz
-	aws_lambda/logs2
-	code.js
-
-no changes added to commit (use "git add" and/or "git commit -a")`
-
 const gitCommitOutput = `[main 3e6f0d6] Minor change to language.
  1 file changed, 1 insertions(+), 0 deletions(-)`
 
@@ -90,7 +72,7 @@ const Content = () => {
     const [ commandOutputs, setCommandOutputs ] = useState<string[]>([])
     const [ currentCommandCursorIndex, setCurrentCommandIndex ] = useState(0)
     const [ commandSpeed, setCommandSpeed ] = useState<'low' | 'high'>('low')
-    
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -120,29 +102,22 @@ const Content = () => {
                 setTimeout(() => {
                     setMode('vim')
                     setCurrentCommand('')
+                    setLinesChanged('±1')
                 }, 200)
                 setTimeout(() => {
                     setMode('shell')
                     setTimeout(() => {
-                        setCurrentCommand('git status')
+                        setCommandSpeed('high')
+                        setCurrentCommand('git commit -m "Minor change to language."')
                         setCurrentCommandIndex(0)
                     }, 1000)
                 }, 1500)
-            } else if (currentCommand === 'git status') {
-                setTimeout(() => {
-                    setCommandOutputs([ lsOutput, gitStatusOutput ])
-                    setCurrentCommand('')
-                }, 200)
-                setTimeout(() => {
-                    setCommandSpeed('high')
-                    setCurrentCommand('git commit -m "Minor change to language."')
-                    setCurrentCommandIndex(0)
-                }, 1000)
             } else if (currentCommand === 'git commit -m "Minor change to language."') {
                 setTimeout(() => {
                     setCommandSpeed('low')
+                    setLinesChanged('')
                     setCurrentCommand('')
-                    setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput ])
+                    setCommandOutputs([ lsOutput, gitCommitOutput ])
                 }, 200)
                 setTimeout(() => {
                     setCurrentCommand('git push')
@@ -151,7 +126,7 @@ const Content = () => {
             } else if (currentCommand === 'git push') {
                 setTimeout(() => {
                     setCurrentCommand('')
-                    setCommandOutputs([ lsOutput, gitStatusOutput, gitCommitOutput, gitPushOutput ])
+                    setCommandOutputs([ lsOutput, gitCommitOutput, gitPushOutput ])
                 }, 200)
             }
         }
@@ -167,7 +142,7 @@ const Content = () => {
             <div className='flex flex-col justify-end h-72 w-full'>
                 <div className='p-2'>
                     {commandOutputs.map(output => (
-                        <pre>{output}</pre>
+                        <pre key={output}>{output}</pre>
                     ))}
                 </div>
                 <div className='flex border-t border-t-slate-800 p-2'>
