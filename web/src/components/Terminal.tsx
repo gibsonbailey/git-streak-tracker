@@ -176,7 +176,7 @@ const Prompt = ({ command, commandCursorIndex, linesChanged }: { command: string
             <span className='text-green-300'>){linesChanged ? `±${linesChanged}` : null}</span>
             <span className='ml-2'>{command.slice(0, commandCursorIndex)}</span>
             {
-                showCursor ? <div className='whitespace-pre bg-cyan-400 w-px'></div> : null
+                showCursor ? <div className='whitespace-pre bg-cyan-400' style={{width: 2}}></div> : null
             }
         </div>
     )
