@@ -18,13 +18,17 @@ export default ({ command, commandCursorIndex, linesChanged }: { command: string
 
     useEffect(() => {
         createCursorInterval()
+
         return clearCursorInterval
     }, [])
 
     useEffect(() => {
         setShowCursor(true)
+
         clearCursorInterval()
+
         createCursorInterval()
+
         return clearCursorInterval
     }, [ command, commandCursorIndex, linesChanged ])
 

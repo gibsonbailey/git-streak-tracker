@@ -9,30 +9,39 @@ export default ({ animationFinished }: { animationFinished: () => void }) => {
 
 
     useEffect(() => {
+
         setTimeout(() => {
             if (cursorStep === 5) {
                 setVimStatusBar('--INSERT--')
             } else if (cursorStep === 7) {
                 setVimStatusBar('--NORMAL--')
             }
+
             setCursorStep(cursorStep + 1)
         }, cursorStep < 5 ? 200 : 600)
+
     }, [ cursorStep ])
 
     useEffect(() => {
         if (cursorStep === 6 || cursorStep === 8) {
             if (typingPosition < currentTypingText.length + 1) {
+
                 setTimeout(() => {
                     setTypingPosition(typingPosition + 1)
                 }, Math.floor(50 + (Math.random() * 30)))
+
             } else if (currentTypingText === ':wq') {
+
                 setTimeout(() => {
                     animationFinished()
                 }, 300)
+
             }
         } else if (cursorStep === 7) {
+
             setTypingPosition(0)
             setCurrentTypingText(':wq')
+
         }
     }, [ cursorStep, typingPosition ])
 
