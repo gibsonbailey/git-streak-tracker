@@ -131,7 +131,11 @@ const Content = () => {
             <div className='flex flex-col w-full'>
                 <div className='p-2 flex flex-col justify-end h-72 overflow-hidden'>
                     {commandOutputs.map(output => (
-                        <pre key={output}>{output}</pre>
+                        <pre key={output}>
+                            <span className='font-thin text-slate-200'>
+                                {output}
+                            </span>
+                        </pre>
                     ))}
                 </div>
                 <Prompt command={currentCommand} commandCursorIndex={currentCommandCursorIndex} linesChanged={linesChanged} />
@@ -169,14 +173,14 @@ const Prompt = ({ command, commandCursorIndex, linesChanged }: { command: string
     }, [ command, commandCursorIndex, linesChanged ])
 
     return (
-        <div className='flex border-t border-t-slate-800 p-2'>
+        <div className='flex border-t border-t-slate-800 p-2 font-medium'>
             <span className='text-fuchsia-400'>~/git-streak-tracker</span>
             <span className='text-green-300 ml-2'>git:(</span>
             <span className='text-yellow-200'>main</span>
             <span className='text-green-300'>){linesChanged ? `±${linesChanged}` : null}</span>
             <span className='ml-2'>{command.slice(0, commandCursorIndex)}</span>
             {
-                showCursor ? <div className='whitespace-pre bg-cyan-400' style={{width: 2}}></div> : null
+                showCursor ? <div className='whitespace-pre bg-cyan-400' style={{ width: 2 }}></div> : null
             }
         </div>
     )
@@ -219,7 +223,7 @@ const VimCodeView = ({ animationFinished }: { animationFinished: () => void }) =
     }, [ cursorStep, typingPosition ])
 
     return (
-        <div className='flex flex-col h-96 justify-between w-full whitespace-pre p-2'>
+        <div className='flex flex-col h-96 justify-between w-full whitespace-pre p-2 font-medium'>
             <div>
                 <div>
                     {
