@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Terminal from '../components/Terminal'
+import Terminal from '../components/terminal'
 import styles from './index.module.css'
 
 export const HomePage = () => (
