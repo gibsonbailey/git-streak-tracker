@@ -140,8 +140,8 @@ const Content = () => {
         ) : (
             <div className='flex flex-col w-full'>
                 <div className='p-2 flex flex-col justify-end h-72 overflow-hidden'>
-                    {commandOutputs.map(output => (
-                        <pre key={output}>
+                    {commandOutputs.map((output, index) => (
+                        <pre key={index}>
                             <span className='font-thin text-slate-200'>
                                 {output}
                             </span>
