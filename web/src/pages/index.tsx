@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Terminal from '../components/terminal'
 import styles from './index.module.css'
-import PhoneAnimation from "./PhoneAnimation"
+import PhoneAnimation from "../components/PhoneAnimation/"
 
 export const HomePage = () => (
   <>

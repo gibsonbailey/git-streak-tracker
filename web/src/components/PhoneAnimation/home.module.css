@@ -1,0 +1,195 @@
+.mainContainer {}
+
+.iphoneBg {
+    background-image: url('/iphone-bg.PNG');
+    background-size: contain;
+    filter: blur(15px);
+}
+
+.iphoneFrame {
+    border: 3px solid #D1CDDB;
+    border-radius: 30px;
+    opacity: 1;
+    width: 207px;
+    height: 450px;
+}
+
+.iphoneTopRow {
+    height: 20px;
+    background: #D1CDDB;
+    width: 88px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 20;
+    position: relative;
+}
+
+.iphoneMicrophone {
+    height: 5px;
+    width: 25px;
+    border-radius: 15px;
+    background: #AEA9B9;
+}
+
+.iphoneCamera {
+    top: 6px;
+    height: 8px;
+    width: 8px;
+    border-radius: 100%;
+    background: #AEA9B9;
+}
+
+.topRowText {
+    font-size: 8px;
+    top: 8px;
+    left: 22px;
+}
+
+.topIconRow {
+    margin-top: 5px;
+}
+
+.battery {
+    margin-top: 2px;
+}
+
+
+.bottomRow {
+    flex: 1;
+    background: rgba(0, 0, 0, .5);
+    margin: 9px;
+    border-radius: 18px;
+    padding: 12px;
+    height: 60px;
+    transform: translateY(80px);
+    animation: slideUp .5s;
+    animation-delay: 200ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0px)
+    }
+
+}
+
+
+
+.iphonebody {
+    opacity: 0;
+    animation: fadeIn .5s;
+    animation-delay: 200ms;
+    animation-fill-mode: forwards;
+    transform: scale(2);
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+.widgetTextSmall {
+    font-size: 8px;
+}
+
+.widgetTextLarge {
+    font-size: 29px;
+    line-height: 26px;
+}
+
+.flame {
+    position: absolute;
+    bottom: -11px;
+    left: -11px;
+    transition: 2s;
+    opacity: 0;
+    /* The flame glitches if we don't apply this fade in to it */
+    animation: fadeIn .2s;
+    animation-fill-mode: forwards;
+}
+
+.widgetRect {
+    overflow: hidden;
+    height: 80px;
+    width: 100%;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, rgba(10, 22, 0), rgba(22, 40, 0));
+    z-index: 0;
+}
+
+.widgetSquare {
+    margin-top: 10px;
+    height: 80px;
+    width: 80px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, rgba(10, 22, 0), rgba(22, 40, 0));
+    /* overflow: hidden; */
+}
+
+.widgetSquare:active {
+    opacity: .9;
+}
+
+.openSquareWidgetAnimation {
+    transform: scale(1) translate(0px, 0px);
+    animation: openSquareWidgetAnimation forwards .5s;
+    border-radius: 10px;
+}
+
+@keyframes openSquareWidgetAnimation {
+    /* transform: scale(5.6) translate(10px, 8px); */
+    to {
+        transform: scaleX(2.5) translateX(18px) scaleY(5.6) translateY(10px);
+        /* width: 207px; */
+        /* height: 450px; */
+        /* transform: translate(-16px, -130px); */
+    }
+}
+
+.openSquareWidgetAnimation::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(1, 12, 0), rgba(10, 22, 0));
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 50;
+    opacity: 0;
+    animation: fadeOpacity forwards .15s;
+}
+
+@keyframes fadeOpacity {
+    to {
+        opacity: 1;
+    }
+}
+
+.blurredRectWidget {
+    transform: scale(1) translate(0px, 0px);
+    animation: blurRectWidget forwards .5s;
+}
+
+@keyframes blurRectWidget {
+    to {
+        filter: blur(2px);
+        transform: translateY(8px) scale(.95);
+    }
+}
+
+.blurredBottomRow {
+    transform: scale(1) translate(0px, 0px);
+    animation: blurBottomRow forwards .5s;
+}
+
+@keyframes blurBottomRow {
+    to {
+        filter: blur(2px);
+        transform: translateY(-8px) scale(.95);
+    }
+}
