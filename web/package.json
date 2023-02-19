@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_OPTIONS='-r @newrelic/next' next dev",
+    "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "NODE_OPTIONS='-r @newrelic/next' next start -p $PORT",
     "test": "echo \"Error: no test specified\" && exit 1"

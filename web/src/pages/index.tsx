@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Terminal from '../components/terminal'
 import styles from './index.module.css'
+import PhoneAnimation from "../components/PhoneAnimation/"
 
 export const HomePage = () => (
   <>
@@ -22,20 +23,7 @@ export const HomePage = () => (
         </a>
       </div>
       <div className={styles.iphoneContainer}>
-        <Image
-          alt='Iphone outline'
-          src='/iphone-14-outline.svg'
-          fill
-        />
-        <Image
-          alt='Iphone outline'
-          src='/profile-screen.png'
-          width={100}
-          height={100}
-          priority
-          unoptimized={true}
-          className={styles.profileScreen}
-        />
+        <PhoneAnimation />
       </div>
     </div>
     <Image
