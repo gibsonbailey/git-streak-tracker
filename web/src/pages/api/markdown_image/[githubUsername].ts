@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     const contributionData = processContributionData(await getGithubContributions(githubUsername))
     const streakLength = contributionData.streakLength
 
-    const svgData = await ejs.renderFile('utils/streak.svg', {
+    const svgData = await ejs.renderFile('src/utils/streak.svg', {
         hundredsPlace: Math.floor(streakLength / 100) % 10,
         tensPlace: Math.floor(streakLength / 10) % 10,
         onesPlace: Math.floor(streakLength / 1) % 10,

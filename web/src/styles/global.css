@@ -10,4 +10,5 @@ main,
     width: 100%;
     background-image: radial-gradient(black, #000800);
     z-index: -10;
+    @apply text-white
 }
