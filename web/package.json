@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='-r @newrelic/next' next dev",
     "build": "prisma generate && next build",
-    "start": "next start -p $PORT",
+    "start": "NODE_OPTIONS='-r @newrelic/next' next start -p $PORT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "cacheDirectories": [
@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@newrelic/next": "^0.4.0",
     "@next/font": "13.1.6",
     "@prisma/client": "^4.9.0",
     "@types/node": "18.11.18",
@@ -25,6 +26,7 @@
     "ejs": "^3.1.8",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "newrelic": "^9.10.1",
     "next": "13.1.6",
     "prisma": "^4.9.0",
     "react": "18.2.0",
