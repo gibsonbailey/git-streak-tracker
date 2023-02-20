@@ -11,10 +11,19 @@ const iPhoneAnimation = () => {
     const [streakLength, setStreakLength] = useState<number>(14)
 
     useEffect(() => {
-        if (todayComplete) {
+        setTimeout(() => {
+            // Turns widgets from grey to green
+            setTodayComplete(true)
             setStreakLength(streakLength + 1)
-        }
-    }, [todayComplete])
+        }, 2500);
+
+        setTimeout(() => {
+            // opens app.
+            setAppIsOpen(true)
+        }, 5000);
+
+    }, [])
+
     return (
         <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
@@ -26,7 +35,7 @@ const iPhoneAnimation = () => {
                     />)
             }
 
-            <div className="w-full flex justify-center relative z-20" onClick={() => setTodayComplete(!todayComplete)}>
+            <div className="w-full flex justify-center relative z-20" >
                 {/* =========== Top of iphone (camera etc) ============ */}
                 <div className={clsx("text-white absolute font-bold", styles.topRowText)}>12:00</div>
                 <div className={clsx("text-white absolute right-5 flex", styles.topIconRow)}>
@@ -50,7 +59,7 @@ const iPhoneAnimation = () => {
             <div className={clsx("w-full h-full absolute z-0", styles.iphoneBg)} />
 
 
-            <div className={clsx("mt-6 px-4 relative z-10", styles.iphonebody)} onClick={() => setAppIsOpen(true)}>
+            <div className={clsx("mt-6 px-4 relative z-10", styles.iphonebody)}>
                 {/* ============ Widget area ============ */}
                 <div
                     className={

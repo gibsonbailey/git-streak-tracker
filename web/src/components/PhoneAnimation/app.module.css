@@ -13,6 +13,32 @@
 
 }
 
+.animatedStreakDay {
+    position: absolute;
+    bottom: 1px;
+    right: 6px;
+    border-radius: 1px;
+    opacity: 0;
+    transform: scale(35);
+    width: 6px;
+    height: 6px;
+    border: 1px solid rgb(214, 104, 57);
+    background: rgba(244, 212, 159);
+    animation: animateStreakDay .2s forwards linear;
+    animation-delay: 2s;
+
+}
+
+@keyframes animateStreakDay {
+    to {
+        transform: scale(1);
+        opacity: 1;
+        bottom: 1px;
+        right: 6px;
+    }
+
+}
+
 .avatarShadow {
     box-shadow: 0 0 4px 1px rgb(5, 255, 0);
 }
@@ -31,5 +57,4 @@
 
 .dayLabel {
     font-size: 10px;
-
 }

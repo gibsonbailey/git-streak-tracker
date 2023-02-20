@@ -7,7 +7,9 @@ type SimulatedAppPropsprops = {
   todayComplete: boolean,
   streakLength: number,
 }
+
 const SimulatedAppView: React.FC<SimulatedAppPropsprops> = ({ todayComplete, streakLength }) => {
+
   return (
     <div className={clsx("h-full w-full absolute z-20 bg-white pt-10 px-6 flex align-center flex-col", styles.container)}>
       <Image src="/OpaqueFlame.png" alt="Flame background image" width={153} height={227} className={styles.opaqueFlame} />
@@ -56,16 +58,17 @@ const SimulatedAppView: React.FC<SimulatedAppPropsprops> = ({ todayComplete, str
         </div>
       </div>
 
-      <div className='mt-5'>
+      <div className='mt-5 relative'>
         <div className='text-xs white-text mb-1'>
           Contributions
         </div>
         <Image
           src="/simulate-app-assets/fake-graph.png"
           alt="Fake streak graph"
-          width={153} 
+          width={148} 
           height={55}
         />
+        <div className={styles.animatedStreakDay}/>
       </div>
     </div>
   );
