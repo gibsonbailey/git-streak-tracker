@@ -28,6 +28,28 @@
     }
 }
 
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+.beamTiming {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation-name: appear;
+    animation-duration: 0.1s;
+    animation-delay: 12.15s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
 .outerBeam {
     animation-name: outerPulse;
     animation-duration: 1s;

@@ -6,7 +6,31 @@
     filter: blur(15px);
 }
 
+@keyframes quake {
+    0% {
+        transform: translate(-2px, 1px)
+    }
+
+    30% {
+        transform: translate(1px, 0px)
+    }
+
+    60% {
+        transform: translate(-1px, 2px)
+    }
+
+    to {
+        transform: translate(1px, 2px)
+    }
+}
+
 .iphoneFrame {
+    animation-name: quake;
+    animation-duration: 0.07s;
+    animation-delay: 12.35s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
     border: 3px solid #D1CDDB;
     border-radius: 30px;
     opacity: 1;
@@ -142,6 +166,7 @@
 }
 
 @keyframes openSquareWidgetAnimation {
+
     /* transform: scale(5.6) translate(10px, 8px); */
     to {
         transform: scaleX(2.5) translateX(18px) scaleY(5.6) translateY(10px);
