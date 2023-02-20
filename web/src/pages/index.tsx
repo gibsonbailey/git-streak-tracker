@@ -7,7 +7,7 @@ import Laser from '../components/Laser'
 export const HomePage = () => (
   <>
     <div className="flex h-full w-full absolute justify-center items-center z-10">
-      <div className="w-1/2 flex flex-col items-end">
+      <div className="w-1/2 flex flex-col items-end mr-40">
         <h1 className="text-3xl font-bold mb-8">Git Streak Tracker</h1>
         <Terminal />
         <a>
@@ -21,11 +21,11 @@ export const HomePage = () => (
           </button>
         </a>
       </div>
-      <Laser />
       <div className={styles.iphoneContainer}>
         <PhoneAnimation />
       </div>
     </div>
+    <Laser />
     <Image alt="fire" src="/copper.svg" fill className="opacity-10 absolute" />
   </>
 )
