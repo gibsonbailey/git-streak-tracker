@@ -13,7 +13,23 @@
 
 }
 
+.avatarShadow {
+    box-shadow: 0 0 4px 1px rgb(5, 255, 0);
+}
+
 .opaqueFlame {
     position: absolute;
-    bottom: 50px;
+    bottom: 45px;
+    width: 100%;
+    left: 0;
+}
+
+.streakLength {
+    font-size: 42px;
+    line-height: 34px;
+}
+
+.dayLabel {
+    font-size: 10px;
+
 }

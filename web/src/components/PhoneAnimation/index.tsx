@@ -1,23 +1,32 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 import styles from './home.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SimulatedAppView from './SimulatedAppView'
 
 
 const iPhoneAnimation = () => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
+    const [todayComplete, setTodayComplete] = useState<boolean>(false)
+    const [streakLength, setStreakLength] = useState<number>(14)
 
-    const openApp = () => {
-        setAppIsOpen(true)
-    }
-
+    useEffect(() => {
+        if (todayComplete) {
+            setStreakLength(streakLength + 1)
+        }
+    }, [todayComplete])
     return (
         <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
-            {appIsOpen && <SimulatedAppView />}
+            {
+                appIsOpen && (
+                    <SimulatedAppView
+                        todayComplete={todayComplete}
+                        streakLength={streakLength}
+                    />)
+            }
 
-            <div className="w-full flex justify-center relative z-20">
+            <div className="w-full flex justify-center relative z-20" onClick={() => setTodayComplete(!todayComplete)}>
                 {/* =========== Top of iphone (camera etc) ============ */}
                 <div className={clsx("text-white absolute font-bold", styles.topRowText)}>12:00</div>
                 <div className={clsx("text-white absolute right-5 flex", styles.topIconRow)}>
@@ -30,7 +39,7 @@ const iPhoneAnimation = () => {
                     </div>
                 </div>
 
-                <div className={clsx('flex justify-center items-center relative', styles.iphoneTopRow)}>
+                <div className={clsx('flex justify-center items-center relative', styles.iphoneNotch)}>
                     <div className={clsx(styles.iphoneMicrophone)}></div>
                     <div className={clsx('absolute right-5', styles.iphoneCamera)}></div>
                 </div>
@@ -43,21 +52,114 @@ const iPhoneAnimation = () => {
 
             <div className={clsx("mt-6 px-4 relative z-10", styles.iphonebody)} onClick={() => setAppIsOpen(true)}>
                 {/* ============ Widget area ============ */}
-                <div className={clsx('relative', styles.widgetRect, appIsOpen && styles.blurredRectWidget)}>
-                    <Image src="/widgets/CopperFlame.svg" width={50} height={50} className={styles.flame} alt="Git Streak Flame" />
+                <div
+                    className={
+                        clsx(
+                            'relative transition',
+                            styles.widgetRect,
+                            todayComplete && styles.todayComplete,
+                            appIsOpen && styles.blurredRectWidget
+                        )
+                    }
+                >
+                    {
+                        // seperating into a big ternary to persist the fade in animation
+                        todayComplete ? (
+                            <Image
+                                src="/widgets/CopperFlame.svg"
+                                alt="Git Streak Flame"
+                                width={50}
+                                height={50}
+                                className={clsx(styles.flame)}
+                            />
+                        ) :
+                            <Image
+                                src="/widgets/GrayFlame.svg"
+                                alt="Git Streak Flame"
+                                width={50}
+                                height={50}
+                                className={clsx(styles.flame)}
+                            />
+                    }
+
                     <div className="flex items-center justify-center h-full w-full relative">
-                        <div className="text-white mr-5 pt-2">
-                            <div className={clsx("font-bold text-center", styles.widgetTextLarge)}>15</div>
+                        <div
+                            className={
+                                clsx(
+                                    "text-white mr-5 pt-2 transition-opacity",
+                                    !todayComplete && 'opacity-40'
+                                )
+                            }
+                        >
+                            <div className={clsx("font-bold text-center", styles.widgetTextLarge)}>{streakLength}</div>
                             <div className={clsx("uppercase text-center", styles.widgetTextSmall)}>days</div>
                         </div>
-                        <Image src="/widgets/Graph.png" width={60} height={80} unoptimized priority alt="Git Streak Flame" />
+                        <Image
+                            src="/widgets/Graph.png"
+                            alt="Git Streak Flame"
+                            width={60}
+                            height={80}
+                            unoptimized
+                            priority
+                            className={
+                                clsx(
+                                    "transition-opacity",
+                                    todayComplete ? 'opacity-100' : 'opacity-0'
+                                )
+                            }
+                        />
+                        <div className={clsx(
+                            "transition-opacity",
+                            todayComplete ? 'opacity-0' : 'opacity-50',
+                            styles.noContributionText
+                        )
+                        }
+                        >
+                            No contributions today
+                        </div>
+
                     </div>
                 </div>
-                <div className={clsx('relative z-20', styles.widgetSquare, appIsOpen && styles.openSquareWidgetAnimation)}>
+
+                <div className={
+                    clsx(
+                        'relative z-20 transition',
+                        styles.widgetSquare,
+                        todayComplete && styles.todayComplete,
+                        appIsOpen && styles.openSquareWidgetAnimation
+                    )
+                }
+                >
                     <div className="flex items-center justify-center h-full w-full relative">
-                        <Image src="/widgets/CopperFlame.svg" width={50} height={50} className={clsx("opacity-2", styles.flame)} alt="Git Streak Flame" />
-                        <div className="text-white pt-2 relative">
-                            <div className={clsx("font-bold text-center", styles.widgetTextLarge)}>15</div>
+                        {
+                            // seperating into a big ternary to persist the fade in animation
+                            todayComplete ? (
+                                <Image
+                                    src="/widgets/CopperFlame.svg"
+                                    alt="Git Streak Flame"
+                                    width={50}
+                                    height={50}
+                                    className={clsx(styles.flame)}
+                                />
+                            ) :
+                                <Image
+                                    src="/widgets/GrayFlame.svg"
+                                    alt="Git Streak Flame"
+                                    width={50}
+                                    height={50}
+                                    className={clsx(styles.flame)}
+                                />
+                        }
+
+                        <div
+                            className={
+                                clsx(
+                                    "text-white pt-2 relative transition-opacity",
+                                    !todayComplete && 'opacity-40'
+                                )
+                            }
+                        >
+                            <div className={clsx("font-bold text-center", styles.widgetTextLarge)}>{streakLength}</div>
                             <div className={clsx("uppercase text-center", styles.widgetTextSmall)}>days</div>
                         </div>
                     </div>
@@ -81,31 +183,3 @@ const iPhoneAnimation = () => {
 
 
 export default iPhoneAnimation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 
-// {/* bottom row of app */ }
-// <div className={clsx('flex justify-around items-center relative', styles.bottomRow)}>
-//     {/* <Image src="/app-icons/phone.png" width={30} height={30}/> */}
-//     <Image src="/app-icons/safari.png" width={38} height={38} />
-//     <Image src="/app-icons/appstore.png" width={38} height={38} />
-//     <Image src="/app-icons/messages.png" width={38} height={38} />
-// </div>
-// 
-//                     </div > 
