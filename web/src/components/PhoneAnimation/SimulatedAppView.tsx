@@ -121,7 +121,7 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
 const SimulatedAppView: React.FC = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [todayComplete, setTodayComplete] = useState<boolean>(false)
-  const [streakLength, setStreakLength] = useState<number>(14)
+  const [streakLength, setStreakLength] = useState<number>(10)
 
   useEffect(() => {
     setTimeout(() => {
@@ -134,7 +134,7 @@ const SimulatedAppView: React.FC = () => {
       setStreakLength(streakLength + 1)
       setTodayComplete(true)
     }, 9500)
-  })
+  }, [])
 
   return (
     <div className={clsx("h-full w-full absolute z-20 bg-white pt-10 px-6 flex align-center flex-col", styles.container)}>

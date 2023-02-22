@@ -8,21 +8,19 @@ import SimulatedAppView from './SimulatedAppView'
 const iPhoneAnimation = () => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
     const [todayComplete, setTodayComplete] = useState<boolean>(false)
-    const [streakLength, setStreakLength] = useState<number>(14)
+    const [streakLength, setStreakLength] = useState<number>(10)
 
     useEffect(() => {
         setTimeout(() => {
             // Turns widgets from grey to green
             setTodayComplete(true)
             setStreakLength(streakLength + 1)
-            // 13000 <-- should be
-        }, 2500);
+        }, 13000);
 
         setTimeout(() => {
             // opens app.
             setAppIsOpen(true)
-            // 15500 <-- should be
-        }, 5000);
+        }, 15500);
 
     }, [])
 
