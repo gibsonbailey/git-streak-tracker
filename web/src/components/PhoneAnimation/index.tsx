@@ -15,11 +15,13 @@ const iPhoneAnimation = () => {
             // Turns widgets from grey to green
             setTodayComplete(true)
             setStreakLength(streakLength + 1)
+            // 13000 <-- should be
         }, 2500);
 
         setTimeout(() => {
             // opens app.
             setAppIsOpen(true)
+            // 15500 <-- should be
         }, 5000);
 
     }, [])
@@ -28,11 +30,7 @@ const iPhoneAnimation = () => {
         <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
             {
-                appIsOpen && (
-                    <SimulatedAppView
-                        todayComplete={todayComplete}
-                        streakLength={streakLength}
-                    />)
+                appIsOpen && <SimulatedAppView />
             }
 
             <div className="w-full flex justify-center relative z-20" >
