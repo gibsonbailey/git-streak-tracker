@@ -14,7 +14,6 @@ import {
   useThree,
 } from '@react-three/fiber'
 import { EffectComposer, Bloom, GodRays } from '@react-three/postprocessing'
-import { createSemanticDiagnosticsBuilderProgram } from 'typescript'
 
 extend({ EffectComposer, Bloom, GodRays })
 
@@ -58,17 +57,17 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`
 }
 
+const gravity = -0.002
+const xDampening = 1 - 0.01
+const speed = 0.12
+
 const generateInitialVelocity = () => {
-  const speed = 0.12
   return [
     Math.random() * -speed,
     (Math.random() - 0.5) * speed * 2,
     Math.random() * speed,
   ]
 }
-
-// const initialXPosition = 3.64
-// const initialYPosition = 0
 
 const generateParticle = (
   initialXPosition: number,
@@ -109,8 +108,6 @@ const Particles = forwardRef(
     controlRef,
   ) => {
     const particleQuantity = 2000
-    const gravity = -0.002
-    const xDampening = 1 - 0.01
     const floorHeight = -3.5
 
     const { camera } = useThree()
@@ -158,7 +155,6 @@ const Particles = forwardRef(
           // Reset particle to origin
           if (particle.material.opacity < 0.1) {
             particles.current[index].velocity = generateInitialVelocity()
-            // particles.current[index].position.x = initialXPosition
 
             if (iPhoneFrameRef.current) {
               particles.current[index].position.x =
@@ -180,7 +176,19 @@ const Particles = forwardRef(
             particles.current[index].velocity[0] *= 0.8
           }
 
+          // Apply forces
+          particles.current[index].velocity[0] *= xDampening
+          particles.current[index].velocity[1] += gravity
+
+          // integrate velocity
+          particles.current[index].position.x +=
+            particles.current[index].velocity[0]
+          particles.current[index].position.y +=
+            particles.current[index].velocity[1]
+
           // Bounce off of the left wall
+          // This has to happen after the position is updated by velocity because otherwise the particle's position
+          // could be past the wall.
           let wallX = null
           if (TerminalFrameRef.current) {
             wallX =
@@ -193,8 +201,8 @@ const Particles = forwardRef(
           if (wallX != null) {
             if (
               particles.current[index].position.x < wallX &&
-              particles.current[index].position.y < 1.6 &&
-              particles.current[index].position.y > -1.25
+              particles.current[index].position.y < 1.6 && // Top of terminal
+              particles.current[index].position.y > -1.25 // Bottom of terminal
             ) {
               particles.current[index].velocity[0] = Math.abs(
                 particles.current[index].velocity[0] * 0.3,
@@ -203,16 +211,6 @@ const Particles = forwardRef(
               particles.current[index].velocity[1] *= 0.2
             }
           }
-
-          // Apply forces
-          particles.current[index].velocity[0] *= xDampening
-          particles.current[index].velocity[1] += gravity
-
-          // integrate velocity
-          particles.current[index].position.x +=
-            particles.current[index].velocity[0]
-          particles.current[index].position.y +=
-            particles.current[index].velocity[1]
 
           // Assign new positions
           particle.position.x = particles.current[index].position.x
