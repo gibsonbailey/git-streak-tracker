@@ -100,9 +100,11 @@ const Particles = forwardRef(
     {
       xOriginPosition,
       iPhoneFrameRef,
+      TerminalFrameRef,
     }: {
       xOriginPosition: number
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
+      TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
     controlRef,
   ) => {
@@ -149,14 +151,16 @@ const Particles = forwardRef(
             return
           }
 
+          const vFOV = THREE.MathUtils.degToRad(camera.fov)
+          const height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
+          const worldWidth = height * camera.aspect
+
           // Reset particle to origin
           if (particle.material.opacity < 0.1) {
             particles.current[index].velocity = generateInitialVelocity()
             // particles.current[index].position.x = initialXPosition
+
             if (iPhoneFrameRef.current) {
-              const vFOV = THREE.MathUtils.degToRad(camera.fov)
-              const height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
-              const worldWidth = height * camera.aspect
               particles.current[index].position.x =
                 (iPhoneFrameRef.current.getBoundingClientRect().x /
                   window.innerWidth -
@@ -176,19 +180,29 @@ const Particles = forwardRef(
             particles.current[index].velocity[0] *= 0.8
           }
 
-          // // Bounce off of the left wall
-          // const wallX = 2.385
-          // if (
-          //   particles.current[index].position.x < wallX &&
-          //   particles.current[index].position.y < 1.6 &&
-          //   particles.current[index].position.y > -1.25
-          // ) {
-          //   particles.current[index].velocity[0] = Math.abs(
-          //     particles.current[index].velocity[0] * 0.3,
-          //   )
-          //   particles.current[index].position.x = wallX
-          //   particles.current[index].velocity[1] *= 0.2
-          // }
+          // Bounce off of the left wall
+          let wallX = null
+          if (TerminalFrameRef.current) {
+            wallX =
+              ((TerminalFrameRef.current.getBoundingClientRect().x +
+                TerminalFrameRef.current.offsetWidth) /
+                window.innerWidth -
+                0.5) *
+              worldWidth
+          }
+          if (wallX != null) {
+            if (
+              particles.current[index].position.x < wallX &&
+              particles.current[index].position.y < 1.6 &&
+              particles.current[index].position.y > -1.25
+            ) {
+              particles.current[index].velocity[0] = Math.abs(
+                particles.current[index].velocity[0] * 0.3,
+              )
+              particles.current[index].position.x = wallX
+              particles.current[index].velocity[1] *= 0.2
+            }
+          }
 
           // Apply forces
           particles.current[index].velocity[0] *= xDampening
@@ -231,9 +245,11 @@ export default forwardRef(
     {
       sparksXPosition,
       iPhoneFrameRef,
+      TerminalFrameRef,
     }: {
       sparksXPosition: number
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
+      TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
     ref,
   ) => {
@@ -253,6 +269,7 @@ export default forwardRef(
             ref={ref}
             xOriginPosition={widthPortion}
             iPhoneFrameRef={iPhoneFrameRef}
+            TerminalFrameRef={TerminalFrameRef}
           />
           <EffectComposer>
             <Bloom

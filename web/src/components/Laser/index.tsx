@@ -5,15 +5,17 @@ import { useEffect, useRef } from 'react'
 
 export default ({
   iPhoneFrameRef,
+  TerminalFrameRef,
 }: {
   iPhoneFrameRef: React.RefObject<HTMLDivElement>
+  TerminalFrameRef: React.RefObject<HTMLDivElement>
 }) => {
   const sparkControl = useRef(false)
 
   useEffect(() => {
     setTimeout(() => {
       sparkControl.current = true
-    // }, 12250)
+      // }, 12250)
     }, 1000)
   }, [])
 
@@ -33,7 +35,12 @@ export default ({
         <div className={clsx('bg-lime-500 w-full h-1', styles.midBeam2)}></div>
         <div className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}></div>
       </div>
-      <Sparks ref={sparkControl} sparksXPosition={0} iPhoneFrameRef={iPhoneFrameRef}/>
+      <Sparks
+        ref={sparkControl}
+        sparksXPosition={0}
+        iPhoneFrameRef={iPhoneFrameRef}
+        TerminalFrameRef={TerminalFrameRef}
+      />
     </div>
   )
 }

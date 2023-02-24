@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import Vim from './Vim'
 import Prompt from './Prompt'
 
-export default () => {
+export default forwardRef(({}, ref) => {
     const headerButtonColors = [
         'bg-red-500',
         'bg-yellow-500',
@@ -11,7 +11,7 @@ export default () => {
     ]
 
     return (
-        <div className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative'>
+        <div ref={ref} className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative'>
             <div className='flex w-full border-b border-b-slate-800 bg-gray-900 '>
                 {headerButtonColors.map(color => (
                     <div
@@ -26,7 +26,7 @@ export default () => {
             <Content />
         </div>
     )
-}
+})
 
 const lsOutput = `
 total 42
