@@ -69,6 +69,14 @@ const generateInitialVelocity = () => {
   ]
 }
 
+const lerp = (a, b, n) => {
+  // Params:
+  // a: start value
+  // b: end value
+  // n: interpolation value between 0 and 1
+  return (1 - n) * a + n * b
+}
+
 const generateParticle = (
   initialXPosition: number,
   initialYPosition: number,
@@ -80,11 +88,11 @@ const generateParticle = (
 
   const hue = 92 + Math.random() * (129 - 92)
   const saturation = 60 + Math.random() * (100 - 60)
-  const lightness = 30 + Math.random() * (50 - 30)
+  const lightness = 45 + Math.random() * (50 - 45)
 
   return {
     velocity: generateInitialVelocity(),
-    radius: Math.random() * 0.012,
+    radius: lerp(0.004, 0.008, Math.random()),
     color: hslToHex(hue, saturation, lightness),
     opacity: 0,
     position: {
@@ -107,7 +115,7 @@ const Particles = forwardRef(
     },
     controlRef,
   ) => {
-    const particleQuantity = 2000
+    const particleQuantity = 1000
     const floorHeight = -3.5
 
     const { camera } = useThree()
@@ -209,6 +217,7 @@ const Particles = forwardRef(
               )
               particles.current[index].position.x = wallX
               particles.current[index].velocity[1] *= 0.2
+              particle.material.opacity *= 0.4
             }
           }
 
@@ -239,7 +248,8 @@ const Particles = forwardRef(
           particle.position.y = particles.current[index].position.y
 
           // Gradually dim particles
-          particle.material.opacity *= 0.97
+          // particle.material.opacity *= 0.97
+          particle.material.opacity *= 0.92
         })
       }
     })
