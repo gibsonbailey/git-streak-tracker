@@ -21,14 +21,14 @@ const Circle = forwardRef<THREE.Mesh>(
   (
     {
       children,
-      opacity = 1,
+      emissiveIntentisy = 1,
       radius = 0.05,
       segments = 32,
       color = '#ff1050',
       ...props
     }: PropsWithChildren<
       {
-        opacity: number | undefined
+        emissiveIntentisy: number | undefined
         radius: number | undefined
         segments: number | undefined
         color: string | undefined
@@ -38,7 +38,11 @@ const Circle = forwardRef<THREE.Mesh>(
   ) => (
     <mesh ref={ref} {...props}>
       <circleGeometry args={[radius, segments]} />
-      <meshBasicMaterial transparent={true} opacity={opacity} color={color} />
+      <meshPhongMaterial
+        color={'#ff0000'}
+        emissive={'#f2ff00'}
+        emissiveIntensity={emissiveIntentisy}
+      />
       {children}
     </mesh>
   ),
@@ -86,7 +90,16 @@ const generateParticle = (
   // s: 0%, 100%
   // l: 29%, 50%
 
-  const hue = 92 + Math.random() * (129 - 92)
+  // const hue = 92 + Math.random() * (129 - 92)
+  // const saturation = 60 + Math.random() * (100 - 60)
+  // const lightness = 45 + Math.random() * (50 - 45)
+
+  // HSL bounds for red-yellow particles
+  // h: 92, 129
+  // s: 0%, 100%
+  // l: 29%, 50%
+
+  const hue = 0 + Math.random() * (55 - 0)
   const saturation = 60 + Math.random() * (100 - 60)
   const lightness = 45 + Math.random() * (50 - 45)
 
@@ -94,7 +107,7 @@ const generateParticle = (
     velocity: generateInitialVelocity(),
     radius: lerp(0.004, 0.008, Math.random()),
     color: hslToHex(hue, saturation, lightness),
-    opacity: 0,
+    emissiveIntensity: 0,
     position: {
       x: initialXPosition,
       y: initialYPosition,
@@ -161,7 +174,7 @@ const Particles = forwardRef(
           const worldWidth = height * camera.aspect
 
           // Reset particle to origin
-          if (particle.material.opacity < 0.1) {
+          if (particle.material.emissiveIntensity < 0.1) {
             particles.current[index].velocity = generateInitialVelocity()
 
             if (iPhoneFrameRef.current) {
@@ -172,16 +185,7 @@ const Particles = forwardRef(
                 worldWidth
             }
             particles.current[index].position.y = initialYPosition
-            particle.material.opacity = 1
-          }
-
-          // Bounce off of the floor
-          if (particles.current[index].position.y < floorHeight) {
-            particles.current[index].velocity[1] = Math.abs(
-              particles.current[index].velocity[1] * 0.1,
-            )
-            particles.current[index].position.y = floorHeight
-            particles.current[index].velocity[0] *= 0.8
+            particle.material.emissiveIntensity = 1
           }
 
           // Apply forces
@@ -217,7 +221,8 @@ const Particles = forwardRef(
               )
               particles.current[index].position.x = wallX
               particles.current[index].velocity[1] *= 0.2
-              particle.material.opacity *= 0.4
+
+              particle.material.emissiveIntensity *= 0.4
             }
           }
 
@@ -243,13 +248,21 @@ const Particles = forwardRef(
             }
           }
 
+          // Bounce off of the floor
+          if (particles.current[index].position.y < floorHeight) {
+            particles.current[index].velocity[1] = Math.abs(
+              particles.current[index].velocity[1] * 0.1,
+            )
+            particles.current[index].position.y = floorHeight
+            particles.current[index].velocity[0] *= 0.8
+          }
+
           // Assign new positions
           particle.position.x = particles.current[index].position.x
           particle.position.y = particles.current[index].position.y
 
           // Gradually dim particles
-          // particle.material.opacity *= 0.97
-          particle.material.opacity *= 0.92
+          particle.material.emissiveIntensity *= 0.92
         })
       }
     })
@@ -261,7 +274,7 @@ const Particles = forwardRef(
             key={index}
             radius={particle.radius}
             color={particle.color}
-            opacity={particle.opacity}
+            emissiveIntensity={particle.emissiveIntensity}
             segments={8}
           />
         ))}
@@ -292,9 +305,8 @@ export default forwardRef(
     return (
       <div className="h-full w-full absolute z-50">
         <Canvas className="h-full w-full">
-          <ambientLight intensity={1.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-          <pointLight position={[-10, -10, -10]} />
+          <pointLight position={[3, 0, 2]} intensity={2} />
           <Particles
             ref={ref}
             xOriginPosition={widthPortion}
