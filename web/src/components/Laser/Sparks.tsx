@@ -62,8 +62,11 @@ function hslToHex(h, s, l) {
 }
 
 const gravity = -0.002
+// const gravity = -0.0002
 const xDampening = 1 - 0.01
+const yDampening = 1 - 0.008
 const speed = 0.12
+// const speed = 0.02
 
 const generateInitialVelocity = () => {
   return [
@@ -95,7 +98,7 @@ const generateParticle = (
   // const lightness = 45 + Math.random() * (50 - 45)
 
   // HSL bounds for red-yellow particles
-  // h: 92, 129
+  // h: 0, 55
   // s: 0%, 100%
   // l: 29%, 50%
 
@@ -128,7 +131,7 @@ const Particles = forwardRef(
     },
     controlRef,
   ) => {
-    const particleQuantity = 1000
+    const particleQuantity = 200
     const floorHeight = -3.5
 
     const { camera } = useThree()
@@ -190,6 +193,7 @@ const Particles = forwardRef(
 
           // Apply forces
           particles.current[index].velocity[0] *= xDampening
+          particles.current[index].velocity[1] *= yDampening
           particles.current[index].velocity[1] += gravity
 
           // integrate velocity
@@ -257,12 +261,19 @@ const Particles = forwardRef(
             particles.current[index].velocity[0] *= 0.8
           }
 
+          const xVel = particles.current[index].velocity[0]
+          const yVel = particles.current[index].velocity[1]
+          const vel = Math.sqrt(xVel * xVel + yVel * yVel)
+
+          particle.scale.set(1 + vel * vel * 1000, 1, 1)
+          particle.rotation.set(0, 0, Math.atan2(yVel, xVel))
+
           // Assign new positions
           particle.position.x = particles.current[index].position.x
           particle.position.y = particles.current[index].position.y
 
           // Gradually dim particles
-          particle.material.emissiveIntensity *= 0.92
+          particle.material.emissiveIntensity *= 0.95
         })
       }
     })
