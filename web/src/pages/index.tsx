@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export const HomePage = () => {
   const iPhoneFrameRef = useRef<HTMLDivElement>(null)
+  const TerminalFrameRef = useRef<HTMLDivElement>(null)
   const [iPhoneXPosition, setiPhoneXPosition] = useState(0)
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export const HomePage = () => {
       <div className="flex h-full w-full absolute justify-center items-center z-10">
         <div className="w-1/2 flex flex-col items-end mr-40">
           <h1 className="text-3xl font-bold mb-8">Git Streak Tracker</h1>
-          <Terminal />
+          <Terminal ref={TerminalFrameRef} />
           <a>
             <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
               <Image
@@ -37,10 +38,14 @@ export const HomePage = () => {
           </a>
         </div>
         <div className={styles.iphoneContainer}>
-          <PhoneAnimation ref={iPhoneFrameRef}/>
+          <PhoneAnimation ref={iPhoneFrameRef} />
         </div>
       </div>
-      <Laser iPhoneXPosition={iPhoneXPosition} iPhoneFrameRef={iPhoneFrameRef}/>
+      <Laser
+        iPhoneXPosition={iPhoneXPosition}
+        iPhoneFrameRef={iPhoneFrameRef}
+        TerminalFrameRef={TerminalFrameRef}
+      />
       <Image
         alt="fire"
         src="/copper.svg"
