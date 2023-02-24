@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 import styles from './home.module.css'
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import SimulatedAppView from './SimulatedAppView'
 
 
-const iPhoneAnimation = () => {
+const iPhoneAnimation = forwardRef(({}, ref) => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
 
     const openApp = () => {
@@ -13,7 +13,7 @@ const iPhoneAnimation = () => {
     }
 
     return (
-        <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
+        <div ref={ref} className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
             {appIsOpen && <SimulatedAppView />}
 
@@ -77,7 +77,7 @@ const iPhoneAnimation = () => {
 
         </div>
     );
-}
+})
 
 
 export default iPhoneAnimation
