@@ -212,6 +212,28 @@ const Particles = forwardRef(
             }
           }
 
+          // Bounce off of the iPhone frame
+          let phoneWallX = null
+          if (iPhoneFrameRef.current) {
+            phoneWallX =
+              (iPhoneFrameRef.current.getBoundingClientRect().x /
+                window.innerWidth -
+                0.5) *
+              worldWidth
+          }
+          if (phoneWallX != null) {
+            if (
+              particles.current[index].position.x > phoneWallX &&
+              particles.current[index].position.y < 1.6 && // Top of phone
+              particles.current[index].position.y > -1.25 // Bottom of phone
+            ) {
+              particles.current[index].velocity[0] =
+                0 - Math.abs(particles.current[index].velocity[0] * 0.3)
+              particles.current[index].position.x = phoneWallX
+              particles.current[index].velocity[1] *= 0.2
+            }
+          }
+
           // Assign new positions
           particle.position.x = particles.current[index].position.x
           particle.position.y = particles.current[index].position.y
