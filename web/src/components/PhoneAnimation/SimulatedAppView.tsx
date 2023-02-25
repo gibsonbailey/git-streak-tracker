@@ -65,11 +65,11 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
 
     setTimeout(() => {
       setHideDialog(true)
-    }, 6000)
+    }, 4500)
 
     setTimeout(() => {
       setDropCubeIntoGraph(true)
-    }, 7550)
+    }, 5000)
 
 
     return () => {

@@ -24,8 +24,6 @@
     height: 6px;
     border: 1px solid rgb(214, 104, 57);
     background: rgba(244, 212, 159);
-    /* animation: animateStreakDay .2s forwards linear; */
-    /* animation-delay: 2s; */
 
 }
 
@@ -114,7 +112,7 @@
     transform-style: preserve-3d;
     transform: translateZ(-72px);
     transition: transform 1s;
-    animation: spinCube 30s linear infinite;
+    animation: spinCube 20s linear infinite;
 }
 
 
