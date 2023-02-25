@@ -18,7 +18,6 @@ export default ({
     setTimeout(() => {
       sparkControl.current = 'run'
       setShowParticles(true)
-      // }, 12250)
     }, 2000)
 
     setTimeout(() => {
@@ -39,9 +38,6 @@ export default ({
     <div
       className={clsx(
         'h-full w-full flex flex-col justify-center absolute z-5',
-        {
-          hidden: !showParticles,
-        },
       )}
     >
       <div

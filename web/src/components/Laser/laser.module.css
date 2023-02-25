@@ -29,14 +29,24 @@
 }
 
 @keyframes appear {
-    from {
+    0% {
         opacity: 0;
         transform: translateX(-100%);
     }
 
-    to {
+    5% {
         opacity: 1;
         transform: translateX(0%);
+    }
+
+    95% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(100%) scaleX(0%);
     }
 }
 
@@ -44,8 +54,8 @@
     opacity: 0;
     transform: translateX(-100%);
     animation-name: appear;
-    animation-duration: 0.1s;
-    animation-delay: 12.15s;
+    animation-duration: 2s;
+    animation-delay: 1.9s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
 }

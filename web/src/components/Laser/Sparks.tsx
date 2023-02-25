@@ -22,6 +22,7 @@ const Circle = forwardRef<THREE.Mesh>(
     {
       children,
       emissiveIntentisy = 1,
+      opacity = 1,
       radius = 0.05,
       segments = 32,
       color = '#ff1050',
@@ -29,6 +30,7 @@ const Circle = forwardRef<THREE.Mesh>(
     }: PropsWithChildren<
       {
         emissiveIntentisy: number | undefined
+        opacity: number | undefined
         radius: number | undefined
         segments: number | undefined
         color: string | undefined
@@ -42,6 +44,7 @@ const Circle = forwardRef<THREE.Mesh>(
         color={'#ff0000'}
         emissive={'#f2ff00'}
         emissiveIntensity={emissiveIntentisy}
+        opacity={opacity}
         transparent
       />
       {children}
@@ -110,6 +113,7 @@ const generateParticle = (
     radius: lerp(0.004, 0.008, Math.random()),
     color: hslToHex(hue, saturation, lightness),
     emissiveIntensity: 0,
+    opacity: 0,
     position: {
       x: initialXPosition,
       y: initialYPosition,
@@ -190,7 +194,7 @@ const Particles = forwardRef(
                 worldWidth
             }
             particles.current[index].position.y = initialYPosition
-            particle.material.emissiveIntensity = 1
+            particle.material.emissiveIntensity = 1.5
             particle.material.opacity = 1
           }
 
@@ -293,6 +297,7 @@ const Particles = forwardRef(
             key={index}
             radius={particle.radius}
             color={particle.color}
+            opacity={particle.opacity}
             emissiveIntensity={particle.emissiveIntensity}
             segments={8}
           />
