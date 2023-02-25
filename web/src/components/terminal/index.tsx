@@ -4,31 +4,38 @@ import { forwardRef, useEffect, useState } from 'react'
 import Vim from './Vim'
 import Prompt from './Prompt'
 
-export default forwardRef(({}, 
-  ref: React.Ref<HTMLDivElement>,
+export default forwardRef(
+  (
+    {
+      animationFinished,
+    }: {
+      animationFinished: () => void
+    },
+    ref: React.Ref<HTMLDivElement>,
   ) => {
-  const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
+    const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
 
-  return (
-    <div
-      ref={ref}
-      className={clsx(
-        'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
-        styles.quakeAnimation,
-      )}
-    >
-      <div className="flex w-full border-b border-b-slate-800 bg-gray-900 ">
-        {headerButtonColors.map((color) => (
-          <div
-            className={clsx('h-3 w-3 ml-2 my-2 rounded-full', color)}
-            key={color}
-          ></div>
-        ))}
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
+          styles.quakeAnimation,
+        )}
+      >
+        <div className="flex w-full border-b border-b-slate-800 bg-gray-900 ">
+          {headerButtonColors.map((color) => (
+            <div
+              className={clsx('h-3 w-3 ml-2 my-2 rounded-full', color)}
+              key={color}
+            ></div>
+          ))}
+        </div>
+        <Content animationFinished={animationFinished} />
       </div>
-      <Content />
-    </div>
-  )
-})
+    )
+  },
+)
 
 const lsOutput = `
 total 42
@@ -54,7 +61,7 @@ remote: Resolving deltas: 100% (2/2), completed with 1 local object.
 To https://github.com/gibsonbailey/git-streak-tracker.git
    3e6f0d6..89abcdef  main -> main`
 
-const Content = () => {
+const Content = ({ animationFinished }: { animationFinished: () => void }) => {
   const [mode, setMode] = useState<'shell' | 'vim'>('shell')
   const [linesChanged, setLinesChanged] = useState(1)
   const [currentCommand, setCurrentCommand] = useState('')
@@ -119,6 +126,7 @@ const Content = () => {
         setTimeout(() => {
           setCurrentCommand('')
           setCommandOutputs([lsOutput, gitCommitOutput, gitPushOutput])
+          animationFinished()
         }, 200)
       }
     }
