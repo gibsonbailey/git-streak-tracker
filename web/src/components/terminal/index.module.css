@@ -19,7 +19,6 @@
 .quakeAnimation {
     animation-name: quake;
     animation-duration: 0.07s;
-    animation-delay: 8.4s;
     animation-timing-function: linear;
     animation-iteration-count: 30;
 }
@@ -34,11 +33,13 @@
     }
 }
 
-.gradientText {
+.gradientTextPulse {
     animation-duration: 0.7s;
-    animation-delay: 8s;
     animation-name: slideBackground;
     animation-direction: normal;
+}
+
+.gradientText {
     background: linear-gradient(90deg,
             white 0%,
             white 25%,

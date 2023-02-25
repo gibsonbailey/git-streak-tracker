@@ -15,12 +15,20 @@ export default forwardRef(
   ) => {
     const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
 
+    const [enableQuakeAnimation, setEnableQuakeAnimation] = useState(false)
+
+    const triggerQuakeAnimation = () => {
+      setEnableQuakeAnimation(true)
+    }
+
     return (
       <div
         ref={ref}
         className={clsx(
           'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
-          styles.quakeAnimation,
+          {
+            [styles.quakeAnimation]: enableQuakeAnimation,
+          },
         )}
       >
         <div className="flex w-full border-b border-b-slate-800 bg-gray-900 ">
@@ -31,7 +39,10 @@ export default forwardRef(
             ></div>
           ))}
         </div>
-        <Content animationFinished={animationFinished} />
+        <Content
+          animationFinished={animationFinished}
+          triggerQuakeAnimation={triggerQuakeAnimation}
+        />
       </div>
     )
   },
@@ -61,13 +72,20 @@ remote: Resolving deltas: 100% (2/2), completed with 1 local object.
 To https://github.com/gibsonbailey/git-streak-tracker.git
    3e6f0d6..89abcdef  main -> main`
 
-const Content = ({ animationFinished }: { animationFinished: () => void }) => {
+const Content = ({
+  animationFinished,
+  triggerQuakeAnimation,
+}: {
+  animationFinished: () => void
+  triggerQuakeAnimation: () => void
+}) => {
   const [mode, setMode] = useState<'shell' | 'vim'>('shell')
   const [linesChanged, setLinesChanged] = useState(1)
   const [currentCommand, setCurrentCommand] = useState('')
   const [commandOutputs, setCommandOutputs] = useState<string[]>([])
   const [currentCommandCursorIndex, setCurrentCommandIndex] = useState(0)
   const [commandSpeed, setCommandSpeed] = useState<'low' | 'high'>('low')
+  const [enablePulse, setEnablePulse] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {
@@ -126,7 +144,11 @@ const Content = ({ animationFinished }: { animationFinished: () => void }) => {
         setTimeout(() => {
           setCurrentCommand('')
           setCommandOutputs([lsOutput, gitCommitOutput, gitPushOutput])
+          setEnablePulse(true)
           animationFinished()
+          setTimeout(() => {
+            triggerQuakeAnimation()
+          }, 400)
         }, 200)
       }
     }
@@ -140,6 +162,9 @@ const Content = ({ animationFinished }: { animationFinished: () => void }) => {
         className={clsx(
           'p-2 flex flex-col justify-end h-72 overflow-hidden',
           styles.gradientText,
+          {
+            [styles.gradientTextPulse]: enablePulse,
+          },
         )}
       >
         {commandOutputs.map((output, index) => (
