@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 import styles from './home.module.css'
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import SimulatedAppView from './SimulatedAppView'
 
 
-const iPhoneAnimation = () => {
+const iPhoneAnimation = forwardRef(({},
+     ref: React.Ref<HTMLDivElement>,
+     ) => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
     const [todayComplete, setTodayComplete] = useState<boolean>(false)
     const [streakLength, setStreakLength] = useState<number>(10)
@@ -15,17 +17,17 @@ const iPhoneAnimation = () => {
             // Turns widgets from grey to green
             setTodayComplete(true)
             setStreakLength(streakLength + 1)
-        }, 13000);
+        }, 9500);
 
         setTimeout(() => {
             // opens app.
             setAppIsOpen(true)
-        }, 15500);
+        }, 11000);
 
     }, [])
 
     return (
-        <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
+        <div ref={ref} className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
             {
                 appIsOpen && <SimulatedAppView />
@@ -100,7 +102,7 @@ const iPhoneAnimation = () => {
                             <div className={clsx("uppercase text-center", styles.widgetTextSmall)}>days</div>
                         </div>
                         <Image
-                            src="/widgets/Graph.png"
+                            src="/widgets/Graph.jpg"
                             alt="Git Streak Flame"
                             width={60}
                             height={80}
@@ -184,7 +186,7 @@ const iPhoneAnimation = () => {
 
         </div>
     );
-}
+})
 
 
 export default iPhoneAnimation
