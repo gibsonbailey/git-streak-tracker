@@ -16,9 +16,13 @@ export default forwardRef(
     const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
 
     const [enableQuakeAnimation, setEnableQuakeAnimation] = useState(false)
+    const [dimOverlayEnabled, setDimOverlayEnabled] = useState(false)
 
     const triggerQuakeAnimation = () => {
       setEnableQuakeAnimation(true)
+      setTimeout(() => {
+        setDimOverlayEnabled(true)
+      }, 1700)
     }
 
     return (
@@ -43,6 +47,15 @@ export default forwardRef(
           animationFinished={animationFinished}
           triggerQuakeAnimation={triggerQuakeAnimation}
         />
+        {/* Dim overlay */}
+        <div
+          className={clsx(
+            'absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-[2500ms]',
+            {
+              'opacity-30': dimOverlayEnabled,
+            },
+          )}
+        ></div>
       </div>
     )
   },

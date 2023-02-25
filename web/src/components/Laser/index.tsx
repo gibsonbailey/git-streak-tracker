@@ -48,7 +48,7 @@ export default forwardRef(
 
             setTimeout(() => {
               sparkControl.current = 'finish'
-            }, startTimeDelay + 2000)
+            }, startTimeDelay + 1800)
 
             setTimeout(() => {
               setParticleAnimationFinished(true)
