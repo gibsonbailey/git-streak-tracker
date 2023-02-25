@@ -18,7 +18,7 @@ export default ({
     setTimeout(() => {
       sparkControl.current = 'run'
       setShowParticles(true)
-    }, 2000)
+    }, 1550)
 
     setTimeout(() => {
       sparkControl.current = 'finish'
