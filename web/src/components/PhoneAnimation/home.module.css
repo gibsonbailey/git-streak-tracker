@@ -1,5 +1,5 @@
 .iphoneBg {
-    background-image: url('/iphone-bg.PNG');
+    background-image: url('/iphone-bg.jpg');
     background-size: contain;
     filter: blur(15px);
 }
