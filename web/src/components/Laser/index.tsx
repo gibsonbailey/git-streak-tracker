@@ -11,19 +11,17 @@ export default ({
   TerminalFrameRef: React.RefObject<HTMLDivElement>
 }) => {
   const sparkControl = useRef('stop')
-  const [showParticles, setShowParticles] = useState(false)
   const [particleAnimationFinished, setParticleAnimationFinished] =
     useState(false)
 
   useEffect(() => {
     setTimeout(() => {
       sparkControl.current = 'run'
-      setShowParticles(true)
     }, 7700)
 
     setTimeout(() => {
       sparkControl.current = 'finish'
-    }, 10000)
+    }, 9800)
 
     setTimeout(() => {
       setParticleAnimationFinished(true)
