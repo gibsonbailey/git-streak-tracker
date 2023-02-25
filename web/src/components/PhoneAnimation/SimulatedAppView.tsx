@@ -95,7 +95,7 @@ const SimulatedAppView: React.FC = () => {
       // When cube drops into graph
       setStreakLength(streakLength + 1)
       setTodayComplete(true)
-    }, 9500)
+    }, 7500)
   }, [])
 
   return (
