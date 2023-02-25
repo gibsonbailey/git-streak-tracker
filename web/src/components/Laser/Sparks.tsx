@@ -42,6 +42,7 @@ const Circle = forwardRef<THREE.Mesh>(
         color={'#ff0000'}
         emissive={'#f2ff00'}
         emissiveIntensity={emissiveIntentisy}
+        transparent
       />
       {children}
     </mesh>
@@ -62,11 +63,9 @@ function hslToHex(h, s, l) {
 }
 
 const gravity = -0.002
-// const gravity = -0.0002
 const xDampening = 1 - 0.01
 const yDampening = 1 - 0.008
 const speed = 0.12
-// const speed = 0.02
 
 const generateInitialVelocity = () => {
   return [
@@ -159,7 +158,7 @@ const Particles = forwardRef(
     )
 
     useFrame(() => {
-      if (!controlRef.current) {
+      if (controlRef.current === 'stop') {
         return
       }
       if (groupRef.current) {
@@ -177,7 +176,10 @@ const Particles = forwardRef(
           const worldWidth = height * camera.aspect
 
           // Reset particle to origin
-          if (particle.material.emissiveIntensity < 0.1) {
+          if (
+            particle.material.emissiveIntensity < 0.1 &&
+            controlRef.current !== 'finish'
+          ) {
             particles.current[index].velocity = generateInitialVelocity()
 
             if (iPhoneFrameRef.current) {
@@ -189,6 +191,7 @@ const Particles = forwardRef(
             }
             particles.current[index].position.y = initialYPosition
             particle.material.emissiveIntensity = 1
+            particle.material.opacity = 1
           }
 
           // Apply forces
@@ -227,6 +230,7 @@ const Particles = forwardRef(
               particles.current[index].velocity[1] *= 0.2
 
               particle.material.emissiveIntensity *= 0.4
+              particle.material.opacity *= 0.4
             }
           }
 
@@ -259,6 +263,9 @@ const Particles = forwardRef(
             )
             particles.current[index].position.y = floorHeight
             particles.current[index].velocity[0] *= 0.8
+
+            particle.material.emissiveIntensity *= 0.4
+            particle.material.opacity *= 0.95
           }
 
           const xVel = particles.current[index].velocity[0]
@@ -274,6 +281,7 @@ const Particles = forwardRef(
 
           // Gradually dim particles
           particle.material.emissiveIntensity *= 0.95
+          particle.material.opacity *= 0.995
         })
       }
     })

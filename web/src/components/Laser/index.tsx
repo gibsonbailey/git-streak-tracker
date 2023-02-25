@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import Sparks from './Sparks'
 import styles from './laser.module.css'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default ({
   iPhoneFrameRef,
@@ -10,17 +10,40 @@ export default ({
   iPhoneFrameRef: React.RefObject<HTMLDivElement>
   TerminalFrameRef: React.RefObject<HTMLDivElement>
 }) => {
-  const sparkControl = useRef(false)
+  const sparkControl = useRef('stop')
+  const [showParticles, setShowParticles] = useState(false)
+  const [ particleAnimationFinished, setParticleAnimationFinished ] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {
-      sparkControl.current = true
+      sparkControl.current = 'run'
+      setShowParticles(true)
       // }, 12250)
-    }, 1000)
+    }, 2000)
+
+    setTimeout(() => {
+      sparkControl.current = 'finish'
+    }, 4000)
+
+    setTimeout(() => {
+      setParticleAnimationFinished(true)
+    }, 8000)
+
   }, [])
 
+  if (particleAnimationFinished) {
+    return null
+  }
+
   return (
-    <div className="h-full w-full flex flex-col justify-center absolute z-5">
+    <div
+      className={clsx(
+        'h-full w-full flex flex-col justify-center absolute z-5',
+        {
+          hidden: !showParticles,
+        },
+      )}
+    >
       <div
         className={clsx('w-60 absolute right-[26.2%]', styles.beamTiming)}
         style={{
