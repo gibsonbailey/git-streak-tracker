@@ -106,7 +106,7 @@ const iPhoneAnimation = forwardRef(({},
                             <div className={clsx("uppercase text-center", styles.widgetTextSmall)}>days</div>
                         </div>
                         <Image
-                            src="/widgets/Graph.png"
+                            src="/widgets/Graph.jpg"
                             alt="Git Streak Flame"
                             width={60}
                             height={80}
