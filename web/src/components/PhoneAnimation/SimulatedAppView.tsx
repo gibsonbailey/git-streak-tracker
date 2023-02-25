@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './app.module.css'
 import clsx from 'clsx'
 import Image from 'next/image'
+import useTypingText from '../../utils/useTypingText';
 
 
 const Cube: React.FC<{ dropIntoGraph: boolean }> = ({ dropIntoGraph }) => {
@@ -22,46 +23,12 @@ const Cube: React.FC<{ dropIntoGraph: boolean }> = ({ dropIntoGraph }) => {
 }
 
 const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
-  const [showCursor, setShowCursor] = useState(false)
   const [hideDialog, setHideDialog] = useState(false)
   const [dropCubeIntoGraph, setDropCubeIntoGraph] = useState(false)
-
-
-  const [cursorIndex, setCursorIndex] = useState(0)
-  const cursorInterval = useRef(null)
-  const messageInterval = useRef(null)
-  const message = `${streakLength} days! Congrats `
-
-  const clearCursorInterval = () => {
-    if (cursorInterval.current) {
-      clearInterval(cursorInterval.current)
-    }
-  }
-  const clearMessageInterval = () => {
-    if (messageInterval.current) {
-      clearInterval(messageInterval.current)
-    }
-  }
-
-  const createCursorInterval = () => {
-    cursorInterval.current = setInterval(() => {
-      setShowCursor(showCursor => !showCursor)
-    }, 400)
-  }
-
-  const createMessageInterval = () => {
-    messageInterval.current = setInterval(() => {
-      if (cursorIndex < message.length) {
-        setCursorIndex(cursorIndex => cursorIndex + 1)
-      } else {
-        clearMessageInterval()
-      }
-    }, 100)
-  }
+  const message = "Congratulations"
+  const { showCursor, cursorIndex, outputText } = useTypingText({ text: message })
 
   useEffect(() => {
-    createCursorInterval()
-    createMessageInterval()
 
     setTimeout(() => {
       setHideDialog(true)
@@ -71,11 +38,6 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
       setDropCubeIntoGraph(true)
     }, 5000)
 
-
-    return () => {
-      clearCursorInterval()
-      clearMessageInterval()
-    }
   }, [])
 
   return (
@@ -102,7 +64,7 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
             </div>
             <div className="text-xs text-center relative flex mt-2">
 
-              {message.slice(0, cursorIndex)}
+              {outputText}
 
               {cursorIndex >= message.length && <span className='ml-1'>🎉</span>}
 
