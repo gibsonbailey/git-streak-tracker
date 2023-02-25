@@ -157,8 +157,10 @@ const Content = ({
         setTimeout(() => {
           setCurrentCommand('')
           setCommandOutputs([lsOutput, gitCommitOutput, gitPushOutput])
-          setEnablePulse(true)
           animationFinished()
+          setTimeout(() => {
+            setEnablePulse(true)
+          }, 200)
           setTimeout(() => {
             triggerQuakeAnimation()
           }, 400)
