@@ -5,28 +5,27 @@ import Vim from './Vim'
 import Prompt from './Prompt'
 
 export default forwardRef(({}, ref) => {
-    const headerButtonColors = [
-        'bg-red-500',
-        'bg-yellow-500',
-        'bg-green-500',
-    ]
+  const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
 
-    return (
-        <div ref={ref} className={clsx('w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative', styles.quakeAnimation)}>
-            <div className='flex w-full border-b border-b-slate-800 bg-gray-900 '>
-                {headerButtonColors.map(color => (
-                    <div
-                        className={clsx(
-                            'h-3 w-3 ml-2 my-2 rounded-full',
-                            color
-                        )}
-                        key={color}
-                    ></div>
-                ))}
-            </div>
-            <Content />
-        </div>
-    )
+  return (
+    <div
+      ref={ref}
+      className={clsx(
+        'w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
+        styles.quakeAnimation,
+      )}
+    >
+      <div className="flex w-full border-b border-b-slate-800 bg-gray-900 ">
+        {headerButtonColors.map((color) => (
+          <div
+            className={clsx('h-3 w-3 ml-2 my-2 rounded-full', color)}
+            key={color}
+          ></div>
+        ))}
+      </div>
+      <Content />
+    </div>
+  )
 })
 
 const lsOutput = `
@@ -54,99 +53,96 @@ To https://github.com/gibsonbailey/git-streak-tracker.git
    3e6f0d6..89abcdef  main -> main`
 
 const Content = () => {
-    const [ mode, setMode ] = useState<'shell' | 'vim'>('shell')
-    const [ linesChanged, setLinesChanged ] = useState(1)
-    const [ currentCommand, setCurrentCommand ] = useState('')
-    const [ commandOutputs, setCommandOutputs ] = useState<string[]>([])
-    const [ currentCommandCursorIndex, setCurrentCommandIndex ] = useState(0)
-    const [ commandSpeed, setCommandSpeed ] = useState<'low' | 'high'>('low')
+  const [mode, setMode] = useState<'shell' | 'vim'>('shell')
+  const [linesChanged, setLinesChanged] = useState(1)
+  const [currentCommand, setCurrentCommand] = useState('')
+  const [commandOutputs, setCommandOutputs] = useState<string[]>([])
+  const [currentCommandCursorIndex, setCurrentCommandIndex] = useState(0)
+  const [commandSpeed, setCommandSpeed] = useState<'low' | 'high'>('low')
 
+  useEffect(() => {
+    setTimeout(() => {
+      setCurrentCommand('ls -la')
+    }, 1500)
+  }, [])
 
-    useEffect(() => {
-        setTimeout(() => {
-            setCurrentCommand('ls -la')
-        }, 1500)
-    }, [])
+  const vimModeFinished = () => {
+    setMode('shell')
 
-    const vimModeFinished = () => {
-        setMode('shell')
+    setTimeout(() => {
+      setCommandSpeed('high')
+      setCurrentCommand('git commit -m "Minor change to language."')
+      setCurrentCommandIndex(0)
+    }, 1000)
+  }
 
-        setTimeout(() => {
-            setCommandSpeed('high')
-            setCurrentCommand('git commit -m "Minor change to language."')
-            setCurrentCommandIndex(0)
-        }, 1000)
+  useEffect(() => {
+    if (currentCommand == '') {
+      return
     }
+    if (currentCommandCursorIndex < currentCommand.length) {
+      const timeout = setTimeout(() => {
+        setCurrentCommandIndex(currentCommandCursorIndex + 1)
+      }, Math.floor((commandSpeed === 'low' ? 50 : 20) + Math.random() * 30))
 
-    useEffect(() => {
-        if (currentCommand == '') {
-            return
-        }
-        if (currentCommandCursorIndex < currentCommand.length) {
+      return () => {
+        clearTimeout(timeout)
+      }
+    } else {
+      if (currentCommand === 'ls -la') {
+        setTimeout(() => {
+          setCurrentCommand('')
+          setCommandOutputs([lsOutput])
+        }, 200)
 
-            const timeout = setTimeout(() => {
-                setCurrentCommandIndex(currentCommandCursorIndex + 1)
-            }, Math.floor((commandSpeed === 'low' ? 50 : 20) + (Math.random() * 30)))
+        setTimeout(() => {
+          setCurrentCommand('git commit -m "Minor change to language."')
+          setCurrentCommandIndex(0)
+        }, 1200)
+      } else if (
+        currentCommand === 'git commit -m "Minor change to language."'
+      ) {
+        setTimeout(() => {
+          setCommandSpeed('low')
+          setLinesChanged(0)
+          setCurrentCommand('')
+          setCommandOutputs([lsOutput, gitCommitOutput])
+        }, 200)
 
-            return () => { clearTimeout(timeout) }
-        } else {
-            if (currentCommand === 'ls -la') {
+        setTimeout(() => {
+          setCurrentCommand('git push')
+          setCurrentCommandIndex(0)
+        }, 1000)
+      } else if (currentCommand === 'git push') {
+        setTimeout(() => {
+          setCurrentCommand('')
+          setCommandOutputs([lsOutput, gitCommitOutput, gitPushOutput])
+        }, 200)
+      }
+    }
+  }, [currentCommand, currentCommandCursorIndex])
 
-                setTimeout(() => {
-                    setCurrentCommand('')
-                    setCommandOutputs([ lsOutput ])
-                }, 200)
-
-                setTimeout(() => {
-                    setCurrentCommand(
-                      'git commit -m "Minor change to language."',
-                    )
-                    setCurrentCommandIndex(0)
-                }, 1200)
-
-            } else if (currentCommand === 'git commit -m "Minor change to language."') {
-
-                setTimeout(() => {
-                    setCommandSpeed('low')
-                    setLinesChanged(0)
-                    setCurrentCommand('')
-                    setCommandOutputs([ lsOutput, gitCommitOutput ])
-                }, 200)
-
-                setTimeout(() => {
-                    setCurrentCommand('git push')
-                    setCurrentCommandIndex(0)
-                }, 1000)
-
-            } else if (currentCommand === 'git push') {
-
-                setTimeout(() => {
-                    setCurrentCommand('')
-                    setCommandOutputs([ lsOutput, gitCommitOutput, gitPushOutput ])
-                }, 200)
-
-            }
-        }
-    }, [ currentCommand, currentCommandCursorIndex ])
-
-    return (
-        mode === 'vim' ? (
-            <Vim animationFinished={vimModeFinished} />
-        ) : (
-            <div className='flex flex-col w-full'>
-                <div className='p-2 flex flex-col justify-end h-72 overflow-hidden'>
-                    {commandOutputs.map((output, index) => (
-                        <pre key={index}>
-                            <span className='font-thin text-slate-200'>
-                                {output}
-                            </span>
-                        </pre>
-                    ))}
-                </div>
-                <Prompt command={currentCommand} commandCursorIndex={currentCommandCursorIndex} linesChanged={linesChanged} />
-            </div>
-        )
-    )
+  return mode === 'vim' ? (
+    <Vim animationFinished={vimModeFinished} />
+  ) : (
+    <div className="flex flex-col w-full">
+      <div
+        className={clsx(
+          'p-2 flex flex-col justify-end h-72 overflow-hidden',
+          styles.gradientText,
+        )}
+      >
+        {commandOutputs.map((output, index) => (
+          <pre key={index}>
+            <span className={'font-thin '}>{output}</span>
+          </pre>
+        ))}
+      </div>
+      <Prompt
+        command={currentCommand}
+        commandCursorIndex={currentCommandCursorIndex}
+        linesChanged={linesChanged}
+      />
+    </div>
+  )
 }
-
-

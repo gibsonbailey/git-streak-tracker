@@ -17,15 +17,15 @@ export default ({
   useEffect(() => {
     setTimeout(() => {
       sparkControl.current = 'run'
-    }, 7700)
+    }, 7700 + 400)
 
     setTimeout(() => {
       sparkControl.current = 'finish'
-    }, 9800)
+    }, 9800 + 400)
 
     setTimeout(() => {
       setParticleAnimationFinished(true)
-    }, 12000)
+    }, 14000)
   }, [])
 
   if (particleAnimationFinished) {
