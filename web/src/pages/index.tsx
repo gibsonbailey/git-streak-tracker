@@ -43,7 +43,6 @@ export const HomePage = () => {
         </div>
       </div>
       <Laser
-        iPhoneXPosition={iPhoneXPosition}
         iPhoneFrameRef={iPhoneFrameRef}
         TerminalFrameRef={TerminalFrameRef}
       />

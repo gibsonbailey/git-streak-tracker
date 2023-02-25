@@ -5,7 +5,9 @@ import { forwardRef, useEffect, useState } from 'react'
 import SimulatedAppView from './SimulatedAppView'
 
 
-const iPhoneAnimation = forwardRef(({}, ref) => {
+const iPhoneAnimation = forwardRef(({},
+     ref: React.Ref<HTMLDivElement>,
+     ) => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
     const [todayComplete, setTodayComplete] = useState<boolean>(false)
     const [streakLength, setStreakLength] = useState<number>(14)

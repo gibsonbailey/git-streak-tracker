@@ -17,11 +17,11 @@ import { EffectComposer, Bloom, GodRays } from '@react-three/postprocessing'
 
 extend({ EffectComposer, Bloom, GodRays })
 
-const Circle = forwardRef<THREE.Mesh>(
+const Circle = forwardRef(
   (
     {
       children,
-      emissiveIntentisy = 1,
+      emissiveIntensity = 1,
       opacity = 1,
       radius = 0.05,
       segments = 32,
@@ -29,21 +29,21 @@ const Circle = forwardRef<THREE.Mesh>(
       ...props
     }: PropsWithChildren<
       {
-        emissiveIntentisy: number | undefined
+        emissiveIntensity: number | undefined
         opacity: number | undefined
         radius: number | undefined
         segments: number | undefined
         color: string | undefined
       } & ThreeElements['mesh']
     >,
-    ref,
+    ref: React.Ref<THREE.Mesh>,
   ) => (
     <mesh ref={ref} {...props}>
       <circleGeometry args={[radius, segments]} />
       <meshPhongMaterial
         color={'#ff0000'}
         emissive={'#f2ff00'}
-        emissiveIntensity={emissiveIntentisy}
+        emissiveIntensity={emissiveIntensity}
         opacity={opacity}
         transparent
       />
@@ -132,12 +132,12 @@ const Particles = forwardRef(
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
-    controlRef,
+    controlRef: React.RefObject<'stop' | 'finish' | 'run'>,
   ) => {
     const particleQuantity = 200
     const floorHeight = -3.5
 
-    const { camera } = useThree()
+    const { camera } = useThree() as { camera: THREE.PerspectiveCamera }
 
     const [initialXPosition, setInitialXPosition] = useState(0)
     const initialYPosition = 0
@@ -169,7 +169,7 @@ const Particles = forwardRef(
         if (particleShown.current < particleQuantity) {
           particleShown.current += 10
         }
-        groupRef.current.children.forEach((particle, index) => {
+        groupRef.current.children.forEach((particle: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>, index) => {
           // Gradually introduce particles
           if (index > particleShown.current) {
             return
@@ -318,7 +318,7 @@ export default forwardRef(
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
-    ref,
+    ref: React.RefObject<'stop' | 'run' | 'finish'>
   ) => {
     const [widthPortion, setWidthPortion] = useState(0.5)
 

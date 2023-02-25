@@ -4,7 +4,9 @@ import { forwardRef, useEffect, useState } from 'react'
 import Vim from './Vim'
 import Prompt from './Prompt'
 
-export default forwardRef(({}, ref) => {
+export default forwardRef(({}, 
+  ref: React.Ref<HTMLDivElement>,
+  ) => {
   const headerButtonColors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500']
 
   return (

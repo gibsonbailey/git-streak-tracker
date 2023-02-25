@@ -10,7 +10,7 @@ export default ({
   iPhoneFrameRef: React.RefObject<HTMLDivElement>
   TerminalFrameRef: React.RefObject<HTMLDivElement>
 }) => {
-  const sparkControl = useRef('stop')
+  const sparkControl = useRef<'stop' | 'run' | 'finish'>('stop')
   const [particleAnimationFinished, setParticleAnimationFinished] =
     useState(false)
 
