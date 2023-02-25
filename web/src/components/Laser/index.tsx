@@ -29,6 +29,7 @@ export default forwardRef(
       useState(false)
 
     const [beamOffset, setBeamOffset] = useState(0)
+    const [activateBeam, setActivateBeam] = useState(false)
 
     useImperativeHandle(
       ref,
@@ -36,6 +37,10 @@ export default forwardRef(
         return {
           triggerAnimation: () => {
             const startTimeDelay = 800
+
+            setTimeout(() => {
+              setActivateBeam(true)
+            }, startTimeDelay - 150)
 
             setTimeout(() => {
               sparkControl.current = 'run'
@@ -71,7 +76,9 @@ export default forwardRef(
     return (
       <div className="h-full w-full flex flex-col justify-center absolute z-5">
         <div
-          className={clsx('w-60 absolute', styles.beamTiming)}
+          className={clsx('w-60 absolute', styles.beam, {
+            [styles.beamActive]: activateBeam,
+          })}
           style={{
             boxShadow: '0 3px 30px #04ff04',
             right: `${beamOffset}px`,
