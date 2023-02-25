@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import Vim from './Vim'
 import Prompt from './Prompt'
+import useTypingText from '../../utils/useTypingText'
 
 export default forwardRef(
   (
@@ -92,13 +93,14 @@ const Content = ({
   animationFinished: () => void
   triggerQuakeAnimation: () => void
 }) => {
+
   const [mode, setMode] = useState<'shell' | 'vim'>('shell')
   const [linesChanged, setLinesChanged] = useState(1)
   const [currentCommand, setCurrentCommand] = useState('')
   const [commandOutputs, setCommandOutputs] = useState<string[]>([])
-  const [currentCommandCursorIndex, setCurrentCommandIndex] = useState(0)
   const [commandSpeed, setCommandSpeed] = useState<'low' | 'high'>('low')
   const [enablePulse, setEnablePulse] = useState(false)
+  const { showCursor, cursorIndex, outputText } = useTypingText({ text: currentCommand, commandSpeed })
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,7 +114,6 @@ const Content = ({
     setTimeout(() => {
       setCommandSpeed('high')
       setCurrentCommand('git commit -m "Minor change to language."')
-      setCurrentCommandIndex(0)
     }, 1000)
   }
 
@@ -120,15 +121,7 @@ const Content = ({
     if (currentCommand == '') {
       return
     }
-    if (currentCommandCursorIndex < currentCommand.length) {
-      const timeout = setTimeout(() => {
-        setCurrentCommandIndex(currentCommandCursorIndex + 1)
-      }, Math.floor((commandSpeed === 'low' ? 50 : 20) + Math.random() * 30))
-
-      return () => {
-        clearTimeout(timeout)
-      }
-    } else {
+    if (cursorIndex >= currentCommand.length) {
       if (currentCommand === 'ls -la') {
         setTimeout(() => {
           setCurrentCommand('')
@@ -137,7 +130,6 @@ const Content = ({
 
         setTimeout(() => {
           setCurrentCommand('git commit -m "Minor change to language."')
-          setCurrentCommandIndex(0)
         }, 1200)
       } else if (
         currentCommand === 'git commit -m "Minor change to language."'
@@ -151,21 +143,22 @@ const Content = ({
 
         setTimeout(() => {
           setCurrentCommand('git push')
-          setCurrentCommandIndex(0)
         }, 1000)
       } else if (currentCommand === 'git push') {
         setTimeout(() => {
           setCurrentCommand('')
           setCommandOutputs([lsOutput, gitCommitOutput, gitPushOutput])
-          setEnablePulse(true)
           animationFinished()
+          setTimeout(() => {
+            setEnablePulse(true)
+          }, 200)
           setTimeout(() => {
             triggerQuakeAnimation()
           }, 400)
         }, 200)
       }
     }
-  }, [currentCommand, currentCommandCursorIndex])
+  }, [currentCommand, cursorIndex])
 
   return mode === 'vim' ? (
     <Vim animationFinished={vimModeFinished} />
@@ -187,8 +180,8 @@ const Content = ({
         ))}
       </div>
       <Prompt
-        command={currentCommand}
-        commandCursorIndex={currentCommandCursorIndex}
+        showCursor={showCursor}
+        outputText={outputText}
         linesChanged={linesChanged}
       />
     </div>

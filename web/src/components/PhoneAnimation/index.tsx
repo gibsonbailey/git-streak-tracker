@@ -10,7 +10,7 @@ const iPhoneAnimation = forwardRef(({},
      ) => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
     const [todayComplete, setTodayComplete] = useState<boolean>(false)
-    const [streakLength, setStreakLength] = useState<number>(14)
+    const [streakLength, setStreakLength] = useState<number>(10)
 
     useEffect(() => {
         setTimeout(() => {
@@ -30,11 +30,7 @@ const iPhoneAnimation = forwardRef(({},
         <div ref={ref} className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
             {
-                appIsOpen && (
-                    <SimulatedAppView
-                        todayComplete={todayComplete}
-                        streakLength={streakLength}
-                    />)
+                appIsOpen && <SimulatedAppView />
             }
 
             <div className="w-full flex justify-center relative z-20" >

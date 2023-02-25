@@ -2,11 +2,11 @@
     opacity: 0;
     background: linear-gradient(to bottom, rgba(1, 12, 0), rgba(10, 22, 0));
     border: none;
-    animation: openApp .2s forwards linear;
+    animation: fadeIn .2s forwards linear;
     animation-delay: .35s;
 }
 
-@keyframes openApp {
+@keyframes fadeIn {
     to {
         opacity: 1;
     }
@@ -24,20 +24,9 @@
     height: 6px;
     border: 1px solid rgb(214, 104, 57);
     background: rgba(244, 212, 159);
-    animation: animateStreakDay .2s forwards linear;
-    animation-delay: 2s;
 
 }
 
-@keyframes animateStreakDay {
-    to {
-        transform: scale(1);
-        opacity: 1;
-        bottom: 1px;
-        right: 6px;
-    }
-
-}
 
 .avatarShadow {
     box-shadow: 0 0 4px 1px rgb(5, 255, 0);
@@ -57,4 +46,157 @@
 
 .dayLabel {
     font-size: 10px;
+}
+
+
+/* Streak Dialog Styles */
+.streakDialog {
+    /* display: none; */
+    width: 80%;
+    height: 265px;
+    background: rgba(0, 0, 0, .8);
+    border: 3px solid rgba(214, 104, 57, .8);
+    border-radius: 10px;
+}
+
+.platform {
+    border-radius: 50%;
+    height: 14px;
+    position: absolute;
+    width: 100%;
+    box-shadow: 0 45px 30px 8px rgba(244, 212, 159, .9);
+    background: transparent;
+}
+
+
+.dialogOverlay {
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .5);
+    opacity: 0;
+    animation: fadeIn .2s forwards linear;
+}
+
+.fadeOut {
+    /* Util class we can apply to any element */
+    opacity: 1;
+    animation: fadeOut .2s forwards linear;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* Cube */
+
+.scene {
+    z-index: 20;
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    /* border: 1px solid #CCC; */
+    perspective: 400px;
+    transform: translate(-50%, -104%);
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    animation: fadeIn .2s forwards linear;
+}
+
+.cube {
+    width: 72px;
+    height: 72px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: translateZ(-72px);
+    transition: transform 1s;
+    animation: spinCube 20s linear infinite;
+}
+
+
+
+@keyframes spinCube {
+    0% {
+        transform: translateZ(-72px) rotateY(0deg) rotateX(0deg);
+    }
+
+    50% {
+        transform: translateZ(-72px) rotateY(360deg) rotateX(180deg);
+        ;
+    }
+
+    100% {
+        transform: translateZ(-72px) rotateY(720deg) rotateX(360deg);
+        ;
+    }
+}
+
+
+.dropToGraph {
+    animation: dropIntoGraph 1s 1 forwards;
+    /* animation-delay: 2s; */
+}
+
+
+@keyframes dropIntoGraph {
+    100% {
+        transform: scale(.085) translate(721px, 1494px);
+
+    }
+
+}
+
+.solidBg {
+    transition: border-radius .5s, border-width .5s;
+    background: rgba(244, 212, 159, .98) !important;
+    border-width: 12px !important; 
+    border-radius: 20px !important; 
+}
+.cubeFace {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 100px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border: 8px solid rgb(214, 104, 57);
+    background: rgba(244, 212, 159, .9);
+    border-radius: 0px;
+    /* animate */
+    /* border-width: 12px;
+    border-radius: 20px;
+    background: rgba(244, 212, 159, 1); */
+}
+
+.cubeFace__front {
+    transform: rotateY(0deg) translateZ(36px);
+}
+
+.cubeFace__right {
+    transform: rotateY(90deg) translateZ(36px);
+    /* display: none; */
+}
+
+.cubeFace__back {
+    transform: rotateY(180deg) translateZ(36px);
+    /* display: none; */
+}
+
+.cubeFace__left {
+    transform: rotateY(-90deg) translateZ(36px);
+    /* display: none; */
+}
+
+.cubeFace__top {
+    transform: rotateX(90deg) translateZ(36px);
+    /* display: none; */
+}
+
+.cubeFace__bottom {
+    transform: rotateX(-90deg) translateZ(36px);
+    /* display: none; */
 }
