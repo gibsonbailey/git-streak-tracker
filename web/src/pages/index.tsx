@@ -18,39 +18,45 @@ export const HomePage = () => {
 
   return (
     <>
-      <div className="flex h-full w-full absolute justify-center items-center z-10">
-        <div className="w-1/2 flex flex-col items-end mr-40">
-          <h1 className="text-3xl font-bold mb-8">Git Streak Tracker</h1>
-          <Terminal
-            ref={TerminalFrameRef}
-            animationFinished={animationFinished}
-          />
-          <a>
+      <div className="flex flex-col items-center">
+
+        <h1 className="text-3xl font-bold my-8">Git Streak Tracker</h1>
+        <div>
+          <div className="flex relative justify-center items-center z-10">
+
+            {/* <a>
             <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
-              <Image
-                alt="App store button"
-                src="/App-Store-Button.png"
-                width="200"
-                height="50"
-              />
+            <Image
+            alt="App store button"
+            src="/App-Store-Button.png"
+            width="200"
+            height="50"
+            />
             </button>
-          </a>
+          </a> */}
+            <div className={clsx('flex items-center')}>
+              <Terminal
+                ref={TerminalFrameRef}
+                animationFinished={animationFinished}
+              />
+              <PhoneAnimation ref={iPhoneFrameRef} />
+            </div>
+          </div>
+          
+          <Laser
+            ref={laserMethodsRef}
+            iPhoneFrameRef={iPhoneFrameRef}
+            TerminalFrameRef={TerminalFrameRef}
+          />
         </div>
-        <div className={clsx('w-1/2', styles.iphoneContainer)}>
-          <PhoneAnimation ref={iPhoneFrameRef} />
-        </div>
+        <Image
+          alt="fire"
+          src="/copper.svg"
+          fill
+          className="opacity-10 absolute"
+        />
       </div>
-      <Laser
-        ref={laserMethodsRef}
-        iPhoneFrameRef={iPhoneFrameRef}
-        TerminalFrameRef={TerminalFrameRef}
-      />
-      <Image
-        alt="fire"
-        src="/copper.svg"
-        fill
-        className="opacity-10 absolute"
-      />
+
     </>
   )
 }

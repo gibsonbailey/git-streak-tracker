@@ -30,7 +30,7 @@ export default forwardRef(
       <div
         ref={ref}
         className={clsx(
-          'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
+          'h-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative w-[762px] mr-28 h-[350px]',
           {
             [styles.quakeAnimation]: enableQuakeAnimation,
           },
@@ -163,10 +163,10 @@ const Content = ({
   return mode === 'vim' ? (
     <Vim animationFinished={vimModeFinished} />
   ) : (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full justify-between h-full">
       <div
         className={clsx(
-          'p-2 flex flex-col justify-end h-72 overflow-hidden',
+          'p-2 flex flex-col justify-end overflow-hidden max-h-[280px]',
           styles.gradientText,
           {
             [styles.gradientTextPulse]: enablePulse,
@@ -179,11 +179,12 @@ const Content = ({
           </pre>
         ))}
       </div>
+
       <Prompt
         showCursor={showCursor}
         outputText={outputText}
         linesChanged={linesChanged}
-      />
+        />
     </div>
   )
 }
