@@ -327,7 +327,7 @@ export default forwardRef(
     }, [sparksXPosition])
 
     return (
-      <div className="h-full w-full absolute z-50">
+      <div className="h-full w-full absolute z-50 pointer-events-none">
         <Canvas className="h-full w-full">
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[3, 0, 2]} intensity={2} />

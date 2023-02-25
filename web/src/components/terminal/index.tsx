@@ -1,3 +1,4 @@
+import styles from './index.module.css'
 import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import Vim from './Vim'
@@ -11,7 +12,7 @@ export default forwardRef(({}, ref) => {
     ]
 
     return (
-        <div ref={ref} className='w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative'>
+        <div ref={ref} className={clsx('w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative', styles.quakeAnimation)}>
             <div className='flex w-full border-b border-b-slate-800 bg-gray-900 '>
                 {headerButtonColors.map(color => (
                     <div
@@ -54,7 +55,7 @@ To https://github.com/gibsonbailey/git-streak-tracker.git
 
 const Content = () => {
     const [ mode, setMode ] = useState<'shell' | 'vim'>('shell')
-    const [ linesChanged, setLinesChanged ] = useState(0)
+    const [ linesChanged, setLinesChanged ] = useState(1)
     const [ currentCommand, setCurrentCommand ] = useState('')
     const [ commandOutputs, setCommandOutputs ] = useState<string[]>([])
     const [ currentCommandCursorIndex, setCurrentCommandIndex ] = useState(0)
@@ -97,17 +98,11 @@ const Content = () => {
                 }, 200)
 
                 setTimeout(() => {
-                    setCurrentCommand('vim code.tsx')
+                    setCurrentCommand(
+                      'git commit -m "Minor change to language."',
+                    )
                     setCurrentCommandIndex(0)
                 }, 1200)
-
-            } else if (currentCommand === 'vim code.tsx') {
-
-                setTimeout(() => {
-                    setMode('vim')
-                    setCurrentCommand('')
-                    setLinesChanged(1)
-                }, 200)
 
             } else if (currentCommand === 'git commit -m "Minor change to language."') {
 

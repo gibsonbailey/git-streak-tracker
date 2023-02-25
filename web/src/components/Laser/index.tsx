@@ -12,22 +12,22 @@ export default ({
 }) => {
   const sparkControl = useRef('stop')
   const [showParticles, setShowParticles] = useState(false)
-  const [ particleAnimationFinished, setParticleAnimationFinished ] = useState(false)
+  const [particleAnimationFinished, setParticleAnimationFinished] =
+    useState(false)
 
   useEffect(() => {
     setTimeout(() => {
       sparkControl.current = 'run'
       setShowParticles(true)
-    }, 1550)
+    }, 7700)
 
     setTimeout(() => {
       sparkControl.current = 'finish'
-    }, 4000)
+    }, 10000)
 
     setTimeout(() => {
       setParticleAnimationFinished(true)
-    }, 8000)
-
+    }, 12000)
   }, [])
 
   if (particleAnimationFinished) {
@@ -35,11 +35,7 @@ export default ({
   }
 
   return (
-    <div
-      className={clsx(
-        'h-full w-full flex flex-col justify-center absolute z-5',
-      )}
-    >
+    <div className={'h-full w-full flex flex-col justify-center absolute z-5'}>
       <div
         className={clsx('w-60 absolute right-[26.2%]', styles.beamTiming)}
         style={{

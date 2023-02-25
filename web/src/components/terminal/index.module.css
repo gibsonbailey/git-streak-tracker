@@ -1,0 +1,25 @@
+@keyframes quake {
+    0% {
+        transform: translate(-2px, 1px)
+    }
+
+    30% {
+        transform: translate(1px, 0px)
+    }
+
+    60% {
+        transform: translate(-1px, 2px)
+    }
+
+    to {
+        transform: translate(1px, 2px)
+    }
+}
+
+.quakeAnimation {
+    animation-name: quake;
+    animation-duration: 0.07s;
+    animation-delay: 8.0s;
+    animation-timing-function: linear;
+    animation-iteration-count: 28;
+}
