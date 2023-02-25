@@ -90,15 +90,6 @@ const generateParticle = (
   initialXPosition: number,
   initialYPosition: number,
 ) => {
-  // HSL bounds for green particles
-  // h: 92, 129
-  // s: 0%, 100%
-  // l: 29%, 50%
-
-  // const hue = 92 + Math.random() * (129 - 92)
-  // const saturation = 60 + Math.random() * (100 - 60)
-  // const lightness = 45 + Math.random() * (50 - 45)
-
   // HSL bounds for red-yellow particles
   // h: 0, 55
   // s: 0%, 100%
@@ -124,11 +115,9 @@ const generateParticle = (
 const Particles = forwardRef(
   (
     {
-      xOriginPosition,
       iPhoneFrameRef,
       TerminalFrameRef,
     }: {
-      xOriginPosition: number
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
@@ -139,25 +128,13 @@ const Particles = forwardRef(
 
     const { camera } = useThree() as { camera: THREE.PerspectiveCamera }
 
-    const [initialXPosition, setInitialXPosition] = useState(0)
     const initialYPosition = 0
-
-    useEffect(() => {
-      var vFOV = THREE.MathUtils.degToRad(camera.fov)
-      var height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height
-      var worldWidth = height * camera.aspect
-      let x = worldWidth * (xOriginPosition - 0.5)
-      setInitialXPosition(x)
-      particles.current = Array.from({ length: particleQuantity }, () =>
-        generateParticle(initialXPosition, initialYPosition),
-      )
-    }, [xOriginPosition])
 
     const groupRef = useRef<THREE.Group>()
     const particleShown = useRef<number>(0)
     const particles = useRef(
       Array.from({ length: particleQuantity }, () =>
-        generateParticle(initialXPosition, initialYPosition),
+        generateParticle(0, initialYPosition),
       ),
     )
 
@@ -333,7 +310,6 @@ export default forwardRef(
           <pointLight position={[3, 0, 2]} intensity={2} />
           <Particles
             ref={ref}
-            xOriginPosition={widthPortion}
             iPhoneFrameRef={iPhoneFrameRef}
             TerminalFrameRef={TerminalFrameRef}
           />
