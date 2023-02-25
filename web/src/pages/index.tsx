@@ -28,7 +28,7 @@ export const HomePage = () => {
           <a>
             <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
               <Image
-                alt="Iphone outline"
+                alt="App store button"
                 src="/App-Store-Button.png"
                 width="200"
                 height="50"
