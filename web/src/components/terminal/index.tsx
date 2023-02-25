@@ -11,7 +11,7 @@ export default forwardRef(({}, ref) => {
     <div
       ref={ref}
       className={clsx(
-        'w-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
+        'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
         styles.quakeAnimation,
       )}
     >

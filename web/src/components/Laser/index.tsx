@@ -14,6 +14,8 @@ export default ({
   const [particleAnimationFinished, setParticleAnimationFinished] =
     useState(false)
 
+  const [beamOffset, setBeamOffset] = useState(0)
+
   useEffect(() => {
     setTimeout(() => {
       sparkControl.current = 'run'
@@ -26,6 +28,14 @@ export default ({
     setTimeout(() => {
       setParticleAnimationFinished(true)
     }, 14000)
+
+    setTimeout(() => {
+      // Set beam offset to the left side of iphone frame
+      setBeamOffset(
+        window.innerWidth - iPhoneFrameRef.current?.getBoundingClientRect().x ||
+          0,
+      )
+    }, 100)
   }, [])
 
   if (particleAnimationFinished) {
@@ -33,11 +43,12 @@ export default ({
   }
 
   return (
-    <div className={'h-full w-full flex flex-col justify-center absolute z-5'}>
+    <div className="h-full w-full flex flex-col justify-center absolute z-5">
       <div
-        className={clsx('w-60 absolute right-[26.2%]', styles.beamTiming)}
+        className={clsx('w-60 absolute', styles.beamTiming)}
         style={{
           boxShadow: '0 3px 30px #04ff04',
+          right: `${beamOffset}px`,
         }}
       >
         <div className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}></div>

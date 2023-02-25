@@ -44,6 +44,11 @@
         transform: translateX(0%);
     }
 
+    97% {
+        opacity: 0.4;
+        transform: translateX(50%);
+    }
+
     100% {
         opacity: 0;
         transform: translateX(100%) scaleX(0%);

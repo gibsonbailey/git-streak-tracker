@@ -4,6 +4,7 @@ import styles from './index.module.css'
 import PhoneAnimation from '../components/PhoneAnimation/'
 import Laser from '../components/Laser'
 import { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
 
 export const HomePage = () => {
   const iPhoneFrameRef = useRef<HTMLDivElement>(null)
@@ -37,7 +38,7 @@ export const HomePage = () => {
             </button>
           </a>
         </div>
-        <div className={styles.iphoneContainer}>
+        <div className={clsx('w-1/2', styles.iphoneContainer)}>
           <PhoneAnimation ref={iPhoneFrameRef} />
         </div>
       </div>

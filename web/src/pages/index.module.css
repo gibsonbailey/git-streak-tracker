@@ -1,9 +1,7 @@
 .iphoneContainer {
     position: relative;
-    width: 207px;
-    height: 384px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 

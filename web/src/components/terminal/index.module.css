@@ -42,8 +42,10 @@
     background: linear-gradient(90deg,
             white 0%,
             white 25%,
+            #fcff59 30%,
             #00ff26 35%,
             #00ff26 45%,
+            #fcff59 50%,
             white 55%);
     background-size: 400% 400%;
     color: transparent;
