@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 import styles from './home.module.css'
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import SimulatedAppView from './SimulatedAppView'
 
 
-const iPhoneAnimation = () => {
+const iPhoneAnimation = forwardRef(({}, ref) => {
     const [appIsOpen, setAppIsOpen] = useState<boolean>(false)
     const [todayComplete, setTodayComplete] = useState<boolean>(false)
     const [streakLength, setStreakLength] = useState<number>(14)
@@ -25,7 +25,7 @@ const iPhoneAnimation = () => {
     }, [])
 
     return (
-        <div className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
+        <div ref={ref} className={clsx("w-full h-full overflow-hidden relative", styles.iphoneFrame)}>
 
             {
                 appIsOpen && (
@@ -188,7 +188,7 @@ const iPhoneAnimation = () => {
 
         </div>
     );
-}
+})
 
 
 export default iPhoneAnimation

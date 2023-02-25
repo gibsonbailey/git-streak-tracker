@@ -1,0 +1,95 @@
+@keyframes outerPulse {
+    from {
+        background-color: var(--color-lime-300);
+    }
+
+    to {
+        background-color: var(--color-lime-50);
+    }
+}
+
+@keyframes midPulse {
+    from {
+        background-color: var(--color-lime-200);
+    }
+
+    to {
+        background-color: var(--color-lime-400);
+    }
+}
+
+@keyframes centerPulse {
+    from {
+        background-color: var(--color-white);
+    }
+
+    to {
+        background-color: var(--color-lime-200);
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    4% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+
+    95% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+
+    97% {
+        opacity: 0.4;
+        transform: translateX(50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(100%) scaleX(0%);
+    }
+}
+
+.beamTiming {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation-name: appear;
+    animation-duration: 2s;
+    animation-delay: 8.5s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.outerBeam {
+    animation-name: outerPulse;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.midBeam {
+    animation-name: midPulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.midBeam2 {
+    animation-name: midPulse;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.centerBeam {
+    animation-name: centerPulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-delay: 0.5s;
+}

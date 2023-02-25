@@ -12,6 +12,9 @@
   "cacheDirectories": [
     ".next"
   ],
+  "engines": {
+      "node": "18.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,9 +22,12 @@
     "@newrelic/next": "^0.4.0",
     "@next/font": "13.1.6",
     "@prisma/client": "^4.9.0",
+    "@react-three/fiber": "^8.11.2",
+    "@react-three/postprocessing": "2.6.2",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@types/three": "0.148.0",
     "clsx": "^1.2.1",
     "ejs": "^3.1.8",
     "eslint": "8.33.0",
@@ -31,6 +37,7 @@
     "prisma": "^4.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "three": "0.148.0",
     "typescript": "4.9.5"
   },
   "devDependencies": {
