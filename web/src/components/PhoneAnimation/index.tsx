@@ -15,12 +15,12 @@ const iPhoneAnimation = forwardRef(({}, ref) => {
             // Turns widgets from grey to green
             setTodayComplete(true)
             setStreakLength(streakLength + 1)
-        }, 2500);
+        }, 9500);
 
         setTimeout(() => {
             // opens app.
             setAppIsOpen(true)
-        }, 5000);
+        }, 11000);
 
     }, [])
 
