@@ -50,7 +50,7 @@ export const HomePage = () => {
                   animationFinished={animationFinished}
                 />
                 <a>
-                  <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
+                  <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-0 sm:relative">
                     <Image
                       alt="App store button"
                       src="/App-Store-Button.png"

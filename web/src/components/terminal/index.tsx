@@ -41,7 +41,10 @@ export default forwardRef(
         <div className="flex w-full border-b border-b-slate-800 bg-gray-900 ">
           {headerButtonColors.map((color) => (
             <div
-              className={clsx('h-3 w-3 ml-2 my-2 rounded-full', color)}
+              className={clsx(
+                'h-2 sm:h-3 w-2 sm:w-3 ml-1.5 sm:ml-2 my-1.5 sm:my-2 rounded-full',
+                color,
+              )}
               key={color}
             ></div>
           ))}
@@ -88,6 +91,9 @@ remote: Resolving deltas: 100% (2/2), completed with 1 local object.
 To https://github.com/gibsonbailey/git-streak-tracker.git
    3e6f0d6..89abcdef  main -> main`
 
+// const commitCommand = 'git commit -m "Minor change to language."'
+const commitCommand = 'git commit -m "Minor change."'
+
 const Content = ({
   animationFinished,
   triggerQuakeAnimation,
@@ -117,7 +123,7 @@ const Content = ({
 
     setTimeout(() => {
       setCommandSpeed('high')
-      setCurrentCommand('git commit -m "Minor change to language."')
+      setCurrentCommand(commitCommand)
     }, 1000)
   }
 
@@ -133,11 +139,9 @@ const Content = ({
         }, 200)
 
         setTimeout(() => {
-          setCurrentCommand('git commit -m "Minor change to language."')
+          setCurrentCommand(commitCommand)
         }, 1200)
-      } else if (
-        currentCommand === 'git commit -m "Minor change to language."'
-      ) {
+      } else if (currentCommand === commitCommand) {
         setTimeout(() => {
           setCommandSpeed('low')
           setLinesChanged(0)
@@ -170,7 +174,7 @@ const Content = ({
     <div className="flex flex-col w-full justify-between h-full">
       <div
         className={clsx(
-          'p-2 flex flex-col justify-end overflow-hidden max-h-[200px] sm:max-h-[280px] text-xs sm:text-md',
+          'p-2 flex flex-col justify-end overflow-hidden max-h-[180px] sm:max-h-[280px] text-xs sm:text-md',
           styles.gradientText,
           {
             [styles.gradientTextPulse]: enablePulse,

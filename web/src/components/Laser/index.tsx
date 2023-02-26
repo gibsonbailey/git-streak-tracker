@@ -14,7 +14,7 @@ export default forwardRef(
     return (
       <div
         ref={ref}
-        className="h-40 w-40 flex flex-col justify-center overflow-hidden"
+        className="h-20 sm:h-40 sm:w-40 flex flex-col justify-center overflow-hidden"
       >
         <div
           className={clsx(
