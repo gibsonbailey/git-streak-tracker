@@ -1,9 +1,5 @@
 import * as THREE from 'three'
-import {
-  useRef,
-  forwardRef,
-  PropsWithChildren,
-} from 'react'
+import { useRef, forwardRef, PropsWithChildren } from 'react'
 import {
   Canvas,
   useFrame,
@@ -128,14 +124,10 @@ const Particles = forwardRef(
 
     const { camera } = useThree() as { camera: THREE.PerspectiveCamera }
 
-    const initialYPosition = 0
-
     const groupRef = useRef<THREE.Group>()
     const particleShown = useRef<number>(0)
     const particles = useRef(
-      Array.from({ length: particleQuantity }, () =>
-        generateParticle(0, initialYPosition),
-      ),
+      Array.from({ length: particleQuantity }, () => generateParticle(0, 0)),
     )
 
     useFrame(() => {
@@ -157,8 +149,8 @@ const Particles = forwardRef(
             }
 
             const vFOV = THREE.MathUtils.degToRad(camera.fov)
-            const height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
-            const worldWidth = height * camera.aspect
+            const worldHeight = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
+            const worldWidth = worldHeight * camera.aspect
 
             // Reset particle to origin
             if (
@@ -174,7 +166,14 @@ const Particles = forwardRef(
                     0.5) *
                   worldWidth
               }
-              particles.current[index].position.y = initialYPosition
+              if (LaserBeamRef.current) {
+                const laserDimensions = LaserBeamRef.current.getBoundingClientRect()
+                particles.current[index].position.y =
+                  ((laserDimensions.y + (0.5 * laserDimensions.height)) /
+                    window.innerHeight -
+                    0.5) *
+                  -worldHeight
+              }
               particle.material.emissiveIntensity = 1.5
               particle.material.opacity = 1
             }
