@@ -23,21 +23,21 @@ export const HomePage = () => {
         <div>
           <div className="flex relative justify-center items-center z-10">
             <div className={clsx('flex items-center')}>
-              <div className='flex flex-col items-end mr-32'>
+              <div className="flex flex-col items-end mr-32">
                 <Terminal
                   ref={TerminalFrameRef}
                   animationFinished={animationFinished}
                 />
                 <a>
-            <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
-            <Image
-            alt="App store button"
-            src="/App-Store-Button.png"
-            width="200"
-            height="50"
-            />
-            </button>
-          </a>
+                  <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
+                    <Image
+                      alt="App store button"
+                      src="/App-Store-Button.png"
+                      width="200"
+                      height="50"
+                    />
+                  </button>
+                </a>
               </div>
               <PhoneAnimation ref={iPhoneFrameRef} />
             </div>
