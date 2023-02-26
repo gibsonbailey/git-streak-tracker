@@ -23,7 +23,7 @@ export const HomePage = () => {
         <div>
           <div className="flex relative justify-center items-center z-10">
             <div className={clsx('flex items-center')}>
-              <div className="flex flex-col items-end mr-32">
+              <div className="flex flex-col items-end">
                 <Terminal
                   ref={TerminalFrameRef}
                   animationFinished={animationFinished}
@@ -39,15 +39,14 @@ export const HomePage = () => {
                   </button>
                 </a>
               </div>
+              <Laser
+                ref={laserMethodsRef}
+                iPhoneFrameRef={iPhoneFrameRef}
+                TerminalFrameRef={TerminalFrameRef}
+              />
               <PhoneAnimation ref={iPhoneFrameRef} />
             </div>
           </div>
-
-          <Laser
-            ref={laserMethodsRef}
-            iPhoneFrameRef={iPhoneFrameRef}
-            TerminalFrameRef={TerminalFrameRef}
-          />
         </div>
         <Image
           alt="fire"
