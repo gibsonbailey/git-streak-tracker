@@ -18,13 +18,17 @@ export const HomePage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center">
-
+      <div className="flex h-full w-full flex-col justify-center items-center">
         <h1 className="text-3xl font-bold my-8">Git Streak Tracker</h1>
         <div>
           <div className="flex relative justify-center items-center z-10">
-
-            {/* <a>
+            <div className={clsx('flex items-center')}>
+              <div className='flex flex-col items-end mr-32'>
+                <Terminal
+                  ref={TerminalFrameRef}
+                  animationFinished={animationFinished}
+                />
+                <a>
             <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
             <Image
             alt="App store button"
@@ -33,16 +37,12 @@ export const HomePage = () => {
             height="50"
             />
             </button>
-          </a> */}
-            <div className={clsx('flex items-center')}>
-              <Terminal
-                ref={TerminalFrameRef}
-                animationFinished={animationFinished}
-              />
+          </a>
+              </div>
               <PhoneAnimation ref={iPhoneFrameRef} />
             </div>
           </div>
-          
+
           <Laser
             ref={laserMethodsRef}
             iPhoneFrameRef={iPhoneFrameRef}
@@ -56,7 +56,6 @@ export const HomePage = () => {
           className="opacity-10 absolute"
         />
       </div>
-
     </>
   )
 }
