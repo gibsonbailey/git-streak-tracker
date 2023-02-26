@@ -3,8 +3,6 @@ import {
   useRef,
   forwardRef,
   PropsWithChildren,
-  useEffect,
-  useState,
 } from 'react'
 import {
   Canvas,
@@ -117,9 +115,11 @@ const Particles = forwardRef(
     {
       iPhoneFrameRef,
       TerminalFrameRef,
+      LaserBeamRef,
     }: {
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
+      LaserBeamRef: React.RefObject<HTMLDivElement>
     },
     controlRef: React.RefObject<'stop' | 'finish' | 'run'>,
   ) => {
@@ -146,124 +146,129 @@ const Particles = forwardRef(
         if (particleShown.current < particleQuantity) {
           particleShown.current += 10
         }
-        groupRef.current.children.forEach((particle: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>, index) => {
-          // Gradually introduce particles
-          if (index > particleShown.current) {
-            return
-          }
+        groupRef.current.children.forEach(
+          (
+            particle: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>,
+            index,
+          ) => {
+            // Gradually introduce particles
+            if (index > particleShown.current) {
+              return
+            }
 
-          const vFOV = THREE.MathUtils.degToRad(camera.fov)
-          const height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
-          const worldWidth = height * camera.aspect
+            const vFOV = THREE.MathUtils.degToRad(camera.fov)
+            const height = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
+            const worldWidth = height * camera.aspect
 
-          // Reset particle to origin
-          if (
-            particle.material.emissiveIntensity < 0.1 &&
-            controlRef.current !== 'finish'
-          ) {
-            particles.current[index].velocity = generateInitialVelocity()
+            // Reset particle to origin
+            if (
+              particle.material.emissiveIntensity < 0.1 &&
+              controlRef.current !== 'finish'
+            ) {
+              particles.current[index].velocity = generateInitialVelocity()
 
+              if (iPhoneFrameRef.current) {
+                particles.current[index].position.x =
+                  (iPhoneFrameRef.current.getBoundingClientRect().x /
+                    window.innerWidth -
+                    0.5) *
+                  worldWidth
+              }
+              particles.current[index].position.y = initialYPosition
+              particle.material.emissiveIntensity = 1.5
+              particle.material.opacity = 1
+            }
+
+            // Apply forces
+            particles.current[index].velocity[0] *= xDampening
+            particles.current[index].velocity[1] *= yDampening
+            particles.current[index].velocity[1] += gravity
+
+            // integrate velocity
+            particles.current[index].position.x +=
+              particles.current[index].velocity[0]
+            particles.current[index].position.y +=
+              particles.current[index].velocity[1]
+
+            // Bounce off of the left wall
+            // This has to happen after the position is updated by velocity because otherwise the particle's position
+            // could be past the wall.
+            let wallX = null
+            if (TerminalFrameRef.current) {
+              wallX =
+                ((TerminalFrameRef.current.getBoundingClientRect().x +
+                  TerminalFrameRef.current.offsetWidth) /
+                  window.innerWidth -
+                  0.5) *
+                worldWidth
+            }
+            if (wallX != null) {
+              if (
+                particles.current[index].position.x < wallX &&
+                particles.current[index].position.y < 1.6 && // Top of terminal
+                particles.current[index].position.y > -1.25 // Bottom of terminal
+              ) {
+                particles.current[index].velocity[0] = Math.abs(
+                  particles.current[index].velocity[0] * 0.3,
+                )
+                particles.current[index].position.x = wallX
+                particles.current[index].velocity[1] *= 0.2
+
+                particle.material.emissiveIntensity *= 0.4
+                particle.material.opacity *= 0.4
+              }
+            }
+
+            // Bounce off of the iPhone frame
+            let phoneWallX = null
             if (iPhoneFrameRef.current) {
-              particles.current[index].position.x =
+              phoneWallX =
                 (iPhoneFrameRef.current.getBoundingClientRect().x /
                   window.innerWidth -
                   0.5) *
                 worldWidth
             }
-            particles.current[index].position.y = initialYPosition
-            particle.material.emissiveIntensity = 1.5
-            particle.material.opacity = 1
-          }
+            if (phoneWallX != null) {
+              if (
+                particles.current[index].position.x > phoneWallX &&
+                particles.current[index].position.y < 1.6 && // Top of phone
+                particles.current[index].position.y > -1.25 // Bottom of phone
+              ) {
+                particles.current[index].velocity[0] =
+                  0 - Math.abs(particles.current[index].velocity[0] * 0.3)
+                particles.current[index].position.x = phoneWallX
+                particles.current[index].velocity[1] *= 0.2
+              }
+            }
 
-          // Apply forces
-          particles.current[index].velocity[0] *= xDampening
-          particles.current[index].velocity[1] *= yDampening
-          particles.current[index].velocity[1] += gravity
-
-          // integrate velocity
-          particles.current[index].position.x +=
-            particles.current[index].velocity[0]
-          particles.current[index].position.y +=
-            particles.current[index].velocity[1]
-
-          // Bounce off of the left wall
-          // This has to happen after the position is updated by velocity because otherwise the particle's position
-          // could be past the wall.
-          let wallX = null
-          if (TerminalFrameRef.current) {
-            wallX =
-              ((TerminalFrameRef.current.getBoundingClientRect().x +
-                TerminalFrameRef.current.offsetWidth) /
-                window.innerWidth -
-                0.5) *
-              worldWidth
-          }
-          if (wallX != null) {
-            if (
-              particles.current[index].position.x < wallX &&
-              particles.current[index].position.y < 1.6 && // Top of terminal
-              particles.current[index].position.y > -1.25 // Bottom of terminal
-            ) {
-              particles.current[index].velocity[0] = Math.abs(
-                particles.current[index].velocity[0] * 0.3,
+            // Bounce off of the floor
+            if (particles.current[index].position.y < floorHeight) {
+              particles.current[index].velocity[1] = Math.abs(
+                particles.current[index].velocity[1] * 0.1,
               )
-              particles.current[index].position.x = wallX
-              particles.current[index].velocity[1] *= 0.2
+              particles.current[index].position.y = floorHeight
+              particles.current[index].velocity[0] *= 0.8
 
               particle.material.emissiveIntensity *= 0.4
-              particle.material.opacity *= 0.4
+              particle.material.opacity *= 0.95
             }
-          }
 
-          // Bounce off of the iPhone frame
-          let phoneWallX = null
-          if (iPhoneFrameRef.current) {
-            phoneWallX =
-              (iPhoneFrameRef.current.getBoundingClientRect().x /
-                window.innerWidth -
-                0.5) *
-              worldWidth
-          }
-          if (phoneWallX != null) {
-            if (
-              particles.current[index].position.x > phoneWallX &&
-              particles.current[index].position.y < 1.6 && // Top of phone
-              particles.current[index].position.y > -1.25 // Bottom of phone
-            ) {
-              particles.current[index].velocity[0] =
-                0 - Math.abs(particles.current[index].velocity[0] * 0.3)
-              particles.current[index].position.x = phoneWallX
-              particles.current[index].velocity[1] *= 0.2
-            }
-          }
+            const xVel = particles.current[index].velocity[0]
+            const yVel = particles.current[index].velocity[1]
+            const vel = Math.sqrt(xVel * xVel + yVel * yVel)
 
-          // Bounce off of the floor
-          if (particles.current[index].position.y < floorHeight) {
-            particles.current[index].velocity[1] = Math.abs(
-              particles.current[index].velocity[1] * 0.1,
-            )
-            particles.current[index].position.y = floorHeight
-            particles.current[index].velocity[0] *= 0.8
+            particle.scale.set(1 + vel * vel * 1000, 1, 1)
+            particle.rotation.set(0, 0, Math.atan2(yVel, xVel))
 
-            particle.material.emissiveIntensity *= 0.4
-            particle.material.opacity *= 0.95
-          }
+            // Assign new positions
+            particle.position.x = particles.current[index].position.x
+            particle.position.y = particles.current[index].position.y
 
-          const xVel = particles.current[index].velocity[0]
-          const yVel = particles.current[index].velocity[1]
-          const vel = Math.sqrt(xVel * xVel + yVel * yVel)
-
-          particle.scale.set(1 + vel * vel * 1000, 1, 1)
-          particle.rotation.set(0, 0, Math.atan2(yVel, xVel))
-
-          // Assign new positions
-          particle.position.x = particles.current[index].position.x
-          particle.position.y = particles.current[index].position.y
-
-          // Gradually dim particles
-          particle.material.emissiveIntensity *= 0.95
-          particle.material.opacity *= 0.995
-        })
+            // Gradually dim particles
+            particle.material.emissiveIntensity *= 0.95
+            particle.material.opacity *= 0.995
+          },
+        )
       }
     })
 
@@ -289,11 +294,13 @@ export default forwardRef(
     {
       iPhoneFrameRef,
       TerminalFrameRef,
+      LaserBeamRef,
     }: {
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
+      LaserBeamRef: React.RefObject<HTMLDivElement>
     },
-    ref: React.RefObject<'stop' | 'run' | 'finish'>
+    ref: React.RefObject<'stop' | 'run' | 'finish'>,
   ) => {
     return (
       <div className="h-full w-full absolute z-50 pointer-events-none">
@@ -304,6 +311,7 @@ export default forwardRef(
             ref={ref}
             iPhoneFrameRef={iPhoneFrameRef}
             TerminalFrameRef={TerminalFrameRef}
+            LaserBeamRef={LaserBeamRef}
           />
           <EffectComposer>
             <Bloom

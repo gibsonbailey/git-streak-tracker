@@ -9,16 +9,20 @@ import Sparks from '../components/Laser/Sparks'
 export const HomePage = () => {
   const iPhoneFrameRef = useRef<HTMLDivElement>(null)
   const TerminalFrameRef = useRef<HTMLDivElement>(null)
-  const laserMethodsRef = useRef(null)
+  const LaserBeamRef = useRef<HTMLDivElement>(null)
+
   const sparkControl = useRef<'stop' | 'run' | 'finish'>('stop')
 
   const [particleAnimationFinished, setParticleAnimationFinished] =
     useState(false)
+  const [activateLaserBeam, setActivateLaserBeam] = useState(false)
 
   const startTimeDelay = 800
 
   const animationFinished = () => {
-    laserMethodsRef.current.triggerAnimation()
+    setTimeout(() => {
+      setActivateLaserBeam(true)
+    }, startTimeDelay - 150)
 
     setTimeout(() => {
       sparkControl.current = 'run'
@@ -57,10 +61,8 @@ export const HomePage = () => {
                 </a>
               </div>
               <Laser
-                ref={laserMethodsRef}
-                iPhoneFrameRef={iPhoneFrameRef}
-                TerminalFrameRef={TerminalFrameRef}
-                startTimeDelay={startTimeDelay}
+                ref={LaserBeamRef}
+                activateBeam={activateLaserBeam}
               />
               <PhoneAnimation ref={iPhoneFrameRef} />
             </div>
@@ -77,6 +79,7 @@ export const HomePage = () => {
             ref={sparkControl}
             iPhoneFrameRef={iPhoneFrameRef}
             TerminalFrameRef={TerminalFrameRef}
+            LaserBeamRef={LaserBeamRef}
           />
         )}
       </div>
