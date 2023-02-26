@@ -20,7 +20,9 @@ export default forwardRef(
     const [dimOverlayEnabled, setDimOverlayEnabled] = useState(false)
 
     const triggerQuakeAnimation = () => {
-      setEnableQuakeAnimation(true)
+      setTimeout(() => {
+        setEnableQuakeAnimation(true)
+      }, 100)
       setTimeout(() => {
         setDimOverlayEnabled(true)
       }, 1700)
@@ -30,7 +32,7 @@ export default forwardRef(
       <div
         ref={ref}
         className={clsx(
-          'w-full max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative',
+          'max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative w-[762px] h-[350px]',
           {
             [styles.quakeAnimation]: enableQuakeAnimation,
           },
@@ -93,14 +95,16 @@ const Content = ({
   animationFinished: () => void
   triggerQuakeAnimation: () => void
 }) => {
-
   const [mode, setMode] = useState<'shell' | 'vim'>('shell')
   const [linesChanged, setLinesChanged] = useState(1)
   const [currentCommand, setCurrentCommand] = useState('')
   const [commandOutputs, setCommandOutputs] = useState<string[]>([])
   const [commandSpeed, setCommandSpeed] = useState<'low' | 'high'>('low')
   const [enablePulse, setEnablePulse] = useState(false)
-  const { showCursor, cursorIndex, outputText } = useTypingText({ text: currentCommand, commandSpeed })
+  const { showCursor, cursorIndex, outputText } = useTypingText({
+    text: currentCommand,
+    commandSpeed,
+  })
 
   useEffect(() => {
     setTimeout(() => {
@@ -163,10 +167,10 @@ const Content = ({
   return mode === 'vim' ? (
     <Vim animationFinished={vimModeFinished} />
   ) : (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full justify-between h-full">
       <div
         className={clsx(
-          'p-2 flex flex-col justify-end h-72 overflow-hidden',
+          'p-2 flex flex-col justify-end overflow-hidden max-h-[280px]',
           styles.gradientText,
           {
             [styles.gradientTextPulse]: enablePulse,
@@ -179,6 +183,7 @@ const Content = ({
           </pre>
         ))}
       </div>
+
       <Prompt
         showCursor={showCursor}
         outputText={outputText}

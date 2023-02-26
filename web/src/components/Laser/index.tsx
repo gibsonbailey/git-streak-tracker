@@ -1,87 +1,31 @@
 import clsx from 'clsx'
-import Sparks from './Sparks'
 import styles from './laser.module.css'
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react'
-
-type MethodsRef = {
-  triggerAnimation: () => void
-}
+import { forwardRef } from 'react'
 
 export default forwardRef(
   (
     {
-      iPhoneFrameRef,
-      TerminalFrameRef,
+      activateBeam,
     }: {
-      iPhoneFrameRef: React.RefObject<HTMLDivElement>
-      TerminalFrameRef: React.RefObject<HTMLDivElement>
+      activateBeam: boolean
     },
-    ref: React.Ref<MethodsRef>,
+    ref: React.Ref<HTMLDivElement>,
   ) => {
-    const sparkControl = useRef<'stop' | 'run' | 'finish'>('stop')
-    const [particleAnimationFinished, setParticleAnimationFinished] =
-      useState(false)
-
-    const [beamOffset, setBeamOffset] = useState(0)
-    const [activateBeam, setActivateBeam] = useState(false)
-
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          triggerAnimation: () => {
-            const startTimeDelay = 800
-
-            setTimeout(() => {
-              setActivateBeam(true)
-            }, startTimeDelay - 150)
-
-            setTimeout(() => {
-              sparkControl.current = 'run'
-            }, startTimeDelay)
-
-            setTimeout(() => {
-              sparkControl.current = 'finish'
-            }, startTimeDelay + 1800)
-
-            setTimeout(() => {
-              setParticleAnimationFinished(true)
-            }, startTimeDelay + 6000)
-          },
-        }
-      },
-      [],
-    )
-
-    useEffect(() => {
-      setTimeout(() => {
-        // Set beam offset to the left side of iphone frame
-        setBeamOffset(
-          window.innerWidth -
-            iPhoneFrameRef.current?.getBoundingClientRect().x || 0,
-        )
-      }, 100)
-    }, [])
-
-    if (particleAnimationFinished) {
-      return null
-    }
-
     return (
-      <div className="h-full w-full flex flex-col justify-center absolute z-5">
+      <div
+        ref={ref}
+        className="h-40 w-40 flex flex-col justify-center overflow-hidden"
+      >
         <div
-          className={clsx('w-60 absolute', styles.beam, {
-            [styles.beamActive]: activateBeam,
-          })}
+          className={clsx(
+            'w-[120%] rounded-full overflow-hidden',
+            styles.beam,
+            {
+              [styles.beamActive]: activateBeam,
+            },
+          )}
           style={{
-            boxShadow: '0 3px 30px #04ff04',
-            right: `${beamOffset}px`,
+            boxShadow: '0 3px 40px #04ff04',
           }}
         >
           <div
@@ -98,12 +42,6 @@ export default forwardRef(
             className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
           ></div>
         </div>
-        <Sparks
-          ref={sparkControl}
-          sparksXPosition={0}
-          iPhoneFrameRef={iPhoneFrameRef}
-          TerminalFrameRef={TerminalFrameRef}
-        />
       </div>
     )
   },

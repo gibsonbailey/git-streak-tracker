@@ -36,12 +36,12 @@
 
     4% {
         opacity: 1;
-        transform: translateX(0%);
+        transform: translateX(-10%);
     }
 
     95% {
         opacity: 1;
-        transform: translateX(0%);
+        transform: translateX(-10%);
     }
 
     97% {
@@ -57,7 +57,7 @@
 
 .beam {
     opacity: 0;
-    transform: translateX(-100%);
+    transform: translateX(-150%);
 }
 
 .beamActive {
