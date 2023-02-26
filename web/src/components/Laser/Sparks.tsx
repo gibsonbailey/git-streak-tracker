@@ -167,9 +167,10 @@ const Particles = forwardRef(
                   worldWidth
               }
               if (LaserBeamRef.current) {
-                const laserDimensions = LaserBeamRef.current.getBoundingClientRect()
+                const laserDimensions =
+                  LaserBeamRef.current.getBoundingClientRect()
                 particles.current[index].position.y =
-                  ((laserDimensions.y + (0.5 * laserDimensions.height)) /
+                  ((laserDimensions.y + 0.5 * laserDimensions.height) /
                     window.innerHeight -
                     0.5) *
                   -worldHeight

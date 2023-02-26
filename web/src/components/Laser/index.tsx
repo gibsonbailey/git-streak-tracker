@@ -1,8 +1,6 @@
 import clsx from 'clsx'
 import styles from './laser.module.css'
-import {
-  forwardRef,
-} from 'react'
+import { forwardRef } from 'react'
 
 export default forwardRef(
   (
@@ -13,9 +11,11 @@ export default forwardRef(
     },
     ref: React.Ref<HTMLDivElement>,
   ) => {
-
     return (
-      <div ref={ref} className="h-40 w-40 flex flex-col justify-center overflow-hidden">
+      <div
+        ref={ref}
+        className="h-40 w-40 flex flex-col justify-center overflow-hidden"
+      >
         <div
           className={clsx(
             'w-[120%] rounded-full overflow-hidden',
