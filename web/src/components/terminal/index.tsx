@@ -32,7 +32,7 @@ export default forwardRef(
       <div
         ref={ref}
         className={clsx(
-          'max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative w-[762px] h-[350px]',
+          'max-w-2xl flex flex-col bg-gray-900 rounded-2xl overflow-hidden relative w-[350px] sm:w-[762px] h-[240px] sm:h-[350px]',
           {
             [styles.quakeAnimation]: enableQuakeAnimation,
           },
@@ -170,7 +170,7 @@ const Content = ({
     <div className="flex flex-col w-full justify-between h-full">
       <div
         className={clsx(
-          'p-2 flex flex-col justify-end overflow-hidden max-h-[280px]',
+          'p-2 flex flex-col justify-end overflow-hidden max-h-[200px] sm:max-h-[280px] text-xs sm:text-md',
           styles.gradientText,
           {
             [styles.gradientTextPulse]: enablePulse,

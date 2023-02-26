@@ -39,11 +39,11 @@ export const HomePage = () => {
 
   return (
     <>
-      <div className="flex h-full w-full flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold my-8">Git Streak Tracker</h1>
+      <div className="flex h-full w-full flex-col justify-center items-center mt-6 sm:mt-0">
+        <h1 className="text-3xl font-bold my-8 hidden sm:block">Git Streak Tracker</h1>
         <div>
           <div className="flex justify-center items-center relative z-20">
-            <div className={clsx('flex items-center')}>
+            <div className="flex flex-col md:flex-row items-center">
               <div className="flex flex-col items-end">
                 <Terminal
                   ref={TerminalFrameRef}
