@@ -85,7 +85,7 @@ export const HomePage = () => {
 const AppStoreButton = () => {
   return (
     <a>
-      <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-0 sm:relative">
+      <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-6 sm:relative">
         <Image
 
           alt="App store button"
