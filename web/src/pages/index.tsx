@@ -40,30 +40,22 @@ export const HomePage = () => {
   return (
     <>
       <div className="flex h-full w-full flex-col justify-center items-center mt-6 sm:mt-0">
-        <h1 className="text-3xl font-bold my-8 hidden sm:block">Git Streak Tracker</h1>
-        <div>
+        <h1 className="text-3xl font-bold my-8 hidden sm:block">
+          Git Streak Tracker
+        </h1>
+        <div className="w-full">
           <div className="flex justify-center items-center relative z-20">
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="flex flex-col items-end">
+            <div className="flex flex-col md:flex-row items-center justify-center w-full">
+              <div className="flex flex-col items-center sm:items-end w-full">
                 <Terminal
                   ref={TerminalFrameRef}
                   animationFinished={animationFinished}
                 />
-                <a>
-                  <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-0 sm:relative">
-                    <Image
-                      alt="App store button"
-                      src="/App-Store-Button.png"
-                      width="200"
-                      height="50"
-                    />
-                  </button>
-                </a>
+                <div className="hidden sm:block">
+                  <AppStoreButton />
+                </div>
               </div>
-              <Laser
-                ref={LaserBeamRef}
-                activateBeam={activateLaserBeam}
-              />
+              <Laser ref={LaserBeamRef} activateBeam={activateLaserBeam} />
               <PhoneAnimation ref={iPhoneFrameRef} />
             </div>
           </div>
@@ -74,6 +66,9 @@ export const HomePage = () => {
           fill
           className="opacity-10 absolute z-10"
         />
+        <div className="sm:hidden">
+          <AppStoreButton />
+        </div>
         {particleAnimationFinished ? null : (
           <Sparks
             ref={sparkControl}
@@ -86,5 +81,22 @@ export const HomePage = () => {
     </>
   )
 }
+
+const AppStoreButton = () => {
+  return (
+    <a>
+      <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-0 sm:relative">
+        <Image
+
+          alt="App store button"
+          src="/App-Store-Button.png"
+          width="200"
+          height="50"
+        />
+      </button>
+    </a>
+  )
+}
+
 
 export default HomePage
