@@ -18,16 +18,14 @@ export default forwardRef(
     {
       iPhoneFrameRef,
       TerminalFrameRef,
+      startTimeDelay,
     }: {
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
+      startTimeDelay: number
     },
     ref: React.Ref<MethodsRef>,
   ) => {
-    const sparkControl = useRef<'stop' | 'run' | 'finish'>('stop')
-    const [particleAnimationFinished, setParticleAnimationFinished] =
-      useState(false)
-
     const [activateBeam, setActivateBeam] = useState(false)
 
     useImperativeHandle(
@@ -35,23 +33,10 @@ export default forwardRef(
       () => {
         return {
           triggerAnimation: () => {
-            const startTimeDelay = 800
 
             setTimeout(() => {
               setActivateBeam(true)
             }, startTimeDelay - 150)
-
-            setTimeout(() => {
-              sparkControl.current = 'run'
-            }, startTimeDelay)
-
-            setTimeout(() => {
-              sparkControl.current = 'finish'
-            }, startTimeDelay + 1800)
-
-            setTimeout(() => {
-              setParticleAnimationFinished(true)
-            }, startTimeDelay + 6000)
           },
         }
       },
@@ -59,37 +44,37 @@ export default forwardRef(
     )
 
     return (
-      <div className="h-40 w-40 flex flex-col justify-center overflow-hidden">
-        <div
-          className={clsx('w-[120%] rounded-full overflow-hidden', styles.beam, {
-            [styles.beamActive]: activateBeam,
-          })}
-          style={{
-            boxShadow: '0 3px 40px #04ff04',
-          }}
-        >
+      <div>
+        <div className="h-40 w-40 flex flex-col justify-center overflow-hidden">
           <div
-            className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
-          ></div>
-          <div className={clsx('bg-lime-500 w-full h-1', styles.midBeam)}></div>
-          <div
-            className={clsx('bg-lime-400 w-full h-1', styles.centerBeam)}
-          ></div>
-          <div
-            className={clsx('bg-lime-500 w-full h-1', styles.midBeam2)}
-          ></div>
-          <div
-            className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
-          ></div>
+            className={clsx(
+              'w-[120%] rounded-full overflow-hidden',
+              styles.beam,
+              {
+                [styles.beamActive]: activateBeam,
+              },
+            )}
+            style={{
+              boxShadow: '0 3px 40px #04ff04',
+            }}
+          >
+            <div
+              className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
+            ></div>
+            <div
+              className={clsx('bg-lime-500 w-full h-1', styles.midBeam)}
+            ></div>
+            <div
+              className={clsx('bg-lime-400 w-full h-1', styles.centerBeam)}
+            ></div>
+            <div
+              className={clsx('bg-lime-500 w-full h-1', styles.midBeam2)}
+            ></div>
+            <div
+              className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
+            ></div>
+          </div>
         </div>
-        {particleAnimationFinished ? null : (
-          <Sparks
-            ref={sparkControl}
-            sparksXPosition={0}
-            iPhoneFrameRef={iPhoneFrameRef}
-            TerminalFrameRef={TerminalFrameRef}
-          />
-        )}
       </div>
     )
   },

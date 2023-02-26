@@ -287,22 +287,14 @@ const Particles = forwardRef(
 export default forwardRef(
   (
     {
-      sparksXPosition,
       iPhoneFrameRef,
       TerminalFrameRef,
     }: {
-      sparksXPosition: number
       iPhoneFrameRef: React.RefObject<HTMLDivElement>
       TerminalFrameRef: React.RefObject<HTMLDivElement>
     },
     ref: React.RefObject<'stop' | 'run' | 'finish'>
   ) => {
-    const [widthPortion, setWidthPortion] = useState(0.5)
-
-    useEffect(() => {
-      setWidthPortion(sparksXPosition / window.innerWidth)
-    }, [sparksXPosition])
-
     return (
       <div className="h-full w-full absolute z-50 pointer-events-none">
         <Canvas className="h-full w-full">
