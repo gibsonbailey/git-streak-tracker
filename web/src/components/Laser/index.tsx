@@ -11,14 +11,17 @@ export default forwardRef(
     },
     ref: React.Ref<HTMLDivElement>,
   ) => {
+
+    const laserBaseClasses = 'h-full w-1.5 sm:w-full sm:h-1'
+
     return (
       <div
         ref={ref}
-        className="h-40 w-40 flex flex-col justify-center overflow-hidden"
+        className="h-20 w-40 sm:h-40 sm:w-20 lg:w-40 flex sm:flex-col justify-center overflow-hidden"
       >
         <div
           className={clsx(
-            'w-[120%] rounded-full overflow-hidden',
+            'h-40 w-8 sm:h-5 sm:w-[120%] rounded-full overflow-hidden flex justify-center sm:flex-col',
             styles.beam,
             {
               [styles.beamActive]: activateBeam,
@@ -29,17 +32,17 @@ export default forwardRef(
           }}
         >
           <div
-            className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
+            className={clsx('bg-lime-300', laserBaseClasses, styles.outerBeam)}
           ></div>
-          <div className={clsx('bg-lime-500 w-full h-1', styles.midBeam)}></div>
+          <div className={clsx('bg-lime-500', laserBaseClasses, styles.midBeam)}></div>
           <div
-            className={clsx('bg-lime-400 w-full h-1', styles.centerBeam)}
-          ></div>
-          <div
-            className={clsx('bg-lime-500 w-full h-1', styles.midBeam2)}
+            className={clsx('bg-lime-400', laserBaseClasses, styles.centerBeam)}
           ></div>
           <div
-            className={clsx('bg-lime-300 w-full h-1', styles.outerBeam)}
+            className={clsx('bg-lime-500', laserBaseClasses, styles.midBeam2)}
+          ></div>
+          <div
+            className={clsx('bg-lime-300', laserBaseClasses, styles.outerBeam)}
           ></div>
         </div>
       </div>

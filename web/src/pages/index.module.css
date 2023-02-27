@@ -12,3 +12,16 @@
     height: 367px !important;
     border-radius: 23px;
 }
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.bounce {
+    animation: bounce 1.5s infinite alternate;
+}
