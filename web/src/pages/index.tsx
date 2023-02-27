@@ -2,9 +2,10 @@ import Image from 'next/image'
 import Terminal from '../components/terminal'
 import PhoneAnimation from '../components/PhoneAnimation/'
 import Laser from '../components/Laser'
-import { useRef, useState } from 'react'
-import clsx from 'clsx'
+import { useEffect, useRef, useState } from 'react'
 import Sparks from '../components/Laser/Sparks'
+import styles from './index.module.css'
+import clsx from 'clsx'
 
 export const HomePage = () => {
   const iPhoneFrameRef = useRef<HTMLDivElement>(null)
@@ -85,9 +86,26 @@ export const HomePage = () => {
 const AppStoreButton = ({ small }: { small?: boolean }) => {
   const width = small ? 150 : 200
   const height = small ? 40 : 50
+
+  const [bounce, setBounce] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setBounce(true)
+    }, 17000)
+    return () => clearTimeout(timeout)
+  }, [])
+
   return (
     <a>
-      <button className="mt-8 border-white border-2 rounded-lg sm:rounded-xl cursor-pointer absolute z-50 top-0 right-6 sm:relative">
+      <button
+        className={clsx(
+          'mt-8 border-white border-2 rounded-lg sm:rounded-xl cursor-pointer absolute z-50 top-0 right-6 sm:relative',
+          {
+            [styles.bounce]: bounce && small,
+          },
+        )}
+      >
         <Image
           alt="App store button"
           src="/App-Store-Button.png"

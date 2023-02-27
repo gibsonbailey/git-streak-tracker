@@ -17,7 +17,7 @@ export default forwardRef(
     return (
       <div
         ref={ref}
-        className="h-20 w-40 sm:h-40 sm:w-40 flex sm:flex-col justify-center overflow-hidden"
+        className="h-20 w-40 sm:h-40 sm:w-20 lg:w-40 flex sm:flex-col justify-center overflow-hidden"
       >
         <div
           className={clsx(

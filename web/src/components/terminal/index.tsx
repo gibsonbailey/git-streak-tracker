@@ -32,7 +32,7 @@ export default forwardRef(
       <div
         ref={ref}
         className={clsx(
-          'max-w-xl 2xl:max-w-2xl flex flex-col bg-gray-900 rounded-xl sm:rounded-2xl overflow-hidden relative w-[90%] sm:w-[762px] h-[240px] sm:h-[350px] 2xl:h-[400px]',
+          'max-w-xl 2xl:max-w-2xl flex flex-col bg-gray-900 rounded-xl sm:rounded-2xl overflow-hidden relative w-[90%] md:max-w-[400px] md:w-[400px] lg:w-[762px] h-[240px] sm:h-[350px] 2xl:h-[400px]',
           {
             [styles.quakeAnimation]: enableQuakeAnimation,
           },
