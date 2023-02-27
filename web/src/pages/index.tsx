@@ -49,16 +49,6 @@ export const HomePage = () => {
                   ref={TerminalFrameRef}
                   animationFinished={animationFinished}
                 />
-                <a>
-                  <button className="mt-8 border-white border-2 rounded-xl cursor-pointer">
-                    <Image
-                      alt="App store button"
-                      src="/App-Store-Button.png"
-                      width="200"
-                      height="50"
-                    />
-                  </button>
-                </a>
               </div>
               <Laser
                 ref={LaserBeamRef}
@@ -68,6 +58,42 @@ export const HomePage = () => {
             </div>
           </div>
         </div>
+
+        <div className="flex absolute top-4 right-4 z-50">
+
+          <a href="https://github.com/gibsonbailey/git-streak-tracker" target="_blank" rel="noopener" className="mr-6">
+            <button className="bg-black border-2 rounded-xl cursor-pointer flex items-center px-3 w-[154px] h-[57px]">
+              <Image
+                alt="Github Logo Button"
+                src="/gh-logo.png"
+                width="36"
+                height="36"
+                className="mr-3"
+              />
+              <div className="flex flex-col justify-center items-center w-full">
+                <div className="text-xs">
+                  View on
+                </div>
+                <div className="text-lg leading-6 font-medium">
+                  GitHub
+                </div>
+              </div>
+            </button>
+          </a>
+
+          <a href="https://apps.apple.com/us/app/git-streak-tracker/id1663708723" target="_blank" rel="noopener">
+            <button className="border-white border-2 rounded-xl cursor-pointer overflow-hidden w-[154px] h-[57px]">
+              <Image
+                alt="App store button"
+                src="/App-Store-Button.png"
+                width="150"
+                height="30"
+              />
+            </button>
+          </a>
+
+        </div>
+
         <Image
           alt="fire"
           src="/copper.svg"
