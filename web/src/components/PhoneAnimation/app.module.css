@@ -51,7 +51,6 @@
 
 /* Streak Dialog Styles */
 .streakDialog {
-    /* display: none; */
     width: 80%;
     height: 265px;
     background: rgba(0, 0, 0, .8);
@@ -96,7 +95,6 @@
     position: absolute;
     width: 72px;
     height: 72px;
-    /* border: 1px solid #CCC; */
     perspective: 400px;
     transform: translate(-50%, -104%);
     top: 50%;
@@ -112,7 +110,7 @@
     transform-style: preserve-3d;
     transform: translateZ(-72px);
     transition: transform 1s;
-    animation: spinCube 20s linear infinite;
+    animation: spinCube 14s linear infinite;
 }
 
 
@@ -136,16 +134,13 @@
 
 .dropToGraph {
     animation: dropIntoGraph 1s 1 forwards;
-    /* animation-delay: 2s; */
 }
 
 
 @keyframes dropIntoGraph {
     100% {
         transform: scale(.085) translate(721px, 1494px);
-
     }
-
 }
 
 .solidBg {
@@ -166,10 +161,6 @@
     border: 8px solid rgb(214, 104, 57);
     background: rgba(244, 212, 159, .9);
     border-radius: 0px;
-    /* animate */
-    /* border-width: 12px;
-    border-radius: 20px;
-    background: rgba(244, 212, 159, 1); */
 }
 
 .cubeFace__front {
@@ -178,25 +169,20 @@
 
 .cubeFace__right {
     transform: rotateY(90deg) translateZ(36px);
-    /* display: none; */
 }
 
 .cubeFace__back {
     transform: rotateY(180deg) translateZ(36px);
-    /* display: none; */
 }
 
 .cubeFace__left {
     transform: rotateY(-90deg) translateZ(36px);
-    /* display: none; */
 }
 
 .cubeFace__top {
     transform: rotateX(90deg) translateZ(36px);
-    /* display: none; */
 }
 
 .cubeFace__bottom {
     transform: rotateX(-90deg) translateZ(36px);
-    /* display: none; */
 }

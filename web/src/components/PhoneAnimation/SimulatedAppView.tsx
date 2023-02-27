@@ -32,11 +32,11 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
 
     setTimeout(() => {
       setHideDialog(true)
-    }, 4500)
+    }, 3000)
 
     setTimeout(() => {
       setDropCubeIntoGraph(true)
-    }, 5000)
+    }, 3500)
 
   }, [])
 
@@ -52,9 +52,6 @@ const StreakDialog: React.FC<{ streakLength: number }> = ({ streakLength }) => {
         )
       }>
         <div className={clsx('p-4 relative flex flex-col items-center justify-end', styles.streakDialog)}>
-
-
-          {/* <figure className={styles.platform}></figure> */}
 
           <div className="green w-full">
 
@@ -95,7 +92,7 @@ const SimulatedAppView: React.FC = () => {
       // When cube drops into graph
       setStreakLength(streakLength + 1)
       setTodayComplete(true)
-    }, 7500)
+    }, 5500)
   }, [])
 
   return (
