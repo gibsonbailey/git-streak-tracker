@@ -195,8 +195,7 @@ const Particles = forwardRef(
                       -worldHeight
                   } else {
                     particles.current[index].position.y =
-                      // ((laserDimensions.y + laserDimensions.height) /
-                      ((laserDimensions.y + 55) / window.innerHeight - 0.5) *
+                      ((laserDimensions.y + 40) / window.innerHeight - 0.5) *
                       -worldHeight
                   }
                 }
