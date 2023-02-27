@@ -29,18 +29,12 @@
     }
 
     100% {
-        background-position: 0 110%;
+        background-position: 110 0%;
     }
 }
 
-.gradientTextPulse {
-    animation-duration: 0.7s;
-    animation-name: slideBackground;
-    animation-direction: normal;
-}
-
 .gradientText {
-    background: linear-gradient(90deg,
+    background: linear-gradient(180deg,
             white 0%,
             white 25%,
             #fcff59 30%,
@@ -52,4 +46,37 @@
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
+}
+
+@media screen and (min-width: 640px) {
+    @keyframes slideBackground {
+        0% {
+            background-position: 110% 110%;
+        }
+
+        100% {
+            background-position: 0 110%;
+        }
+    }
+
+    .gradientText {
+        background: linear-gradient(90deg,
+                white 0%,
+                white 25%,
+                #fcff59 30%,
+                #00ff26 35%,
+                #00ff26 45%,
+                #fcff59 50%,
+                white 55%);
+        background-size: 400% 400%;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}
+
+.gradientTextPulse {
+    animation-duration: 0.7s;
+    animation-name: slideBackground;
+    animation-direction: normal;
 }

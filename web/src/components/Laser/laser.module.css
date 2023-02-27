@@ -28,36 +28,71 @@
     }
 }
 
+
 @keyframes appear {
     0% {
         opacity: 0;
-        transform: translateX(-100%);
+        transform: translateY(-100%);
     }
 
     4% {
         opacity: 1;
-        transform: translateX(-10%);
+        transform: translateY(-10%);
     }
 
     95% {
         opacity: 1;
-        transform: translateX(-10%);
+        transform: translateY(-10%);
     }
 
     97% {
         opacity: 0.4;
-        transform: translateX(50%);
+        transform: translateY(50%);
     }
 
     100% {
         opacity: 0;
-        transform: translateX(100%) scaleX(0%);
+        transform: translateY(100%) scaleY(0%);
     }
 }
 
 .beam {
     opacity: 0;
-    transform: translateX(-150%);
+    transform: translateY(-150%);
+}
+
+@media screen and (min-width: 640px) {
+    @keyframes appear {
+        0% {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        4% {
+            opacity: 1;
+            transform: translateX(-10%);
+        }
+
+        95% {
+            opacity: 1;
+            transform: translateX(-10%);
+        }
+
+        97% {
+            opacity: 0.4;
+            transform: translateX(50%);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateX(100%) scaleX(0%);
+        }
+    }
+
+    .beam {
+        opacity: 0;
+        transform: translateX(-150%);
+    }
 }
 
 .beamActive {

@@ -6,13 +6,25 @@
 
 @keyframes glow {
     from {
-        box-shadow: 0 0 10px 0 rgba(34, 255, 0, 0.2);
         transform: scale(1);
     }
 
     to {
-        box-shadow: 0 0 20px 0 rgba(34, 255, 0, 0.3);
         transform: scale(1.03);
+    }
+}
+
+@media screen and (min-width: 640px) {
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 10px 0 rgba(34, 255, 0, 0.2);
+            transform: scale(1);
+        }
+
+        to {
+            box-shadow: 0 0 20px 0 rgba(34, 255, 0, 0.3);
+            transform: scale(1.03);
+        }
     }
 }
 

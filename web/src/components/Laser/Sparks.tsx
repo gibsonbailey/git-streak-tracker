@@ -64,12 +64,17 @@ const xDampening = 1 - 0.01
 const yDampening = 1 - 0.008
 const speed = 0.12
 
-const generateInitialVelocity = () => {
-  return [
-    Math.random() * -speed,
-    (Math.random() - 0.5) * speed * 2,
-    Math.random() * speed,
-  ]
+const generateInitialVelocity = (desktop) => {
+  if (desktop) {
+    return [
+      Math.random() * -speed,
+      (Math.random() - 0.5) * speed * 2,
+      // Math.random() * speed,
+      0,
+    ]
+  } else {
+    return [(Math.random() - 0.5) * speed * 2, Math.random() * speed, 0]
+  }
 }
 
 const lerp = (a, b, n) => {
@@ -94,7 +99,7 @@ const generateParticle = (
   const lightness = 45 + Math.random() * (50 - 45)
 
   return {
-    velocity: generateInitialVelocity(),
+    velocity: generateInitialVelocity(false),
     radius: lerp(0.004, 0.008, Math.random()),
     color: hslToHex(hue, saturation, lightness),
     emissiveIntensity: 0,
@@ -119,7 +124,8 @@ const Particles = forwardRef(
     },
     controlRef: React.RefObject<'stop' | 'finish' | 'run'>,
   ) => {
-    const particleQuantity = 200
+    const desktop = window.matchMedia('(min-width: 640px)').matches
+    const particleQuantity = desktop ? 200 : 100
     const floorHeight = -3.5
 
     const { camera } = useThree() as { camera: THREE.PerspectiveCamera }
@@ -130,13 +136,18 @@ const Particles = forwardRef(
       Array.from({ length: particleQuantity }, () => generateParticle(0, 0)),
     )
 
+
     useFrame(() => {
       if (controlRef.current === 'stop') {
         return
       }
       if (groupRef.current) {
         if (particleShown.current < particleQuantity) {
-          particleShown.current += 10
+          if (desktop) {
+            particleShown.current += 10
+          } else {
+            particleShown.current += 2
+          }
         }
         groupRef.current.children.forEach(
           (
@@ -152,31 +163,46 @@ const Particles = forwardRef(
             const worldHeight = 2 * Math.tan(vFOV / 2) * camera.position.z // visible height at the z=0 plane
             const worldWidth = worldHeight * camera.aspect
 
-            // Reset particle to origin
             if (
               particle.material.emissiveIntensity < 0.1 &&
               controlRef.current !== 'finish'
             ) {
-              particles.current[index].velocity = generateInitialVelocity()
+              // Reset particle to origin
+              particles.current[index].velocity =
+                generateInitialVelocity(desktop)
 
               if (iPhoneFrameRef.current) {
-                particles.current[index].position.x =
-                  (iPhoneFrameRef.current.getBoundingClientRect().x /
-                    window.innerWidth -
-                    0.5) *
-                  worldWidth
+                const iPhoneDimensions =
+                  iPhoneFrameRef.current.getBoundingClientRect()
+                if (desktop) {
+                  particles.current[index].position.x =
+                    (iPhoneDimensions.x / window.innerWidth - 0.5) * worldWidth
+                } else {
+                  particles.current[index].position.x =
+                    ((iPhoneDimensions.x + iPhoneDimensions.width / 2) /
+                      window.innerWidth -
+                      0.5) *
+                    worldWidth
+                }
+                if (LaserBeamRef.current) {
+                  const laserDimensions =
+                    LaserBeamRef.current.getBoundingClientRect()
+                  if (desktop) {
+                    particles.current[index].position.y =
+                      ((laserDimensions.y + 0.5 * laserDimensions.height) /
+                        window.innerHeight -
+                        0.5) *
+                      -worldHeight
+                  } else {
+                    particles.current[index].position.y =
+                      // ((laserDimensions.y + laserDimensions.height) /
+                      ((laserDimensions.y + 55) / window.innerHeight - 0.5) *
+                      -worldHeight
+                  }
+                }
+                particle.material.emissiveIntensity = 1.5
+                particle.material.opacity = 1
               }
-              if (LaserBeamRef.current) {
-                const laserDimensions =
-                  LaserBeamRef.current.getBoundingClientRect()
-                particles.current[index].position.y =
-                  ((laserDimensions.y + 0.5 * laserDimensions.height) /
-                    window.innerHeight -
-                    0.5) *
-                  -worldHeight
-              }
-              particle.material.emissiveIntensity = 1.5
-              particle.material.opacity = 1
             }
 
             // Apply forces
@@ -190,67 +216,87 @@ const Particles = forwardRef(
             particles.current[index].position.y +=
               particles.current[index].velocity[1]
 
-            // Bounce off of the left wall
-            // This has to happen after the position is updated by velocity because otherwise the particle's position
-            // could be past the wall.
-            let wallX = null
-            if (TerminalFrameRef.current) {
-              wallX =
-                ((TerminalFrameRef.current.getBoundingClientRect().x +
-                  TerminalFrameRef.current.offsetWidth) /
-                  window.innerWidth -
-                  0.5) *
-                worldWidth
-            }
-            if (wallX != null) {
-              if (
-                particles.current[index].position.x < wallX &&
-                particles.current[index].position.y < 1.6 && // Top of terminal
-                particles.current[index].position.y > -1.25 // Bottom of terminal
-              ) {
+            if (desktop) {
+              // Bounce off of the right side of the terminal
+              // This has to happen after the position is updated by velocity because otherwise the particle's position
+              // could be past the wall.
+              let wallX = null
+              if (TerminalFrameRef.current) {
+                wallX =
+                  ((TerminalFrameRef.current.getBoundingClientRect().x +
+                    TerminalFrameRef.current.offsetWidth) /
+                    window.innerWidth -
+                    0.5) *
+                  worldWidth
+              }
+              if (wallX != null) {
+                if (
+                  particles.current[index].position.x < wallX &&
+                  particles.current[index].position.y < 1.6 && // Top of terminal
+                  particles.current[index].position.y > -1.25 // Bottom of terminal
+                ) {
+                  particles.current[index].velocity[0] = Math.abs(
+                    particles.current[index].velocity[0] * 0.3,
+                  )
+                  particles.current[index].position.x = wallX
+                  particles.current[index].velocity[1] *= 0.2
+
+                  particle.material.emissiveIntensity *= 0.4
+                  particle.material.opacity *= 0.4
+                }
+              }
+
+              // Bounce off of the iPhone frame
+              let phoneWallX = null
+              if (iPhoneFrameRef.current) {
+                phoneWallX =
+                  (iPhoneFrameRef.current.getBoundingClientRect().x /
+                    window.innerWidth -
+                    0.5) *
+                  worldWidth
+              }
+              if (phoneWallX != null) {
+                if (
+                  particles.current[index].position.x > phoneWallX &&
+                  particles.current[index].position.y < 1.6 && // Top of phone
+                  particles.current[index].position.y > -1.25 // Bottom of phone
+                ) {
+                  particles.current[index].velocity[0] =
+                    0 - Math.abs(particles.current[index].velocity[0] * 0.3)
+                  particles.current[index].position.x = phoneWallX
+                  particles.current[index].velocity[1] *= 0.2
+                }
+              }
+
+              // Bounce off of the floor
+              if (particles.current[index].position.y < floorHeight) {
+                particles.current[index].velocity[1] = Math.abs(
+                  particles.current[index].velocity[1] * 0.1,
+                )
+                particles.current[index].position.y = floorHeight
+                particles.current[index].velocity[0] *= 0.8
+
+                particle.material.emissiveIntensity *= 0.4
+                particle.material.opacity *= 0.95
+              }
+            } else {
+              // Bounce off the sides of the screen
+              const leftWallX = -worldWidth / 2
+              if (particles.current[index].position.x < leftWallX) {
                 particles.current[index].velocity[0] = Math.abs(
                   particles.current[index].velocity[0] * 0.3,
                 )
-                particles.current[index].position.x = wallX
+                particles.current[index].position.x = leftWallX
                 particles.current[index].velocity[1] *= 0.2
-
-                particle.material.emissiveIntensity *= 0.4
-                particle.material.opacity *= 0.4
               }
-            }
 
-            // Bounce off of the iPhone frame
-            let phoneWallX = null
-            if (iPhoneFrameRef.current) {
-              phoneWallX =
-                (iPhoneFrameRef.current.getBoundingClientRect().x /
-                  window.innerWidth -
-                  0.5) *
-                worldWidth
-            }
-            if (phoneWallX != null) {
-              if (
-                particles.current[index].position.x > phoneWallX &&
-                particles.current[index].position.y < 1.6 && // Top of phone
-                particles.current[index].position.y > -1.25 // Bottom of phone
-              ) {
+              const rightWallX = worldWidth / 2
+              if (particles.current[index].position.x > rightWallX) {
                 particles.current[index].velocity[0] =
                   0 - Math.abs(particles.current[index].velocity[0] * 0.3)
-                particles.current[index].position.x = phoneWallX
+                particles.current[index].position.x = rightWallX
                 particles.current[index].velocity[1] *= 0.2
               }
-            }
-
-            // Bounce off of the floor
-            if (particles.current[index].position.y < floorHeight) {
-              particles.current[index].velocity[1] = Math.abs(
-                particles.current[index].velocity[1] * 0.1,
-              )
-              particles.current[index].position.y = floorHeight
-              particles.current[index].velocity[0] *= 0.8
-
-              particle.material.emissiveIntensity *= 0.4
-              particle.material.opacity *= 0.95
             }
 
             const xVel = particles.current[index].velocity[0]
