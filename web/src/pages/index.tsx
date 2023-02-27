@@ -67,7 +67,7 @@ export const HomePage = () => {
           className="opacity-10 absolute z-10"
         />
         <div className="sm:hidden">
-          <AppStoreButton />
+          <AppStoreButton small />
         </div>
         {particleAnimationFinished ? null : (
           <Sparks
@@ -82,21 +82,21 @@ export const HomePage = () => {
   )
 }
 
-const AppStoreButton = () => {
+const AppStoreButton = ({ small }: { small?: boolean }) => {
+  const width = small ? 150 : 200
+  const height = small ? 40 : 50
   return (
     <a>
-      <button className="mt-8 border-white border-2 rounded-xl cursor-pointer absolute z-50 top-0 right-6 sm:relative">
+      <button className="mt-8 border-white border-2 rounded-lg sm:rounded-xl cursor-pointer absolute z-50 top-0 right-6 sm:relative">
         <Image
-
           alt="App store button"
           src="/App-Store-Button.png"
-          width="200"
-          height="50"
+          width={width}
+          height={height}
         />
       </button>
     </a>
   )
 }
-
 
 export default HomePage
