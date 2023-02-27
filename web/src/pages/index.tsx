@@ -112,7 +112,11 @@ const AppStoreButton = ({ small }: { small?: boolean }) => {
   }, [])
 
   return (
-    <a href="https://apps.apple.com/us/app/git-streak-tracker/id1663708723">
+    <a
+      href="https://apps.apple.com/us/app/git-streak-tracker/id1663708723"
+      target="_blank"
+      rel="noopener"
+    >
       <button className="border-white border-2 rounded-lg sm:rounded-xl cursor-pointer overflow-hidden max-w-[137px] sm:max-w-none">
         <Image
           alt="App store button"
