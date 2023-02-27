@@ -43,10 +43,10 @@ export const HomePage = () => {
         <h1 className="text-3xl font-bold my-8 hidden sm:block">
           Git Streak Tracker
         </h1>
-        <div className="w-full">
+        <div className="w-full sm:w-auto">
           <div className="flex justify-center items-center relative z-20">
             <div className="flex flex-col md:flex-row items-center justify-center w-full">
-              <div className="flex flex-col items-center sm:items-end w-full">
+              <div className="flex flex-col items-center sm:items-end w-full sm:w-auto">
                 <Terminal
                   ref={TerminalFrameRef}
                   animationFinished={animationFinished}
