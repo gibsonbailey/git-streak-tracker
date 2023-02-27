@@ -195,8 +195,7 @@ const Particles = forwardRef(
                       -worldHeight
                   } else {
                     particles.current[index].position.y =
-                      // ((laserDimensions.y + laserDimensions.height) /
-                      ((laserDimensions.y + 55) / window.innerHeight - 0.5) *
+                      ((laserDimensions.y + 40) / window.innerHeight - 0.5) *
                       -worldHeight
                   }
                 }
@@ -349,7 +348,7 @@ export default forwardRef(
     ref: React.RefObject<'stop' | 'run' | 'finish'>,
   ) => {
     return (
-      <div className="h-full w-full absolute z-50 pointer-events-none">
+      <div className="h-full w-full absolute z-40 pointer-events-none">
         <Canvas className="h-full w-full">
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[3, 0, 2]} intensity={2} />
