@@ -10,6 +10,9 @@
 
 </br>
 
+### Animated Demo
+Check out the [web demo](https://git-streak-tracker.herokuapp.com/) to see a live animation of how the app works.
+
 </br>
 
 ## Custom Profile README
