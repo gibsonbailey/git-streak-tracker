@@ -2,10 +2,8 @@ import Image from 'next/image'
 import Terminal from '../components/terminal'
 import PhoneAnimation from '../components/PhoneAnimation/'
 import Laser from '../components/Laser'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Sparks from '../components/Laser/Sparks'
-import styles from './index.module.css'
-import clsx from 'clsx'
 
 export const HomePage = () => {
   const iPhoneFrameRef = useRef<HTMLDivElement>(null)
@@ -101,15 +99,6 @@ export const HomePage = () => {
 const AppStoreButton = ({ small }: { small?: boolean }) => {
   const width = small ? 150 : 154
   const height = small ? 40 : 57
-
-  const [bounce, setBounce] = useState(false)
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setBounce(true)
-    }, 17000)
-    return () => clearTimeout(timeout)
-  }, [])
 
   return (
     <a
